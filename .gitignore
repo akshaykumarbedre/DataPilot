@@ -60,6 +60,7 @@ docker-compose.override.yml
 
 # Data files (optional - comment out if you want to track sample data)
 *.csv
+!sample_data.csv
 *.xlsx
 *.json
 *.parquet
