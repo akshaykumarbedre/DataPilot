@@ -1,0 +1,32 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run Yashoda Dental Clinic with Logo",
+			"type": "shell",
+			"command": "python app.py",
+			"isBackground": false,
+			"group": "test"
+		},
+		{
+			"label": "Test Windows Compatibility",
+			"type": "shell",
+			"command": "python deployment\\build_scripts\\test_windows_compatibility.py",
+			"group": "test"
+		},
+		{
+			"label": "Build Optimized Windows App",
+			"type": "shell",
+			"command": "deployment\\build_scripts\\build_windows_optimized.bat",
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Build Windows Application",
+			"type": "shell",
+			"command": "deployment\\build_scripts\\build.bat",
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}
