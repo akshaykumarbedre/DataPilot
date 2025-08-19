@@ -2,31 +2,44 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Run Yashoda Dental Clinic with Logo",
+			"label": "Run Dental Chart Application",
 			"type": "shell",
 			"command": "python app.py",
+			"args": [],
+			"isBackground": true,
+			"group": "test"
+		},
+		{
+			"label": "Run Dental App with Conda",
+			"type": "shell",
+			"command": "conda activate dental && python app.py",
+			"args": [],
 			"isBackground": false,
 			"group": "test"
 		},
 		{
-			"label": "Test Windows Compatibility",
+			"label": "Test Fixed Dental App",
 			"type": "shell",
-			"command": "python deployment\\build_scripts\\test_windows_compatibility.py",
+			"command": "conda activate dental && python app.py",
+			"args": [],
+			"isBackground": false,
 			"group": "test"
 		},
 		{
-			"label": "Build Optimized Windows App",
+			"label": "Clear Database",
 			"type": "shell",
-			"command": "deployment\\build_scripts\\build_windows_optimized.bat",
+			"command": "del D:\\freelancer\\data\\dental_practice.db",
+			"args": [],
 			"isBackground": false,
-			"group": "build"
+			"group": "cleanup"
 		},
 		{
-			"label": "Build Windows Application",
+			"label": "Run Fixed Dental Application",
 			"type": "shell",
-			"command": "deployment\\build_scripts\\build.bat",
+			"command": "conda activate dental && python app.py",
+			"args": [],
 			"isBackground": false,
-			"group": "build"
+			"group": "test"
 		}
 	]
 }

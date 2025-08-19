@@ -1,1012 +1,802 @@
 """
-Dental chart interface for examination and treatment tracking.
+Advanced Dental Chart System - Phase 3 Implementation
+Integrates all Phase 2 components into a comprehensive dental practice interface.
 """
 import logging
 from datetime import date, datetime
-from typing import Optional, Dict, Any
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
-                               QLabel, QPushButton, QTextEdit, QComboBox,
-                               QDateEdit, QFrame, QGroupBox, QScrollArea,
-                               QMessageBox, QSplitter, QFormLayout, QLineEdit)
+from typing import Optional, Dict, Any, List
+from PySide6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QFrame, QLabel, 
+    QPushButton, QComboBox, QSplitter, QMessageBox, QSizePolicy,
+    QGroupBox, QFormLayout
+)
 from PySide6.QtCore import Qt, Signal, QDate
-from PySide6.QtGui import QFont, QPalette
-from ..services.dental_service import dental_service
+from PySide6.QtGui import QFont
+
+# Import Phase 2 components
+from .components import (
+    EnhancedToothWidget,
+    DentalChartPanel, 
+    CustomStatusDialog,
+    VisitEntryPanel,
+    VisitRecordsPanel,
+    DentalExaminationPanel,
+    TreatmentEpisodesPanel
+)
+
+# Import Phase 1 services
+from ..services.dental_examination_service import dental_examination_service
+from ..services.tooth_history_service import tooth_history_service
+from ..services.visit_records_service import visit_records_service
+from ..services.custom_status_service import custom_status_service
 from ..services.patient_service import patient_service
 
 logger = logging.getLogger(__name__)
 
 
-class ToothWidget(QPushButton):
-    """Individual tooth widget for the dental chart."""
+class AdvancedDentalChart(QWidget):
+    """Advanced dental chart with dual tracking and examination management."""
     
-    tooth_selected = Signal(str, int)  # quadrant, tooth_number
-    
-    def __init__(self, quadrant: str, tooth_number: int, parent=None):
-        super().__init__(parent)
-        self.quadrant = quadrant
-        self.tooth_number = tooth_number
-        self.status = 'normal'
-        
-        self.setText(str(tooth_number))
-        self.setFixedSize(50, 50)  # Reduce from 60x60 to 50x50
-        self.setCheckable(True)
-        self.clicked.connect(self._on_clicked)
-        
-        self._update_style()
-    
-    def _on_clicked(self):
-        """Handle tooth click."""
-        self.tooth_selected.emit(self.quadrant, self.tooth_number)
-    
-    def set_status(self, status: str):
-        """Set tooth status and update appearance."""
-        self.status = status
-        self._update_style()
-    
-    def _update_style(self):
-        """Update tooth appearance based on status."""
-        base_style = """
-            QPushButton {
-                border: 2px solid #BDC3C7;
-                border-radius: 8px;
-                font-weight: bold;
-                font-size: 14px;
-                padding: 10px;
-                margin: 2px;
-            }
-            QPushButton:hover {
-                border-color: #3498DB;
-                border-width: 2px;
-            }
-            QPushButton:checked {
-                border-color: #1B4F72;
-                border-width: 3px;
-                background-color: #2E86C1;
-                color: white;
-            }
-        """
-        
-        if self.status == 'normal':
-            color_style = """
-                QPushButton {
-                    background-color: #E8F4FD;
-                    color: #1B4F72;
-                }
-            """
-        elif self.status == 'treated':
-            color_style = """
-                QPushButton {
-                    background-color: #A8E6A3;
-                    color: #0D5016;
-                }
-            """
-        elif self.status == 'problem':
-            color_style = """
-                QPushButton {
-                    background-color: #FADBD8;
-                    color: #7B1818;
-                }
-            """
-        elif self.status == 'missing':
-            color_style = """
-                QPushButton {
-                    background-color: #D5D8DC;
-                    color: #2C3E50;
-                }
-            """
-        else:  # other statuses
-            color_style = """
-                QPushButton {
-                    background-color: #FFE066;
-                    color: #6B4E00;
-                }
-            """
-        
-        self.setStyleSheet(base_style + color_style)
-
-
-class QuadrantWidget(QGroupBox):
-    """Dental quadrant widget containing 7 teeth."""
-    
-    tooth_selected = Signal(str, int)
-    
-    def __init__(self, quadrant: str, title: str, parent=None):
-        super().__init__(title, parent)
-        self.quadrant = quadrant
-        self.teeth = {}
-        
-        # Set maximum height to make quadrants more compact
-        self.setMaximumHeight(100)
-        
-        self.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                border: 2px solid #E0E0E0;
-                border-radius: 8px;
-                margin-top: 10px;
-                padding-top: 10px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                subcontrol-position: top center;
-                padding: 0 10px;
-                color: #2C3E50;
-            }
-        """)
-        
-        self._setup_ui()
-    
-    def _setup_ui(self):
-        """Set up the quadrant UI with 7 teeth in a single row."""
-        layout = QHBoxLayout(self)
-        layout.setContentsMargins(10, 15, 10, 10)  # Reduce margins
-        layout.setSpacing(8)  # Reduce spacing from 10 to 8
-        
-        # Arrange 7 teeth in a single horizontal row
-        for i in range(7):
-            tooth_number = i + 1
-            
-            tooth = ToothWidget(self.quadrant, tooth_number)
-            tooth.tooth_selected.connect(self._on_tooth_selected)
-            self.teeth[tooth_number] = tooth
-            
-            layout.addWidget(tooth)
-    
-    def _on_tooth_selected(self, quadrant: str, tooth_number: int):
-        """Handle tooth selection with single-selection behavior."""
-        # Clear all other teeth in this quadrant first
-        for tooth in self.teeth.values():
-            tooth.setChecked(False)
-        
-        # Select only the clicked tooth
-        if tooth_number in self.teeth:
-            self.teeth[tooth_number].setChecked(True)
-        
-        # Emit the selection signal
-        self.tooth_selected.emit(quadrant, tooth_number)
-    
-    def update_tooth_status(self, tooth_number: int, status: str):
-        """Update specific tooth status."""
-        if tooth_number in self.teeth:
-            self.teeth[tooth_number].set_status(status)
-    
-    def clear_selection(self):
-        """Clear all tooth selections."""
-        for tooth in self.teeth.values():
-            tooth.setChecked(False)
-    
-    def select_tooth(self, tooth_number: int):
-        """Select specific tooth with single-selection behavior."""
-        # First clear all selections
-        self.clear_selection()
-        # Then select the specified tooth
-        if tooth_number in self.teeth:
-            self.teeth[tooth_number].setChecked(True)
-
-
-class ToothDetailPanel(QGroupBox):
-    """Panel for editing tooth details."""
-    
-    tooth_saved = Signal()
+    # Signals for component communication
+    patient_changed = Signal(int)           # Patient ID
+    examination_changed = Signal(int)       # Examination ID  
+    tooth_selected = Signal(int, str)       # Tooth number, chart type
+    visit_added = Signal(dict)              # Visit data
+    data_saved = Signal()                   # Save confirmation
     
     def __init__(self, parent=None):
-        super().__init__("Tooth Details", parent)
+        super().__init__(parent)
+        
+        # Core attributes
         self.current_patient_id = None
-        self.current_quadrant = None
-        self.current_tooth_number = None
+        self.current_examination_id = None
+        self.selected_tooth_number = None
+        self.selected_chart_type = None  # 'patient' or 'doctor'
         
-        self.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                border: 2px solid #E0E0E0;
-                border-radius: 8px;
-                margin-top: 10px;
-                padding-top: 10px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                subcontrol-position: top left;
-                padding: 0 10px;
-                color: #2C3E50;
-            }
-        """)
+        # Component references
+        self.examination_panel = None
+        self.patient_chart_panel = None
+        self.doctor_chart_panel = None
+        self.visit_entry_panel = None
+        self.visit_records_panel = None
+        self.treatment_episodes_panel = None
         
-        self._setup_ui()
-        self._connect_signals()
-        self.set_enabled(False)
+        # UI setup
+        self.setup_ui()
+        self.connect_signals()
+        self.load_initial_data()
     
-    def _setup_ui(self):
-        """Set up the tooth detail UI."""
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(15, 20, 15, 15)
-        layout.setSpacing(15)
+    def setup_ui(self):
+        """Setup the complete UI with all components."""
         
-        # Tooth info
-        self.tooth_info_label = QLabel("No tooth selected")
-        self.tooth_info_label.setStyleSheet("color: #7F8C8D; font-style: italic;")
-        layout.addWidget(self.tooth_info_label)
-        
-        # Form layout
-        form_layout = QFormLayout()
-        form_layout.setSpacing(10)
-        
-        # Status
-        self.status_combo = QComboBox()
-        self.status_combo.addItems(['normal', 'treated', 'problem', 'missing'])
-        self.status_combo.setStyleSheet("""
-            QComboBox {
-                border: 2px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 8px;
-                color: black;
-                background-color: white;
-            }
-            QComboBox:focus {
-                border-color: #3498DB;
-            }
-        """)
-        form_layout.addRow("Status:", self.status_combo)
-        
-        # Diagnosis
-        self.diagnosis_edit = QTextEdit()
-        self.diagnosis_edit.setMaximumHeight(80)
-        self.diagnosis_edit.setPlaceholderText("Enter diagnosis...")
-        self.diagnosis_edit.setStyleSheet("""
-            QTextEdit {
-                border: 2px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 8px;
-                color: black;
-                background-color: white;
-            }
-            QTextEdit:focus {
-                border-color: #3498DB;
-            }
-        """)
-        form_layout.addRow("Diagnosis:", self.diagnosis_edit)
-        
-        # Treatment
-        self.treatment_edit = QTextEdit()
-        self.treatment_edit.setMaximumHeight(80)
-        self.treatment_edit.setPlaceholderText("Enter treatment performed...")
-        self.treatment_edit.setStyleSheet("""
-            QTextEdit {
-                border: 2px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 8px;
-                color: black;
-                background-color: white;
-            }
-            QTextEdit:focus {
-                border-color: #3498DB;
-            }
-        """)
-        form_layout.addRow("Treatment:", self.treatment_edit)
-        
-        layout.addLayout(form_layout)
-        
-        # Buttons
-        button_layout = QHBoxLayout()
-        
-        self.save_button = QPushButton("Save Tooth Data")
-        self.save_button.setStyleSheet("""
-            QPushButton {
-                background-color: #27AE60;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #229954;
-            }
-            QPushButton:disabled {
-                background-color: #BDC3C7;
-            }
-        """)
-        button_layout.addWidget(self.save_button)
-        
-        self.clear_button = QPushButton("Clear")
-        self.clear_button.setStyleSheet("""
-            QPushButton {
-                background-color: #95A5A6;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #7F8C8D;
-            }
-            QPushButton:disabled {
-                background-color: #BDC3C7;
-            }
-        """)
-        button_layout.addWidget(self.clear_button)
-        
-        layout.addLayout(button_layout)
-        layout.addStretch()
-    
-    def _connect_signals(self):
-        """Connect signals."""
-        self.save_button.clicked.connect(self._save_tooth_data)
-        self.clear_button.clicked.connect(self._clear_fields)
-    
-    def set_tooth(self, patient_id: str, quadrant: str, tooth_number: int):
-        """Set current tooth and load its data."""
-        self.current_patient_id = patient_id
-        self.current_quadrant = quadrant
-        self.current_tooth_number = tooth_number
-        
-        # Update info label
-        quadrant_names = {
-            'upper_right': 'Upper Right',
-            'upper_left': 'Upper Left',
-            'lower_right': 'Lower Right',
-            'lower_left': 'Lower Left'
-        }
-        quadrant_name = quadrant_names.get(quadrant, quadrant)
-        self.tooth_info_label.setText(f"{quadrant_name} - Tooth #{tooth_number}")
-        self.tooth_info_label.setStyleSheet("color: #2C3E50; font-weight: bold;")
-        
-        # Load tooth data
-        self._load_tooth_data()
-        self.set_enabled(True)
-    
-    def _load_tooth_data(self):
-        """Load current tooth data."""
-        if not all([self.current_patient_id, self.current_quadrant, self.current_tooth_number]):
-            return
-        
-        tooth_data = dental_service.get_tooth_record(
-            self.current_patient_id,
-            self.current_quadrant,
-            self.current_tooth_number
-        )
-        
-        if tooth_data:
-            self.status_combo.setCurrentText(tooth_data.get('status', 'normal'))
-            self.diagnosis_edit.setPlainText(tooth_data.get('diagnosis', ''))
-            self.treatment_edit.setPlainText(tooth_data.get('treatment_performed', ''))
-        else:
-            self._clear_fields()
-    
-    def _save_tooth_data(self):
-        """Save current tooth data."""
-        if not all([self.current_patient_id, self.current_quadrant, self.current_tooth_number]):
-            return
-        
-        tooth_data = {
-            'status': self.status_combo.currentText(),
-            'diagnosis': self.diagnosis_edit.toPlainText().strip(),
-            'treatment_performed': self.treatment_edit.toPlainText().strip()
-        }
-        
-        success = dental_service.update_tooth_record(
-            self.current_patient_id,
-            self.current_quadrant,
-            self.current_tooth_number,
-            tooth_data
-        )
-        
-        if success:
-            self.tooth_saved.emit()
-            logger.info(f"Saved tooth data: {self.current_quadrant} #{self.current_tooth_number}")
-        else:
-            msg_box = QMessageBox(self)
-            msg_box.setIcon(QMessageBox.Critical)
-            msg_box.setWindowTitle("Error")
-            msg_box.setText("Failed to save tooth data. Please try again.")
-            msg_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            msg_box.exec()
-    
-    def _clear_fields(self):
-        """Clear all fields."""
-        self.status_combo.setCurrentText('normal')
-        self.diagnosis_edit.clear()
-        self.treatment_edit.clear()
-    
-    def set_enabled(self, enabled: bool):
-        """Enable or disable the panel."""
-        self.status_combo.setEnabled(enabled)
-        self.diagnosis_edit.setEnabled(enabled)
-        self.treatment_edit.setEnabled(enabled)
-        self.save_button.setEnabled(enabled)
-        self.clear_button.setEnabled(enabled)
-
-
-class DentalChart(QWidget):
-    """Complete dental chart interface."""
-    
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.current_patient = None
-        self.quadrants = {}
-        
-        self._setup_ui()
-        self._connect_signals()
-    
-    def _setup_ui(self):
-        """Set up the dental chart UI."""
+        # Main layout
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(20, 20, 20, 20)
-        main_layout.setSpacing(20)
+        main_layout.setContentsMargins(10, 10, 10, 10)
+        main_layout.setSpacing(10)
         
-        # Header
-        header_layout = QHBoxLayout()
+        # === HEADER SECTION ===
+        header_widget = self.create_header_section()
+        main_layout.addWidget(header_widget)
         
-        title_label = QLabel("Dental Examination")
-        title_font = QFont()
-        title_font.setPointSize(20)
-        title_font.setBold(True)
-        title_label.setFont(title_font)
-        title_label.setStyleSheet("color: #2C3E50;")
+        # === MAIN CONTENT SPLITTER ===
+        main_splitter = QSplitter(Qt.Horizontal)
+        main_splitter.setSizes([850, 350])  # 70% : 30%
+        
+        # Left panel (Charts & Examination)
+        left_panel = self.create_left_panel()
+        main_splitter.addWidget(left_panel)
+        
+        # Right panel (Records & Episodes)
+        right_panel = self.create_right_panel()
+        main_splitter.addWidget(right_panel)
+        
+        main_layout.addWidget(main_splitter)
+        
+        # === STATUS BAR ===
+        status_bar = self.create_status_bar()
+        main_layout.addWidget(status_bar)
+        
+        # Apply global styling
+        self.apply_global_styles()
+    
+    def create_header_section(self) -> QWidget:
+        """Create header with patient selection and quick actions."""
+        header_widget = QFrame()
+        header_widget.setFixedHeight(80)
+        header_widget.setStyleSheet("""
+            QFrame {
+                background-color: #19c5e5;
+                border-radius: 8px;
+                padding: 10px;
+            }
+        """)
+        
+        header_layout = QHBoxLayout(header_widget)
+        
+        # Title
+        title_label = QLabel("Advanced Dental Chart System")
+        title_label.setStyleSheet("""
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        """)
         header_layout.addWidget(title_label)
         
         header_layout.addStretch()
         
-        # Patient selection
+        # Patient selector
+        patient_label = QLabel("Patient:")
+        patient_label.setStyleSheet("color: white; font-weight: bold;")
+        header_layout.addWidget(patient_label)
+        
         self.patient_combo = QComboBox()
-        self.patient_combo.setMinimumWidth(200)
+        self.patient_combo.setMinimumWidth(250)
         self.patient_combo.setStyleSheet("""
             QComboBox {
-                border: 2px solid #BDC3C7;
+                background-color: white;
+                border: 2px solid #0ea5c7;
                 border-radius: 4px;
                 padding: 8px;
-                color: black;
-                background-color: white;
-            }
-            QComboBox:focus {
-                border-color: #3498DB;
+                font-size: 12px;
             }
         """)
-        header_layout.addWidget(QLabel("Patient:"))
         header_layout.addWidget(self.patient_combo)
         
-        # New examination button
-        self.new_exam_button = QPushButton("New Examination")
-        self.new_exam_button.setStyleSheet("""
-            QPushButton {
-                background-color: #3498DB;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #2980B9;
-            }
+        # Current examination display
+        self.current_exam_label = QLabel("No examination selected")
+        self.current_exam_label.setStyleSheet("""
+            color: white;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            border-radius: 4px;
         """)
-        header_layout.addWidget(self.new_exam_button)
+        header_layout.addWidget(self.current_exam_label)
         
-        # Save examination button
-        self.save_exam_button = QPushButton("Save Examination")
-        self.save_exam_button.setStyleSheet("""
-            QPushButton {
-                background-color: #27AE60;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #229954;
-            }
-        """)
-        header_layout.addWidget(self.save_exam_button)
+        # Quick action buttons
+        self.new_exam_btn = QPushButton("New Exam")
+        self.save_all_btn = QPushButton("Save All")
+        self.export_btn = QPushButton("Export")
         
-        main_layout.addLayout(header_layout)
+        for btn in [self.new_exam_btn, self.save_all_btn, self.export_btn]:
+            btn.setStyleSheet("""
+                QPushButton {
+                    background-color: white;
+                    color: #19c5e5;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 8px 16px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background-color: #f0f9fc;
+                }
+            """)
+            header_layout.addWidget(btn)
         
-        # Content area
-        content_splitter = QSplitter(Qt.Horizontal)
-        
-        # Left side - Chart and examination details
+        return header_widget
+    
+    def create_left_panel(self) -> QWidget:
+        """Create left panel with examination and charts."""
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
         left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setSpacing(10)
         
-        # Patient info and chief complaint
-        info_group = QGroupBox("Examination Details")
-        info_group.setMaximumHeight(180)  # Limit height for better proportions
-        info_group.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                border: 2px solid #E0E0E0;
-                border-radius: 8px;
-                margin-top: 10px;
-                padding-top: 10px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                subcontrol-position: top left;
-                padding: 0 10px;
-                color: #2C3E50;
-            }
-        """)
+        # Examination Management Panel
+        self.examination_panel = DentalExaminationPanel()
+        self.examination_panel.setMaximumHeight(200)
+        left_layout.addWidget(self.examination_panel)
         
-        info_layout = QFormLayout(info_group)
-        info_layout.setSpacing(8)  # Reduce spacing
+        # Dual Chart Container
+        charts_container = self.create_dual_charts()
+        charts_container.setMaximumHeight(400)
+        left_layout.addWidget(charts_container)
         
-        self.patient_info_label = QLabel("No patient selected")
-        self.patient_info_label.setStyleSheet("color: #7F8C8D; font-style: italic;")
-        info_layout.addRow("Patient:", self.patient_info_label)
+        # Visit Entry Panel
+        self.visit_entry_panel = VisitEntryPanel()
+        self.visit_entry_panel.setMaximumHeight(250)
+        left_layout.addWidget(self.visit_entry_panel)
         
-        self.exam_date_edit = QDateEdit()
-        self.exam_date_edit.setDate(QDate.currentDate())
-        self.exam_date_edit.setCalendarPopup(True)
-        self.exam_date_edit.setStyleSheet("""
-            QDateEdit {
-                border: 2px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 8px;
-                color: black;
-                background-color: white;
-            }
-            QDateEdit:focus {
-                border-color: #3498DB;
-            }
-        """)
-        info_layout.addRow("Date:", self.exam_date_edit)
-        
-        self.chief_complaint_edit = QTextEdit()
-        self.chief_complaint_edit.setMaximumHeight(60)  # Reduce height from 80 to 60
-        self.chief_complaint_edit.setPlaceholderText("Enter chief complaint...")
-        self.chief_complaint_edit.setStyleSheet("""
-            QTextEdit {
-                border: 2px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 8px;
-                color: black;
-                background-color: white;
-            }
-            QTextEdit:focus {
-                border-color: #3498DB;
-            }
-        """)
-        info_layout.addRow("Chief Complaint:", self.chief_complaint_edit)
-        
-        left_layout.addWidget(info_group)
-        
-        # Dental chart
-        chart_group = QGroupBox("Dental Chart")
-        chart_group.setMaximumHeight(250)  # Set maximum height to make it more compact
-        chart_group.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                border: 2px solid #E0E0E0;
-                border-radius: 8px;
-                margin-top: 10px;
-                padding-top: 10px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                subcontrol-position: top left;
-                padding: 0 10px;
-                color: #2C3E50;
-            }
-        """)
-        
-        chart_layout = QGridLayout(chart_group)
-        chart_layout.setSpacing(10)  # Reduce spacing from 15 to 10
-        
-        # Upper quadrants
-        self.quadrants['upper_left'] = QuadrantWidget('upper_left', 'Upper Left')
-        chart_layout.addWidget(self.quadrants['upper_left'], 0, 0)
-        
-        self.quadrants['upper_right'] = QuadrantWidget('upper_right', 'Upper Right')
-        chart_layout.addWidget(self.quadrants['upper_right'], 0, 1)
-        
-        # Lower quadrants
-        self.quadrants['lower_left'] = QuadrantWidget('lower_left', 'Lower Left')
-        chart_layout.addWidget(self.quadrants['lower_left'], 1, 0)
-        
-        self.quadrants['lower_right'] = QuadrantWidget('lower_right', 'Lower Right')
-        chart_layout.addWidget(self.quadrants['lower_right'], 1, 1)
-        
-        left_layout.addWidget(chart_group)
-        
-        content_splitter.addWidget(left_widget)
-        
-        # Right side - Tooth details
-        self.tooth_detail_panel = ToothDetailPanel()
-        content_splitter.addWidget(self.tooth_detail_panel)
-        
-        # Set splitter proportions - give more space to left side (dental chart)
-        content_splitter.setSizes([800, 250])
-        
-        main_layout.addWidget(content_splitter)
-        
-        # Load patients
-        self._load_patients()
+        return left_widget
     
-    def _connect_signals(self):
-        """Connect signals."""
-        self.patient_combo.currentTextChanged.connect(self._on_patient_selected)
-        self.new_exam_button.clicked.connect(self._create_new_examination)
-        self.save_exam_button.clicked.connect(self._save_examination)
-        self.tooth_detail_panel.tooth_saved.connect(self._on_tooth_saved)
+    def create_dual_charts(self) -> QWidget:
+        """Create dual dental charts (Patient/Doctor)."""
+        charts_widget = QFrame()
+        charts_widget.setStyleSheet("""
+            QFrame {
+                border: 2px solid #19c5e5;
+                border-radius: 8px;
+                background-color: #f8f9fa;
+            }
+        """)
         
-        # Connect tooth selection signals
-        for quadrant in self.quadrants.values():
-            quadrant.tooth_selected.connect(self._on_tooth_selected)
+        charts_layout = QHBoxLayout(charts_widget)
+        charts_layout.setContentsMargins(10, 10, 10, 10)
+        charts_layout.setSpacing(15)
+        
+        # Patient Problems Chart
+        self.patient_chart_panel = DentalChartPanel(
+            panel_type="patient"
+        )
+        charts_layout.addWidget(self.patient_chart_panel)
+        
+        # Separator line
+        separator = QFrame()
+        separator.setFrameShape(QFrame.VLine)
+        separator.setFrameShadow(QFrame.Sunken)
+        separator.setStyleSheet("color: #19c5e5;")
+        charts_layout.addWidget(separator)
+        
+        # Doctor Findings Chart
+        self.doctor_chart_panel = DentalChartPanel(
+            panel_type="doctor"
+        )
+        charts_layout.addWidget(self.doctor_chart_panel)
+        
+        return charts_widget
     
-    def _load_patients(self):
-        """Load patients into combo box."""
+    def create_right_panel(self) -> QWidget:
+        """Create right panel with records and episodes."""
+        right_widget = QWidget()
+        right_layout = QVBoxLayout(right_widget)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setSpacing(10)
+        
+        # Visit Records Panel (Top 50%)
+        self.visit_records_panel = VisitRecordsPanel()
+        right_layout.addWidget(self.visit_records_panel)
+        
+        # Treatment Episodes Panel (Bottom 50%)
+        self.treatment_episodes_panel = TreatmentEpisodesPanel()
+        right_layout.addWidget(self.treatment_episodes_panel)
+        
+        return right_widget
+    
+    def create_status_bar(self) -> QWidget:
+        """Create status bar with current info."""
+        status_widget = QFrame()
+        status_widget.setFixedHeight(30)
+        status_widget.setStyleSheet("""
+            QFrame {
+                background-color: #e6f9fd;
+                border-top: 1px solid #19c5e5;
+            }
+        """)
+        
+        status_layout = QHBoxLayout(status_widget)
+        status_layout.setContentsMargins(10, 5, 10, 5)
+        
+        # Status labels
+        self.exam_status_label = QLabel("Ready")
+        self.total_amount_label = QLabel("Total: $0.00") 
+        self.last_saved_label = QLabel("Never saved")
+        
+        for label in [self.exam_status_label, self.total_amount_label, self.last_saved_label]:
+            label.setStyleSheet("color: #0ea5c7; font-size: 11px;")
+        
+        status_layout.addWidget(self.exam_status_label)
+        status_layout.addStretch()
+        status_layout.addWidget(self.total_amount_label)
+        status_layout.addStretch()
+        status_layout.addWidget(self.last_saved_label)
+        
+        return status_widget
+    
+    def connect_signals(self):
+        """Connect all component signals for data flow."""
+        
+        # === PATIENT SELECTION ===
+        self.patient_combo.currentTextChanged.connect(self.on_patient_selected)
+        
+        # === EXAMINATION MANAGEMENT ===
+        if self.examination_panel:
+            self.examination_panel.examination_saved.connect(self.on_examination_saved)
+            self.examination_panel.examination_selected.connect(self.on_examination_selected)
+        
+        # === DENTAL CHARTS ===
+        if self.patient_chart_panel:
+            self.patient_chart_panel.tooth_selected.connect(
+                lambda tooth_num: self.on_tooth_selected(tooth_num, "patient")
+            )
+            self.patient_chart_panel.tooth_status_changed.connect(self.on_tooth_status_changed)
+        
+        if self.doctor_chart_panel:
+            self.doctor_chart_panel.tooth_selected.connect(
+                lambda tooth_num: self.on_tooth_selected(tooth_num, "doctor")
+            )
+            self.doctor_chart_panel.tooth_status_changed.connect(self.on_tooth_status_changed)
+        
+        # === VISIT MANAGEMENT ===
+        if self.visit_entry_panel:
+            self.visit_entry_panel.visit_added.connect(self.on_visit_added)
+        
+        if self.visit_records_panel:
+            self.visit_records_panel.visit_selected.connect(self.on_visit_selected)
+            self.visit_records_panel.total_amount_changed.connect(self.update_total_amount)
+        
+        # === TREATMENT EPISODES ===
+        if self.treatment_episodes_panel:
+            self.treatment_episodes_panel.episode_saved.connect(self.on_episode_saved)
+            self.treatment_episodes_panel.episode_selected.connect(self.on_episode_selected)
+        
+        # === HEADER ACTIONS ===
+        self.new_exam_btn.clicked.connect(self.create_new_examination)
+        self.save_all_btn.clicked.connect(self.save_all_changes)
+        self.export_btn.clicked.connect(self.export_data)
+    
+    # === EVENT HANDLERS ===
+    def on_patient_selected(self):
+        """Handle patient selection change."""
+        current_data = self.patient_combo.currentData()
+        if current_data and current_data.get('id'):
+            self.current_patient_id = current_data['id']
+            
+            # Update all components with new patient
+            if self.examination_panel:
+                self.examination_panel.set_patient(self.current_patient_id)
+            if self.visit_records_panel:
+                self.visit_records_panel.set_patient(self.current_patient_id)
+            if self.treatment_episodes_panel:
+                self.treatment_episodes_panel.set_patient(self.current_patient_id)
+            
+            # Clear chart selections
+            self.clear_tooth_selections()
+            
+            # Load latest examination
+            self.load_latest_examination()
+            
+            # Emit signal
+            self.patient_changed.emit(self.current_patient_id)
+            
+            # Update status
+            self.exam_status_label.setText(f"Patient #{self.current_patient_id} loaded")
+        else:
+            self.current_patient_id = None
+            self.clear_all_data()
+    
+    def on_examination_selected(self, examination_data):
+        """Handle examination selection."""
+        self.current_examination_id = examination_data.get('id')
+        
+        if self.current_examination_id:
+            # Update UI components with examination context
+            if self.visit_records_panel:
+                self.visit_records_panel.set_examination(self.current_examination_id)
+            if self.treatment_episodes_panel:
+                self.treatment_episodes_panel.set_examination(self.current_examination_id)
+            
+            # Load dental chart data for this examination
+            self.load_examination_dental_data()
+            
+            # Update current examination display
+            exam_date = examination_data.get('examination_date', '')
+            chief_complaint = examination_data.get('chief_complaint', '')[:30]
+            self.current_exam_label.setText(f"Exam #{self.current_examination_id} - {exam_date} - {chief_complaint}...")
+            
+            # Emit signal
+            self.examination_changed.emit(self.current_examination_id)
+    
+    def on_examination_saved(self, examination_data):
+        """Handle examination save."""
+        self.current_examination_id = examination_data.get('id')
+        if self.current_examination_id:
+            self.on_examination_selected(examination_data)
+        
+        # Update status
+        self.exam_status_label.setText("Examination saved successfully")
+        self.update_last_saved()
+    
+    def on_tooth_selected(self, tooth_number, chart_type):
+        """Handle tooth selection from either chart."""
+        self.selected_tooth_number = tooth_number
+        self.selected_chart_type = chart_type
+        
+        # Clear selection from the other chart
+        if chart_type == "patient" and self.doctor_chart_panel:
+            self.doctor_chart_panel.clear_selection()
+        elif chart_type == "doctor" and self.patient_chart_panel:
+            self.patient_chart_panel.clear_selection()
+        
+        # Load tooth history for selected tooth and chart type
+        self.load_tooth_history(tooth_number, chart_type)
+        
+        # Update visit entry panel with selected tooth
+        if self.visit_entry_panel:
+            self.visit_entry_panel.set_selected_tooth(tooth_number)
+        
+        # Emit signal
+        self.tooth_selected.emit(tooth_number, chart_type)
+    
+    def on_tooth_status_changed(self, tooth_number, new_status, chart_type):
+        """Handle tooth status change."""
+        if not self.current_patient_id or not self.current_examination_id:
+            return
+        
+        try:
+            # Save tooth history record
+            history_data = {
+                'examination_id': self.current_examination_id,
+                'tooth_number': tooth_number,
+                'record_type': f'{chart_type}_problem' if chart_type == 'patient' else f'{chart_type}_finding',
+                'status': new_status,
+                'description': f"Status changed to {new_status}",
+                'date_recorded': date.today()
+            }
+            
+            # Save using tooth history service
+            tooth_history_service.add_tooth_history(self.current_patient_id, history_data)
+            
+            # Update tooth history display
+            self.load_tooth_history(tooth_number, chart_type)
+            
+            # Update status
+            self.exam_status_label.setText(f"Tooth #{tooth_number} status updated")
+            
+        except Exception as e:
+            logger.error(f"Error saving tooth status change: {str(e)}")
+            QMessageBox.warning(self, "Warning", f"Failed to save tooth status: {str(e)}")
+    
+    def on_visit_added(self, visit_data):
+        """Handle new visit addition."""
+        if not self.current_patient_id or not self.current_examination_id:
+            return
+        
+        try:
+            # Add examination context to visit data
+            visit_data['patient_id'] = self.current_patient_id
+            visit_data['examination_id'] = self.current_examination_id
+            
+            # Save visit record
+            result = visit_records_service.add_visit_record(visit_data)
+            
+            if result.get('success'):
+                # Refresh visit records display
+                if self.visit_records_panel:
+                    self.visit_records_panel.add_visit_record(visit_data)
+                
+                # Update affected teeth in charts if specified
+                affected_teeth = visit_data.get('affected_teeth', [])
+                for tooth_num in affected_teeth:
+                    # Add tooth history entries for affected teeth
+                    self.add_tooth_history_from_visit(tooth_num, visit_data)
+                
+                # Clear visit entry form
+                if self.visit_entry_panel:
+                    self.visit_entry_panel.clear_form()
+                
+                # Update status
+                amount = visit_data.get('cost', 0)
+                self.exam_status_label.setText(f"Visit added - ${amount:.2f}")
+                
+                # Emit signal
+                self.visit_added.emit(visit_data)
+                
+        except Exception as e:
+            logger.error(f"Error adding visit: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Failed to add visit: {str(e)}")
+    
+    def on_visit_selected(self, visit_data):
+        """Handle visit selection."""
+        # Update examination panel with visit context if needed
+        visit_id = visit_data.get('id')
+        self.exam_status_label.setText(f"Visit #{visit_id} selected")
+    
+    def on_episode_saved(self, episode_data):
+        """Handle treatment episode save."""
+        episode_id = episode_data.get('id')
+        self.exam_status_label.setText(f"Treatment episode #{episode_id} saved")
+        self.update_last_saved()
+    
+    def on_episode_selected(self, episode_data):
+        """Handle treatment episode selection."""
+        episode_id = episode_data.get('id')
+        self.exam_status_label.setText(f"Treatment episode #{episode_id} selected")
+    
+    def update_total_amount(self, total_amount):
+        """Update total amount display."""
+        self.total_amount_label.setText(f"Total: ${total_amount:.2f}")
+    
+    # === DATA LOADING AND MANAGEMENT ===
+    def load_initial_data(self):
+        """Load initial data when component starts."""
+        # Load patients into combo box
+        self.load_patients_list()
+        
+        # Load custom dental statuses
+        self.load_custom_statuses()
+        
+        # Set initial state
+        self.exam_status_label.setText("Ready - Select a patient to begin")
+    
+    def load_patients_list(self):
+        """Load all patients into selection combo."""
         try:
             patients = patient_service.get_all_patients()
+            
             self.patient_combo.clear()
             self.patient_combo.addItem("Select a patient...", None)
             
             for patient in patients:
-                display_text = f"{patient['full_name']} ({patient['patient_id']})"
+                display_text = f"{patient['full_name']} - ID: {patient['patient_id']}"
                 self.patient_combo.addItem(display_text, patient)
                 
         except Exception as e:
             logger.error(f"Error loading patients: {str(e)}")
+            self.exam_status_label.setText("Error loading patients")
     
-    def _on_patient_selected(self):
-        """Handle patient selection."""
-        current_data = self.patient_combo.currentData()
-        if current_data:
-            self.current_patient = current_data
-            self.patient_info_label.setText(f"{self.current_patient['full_name']} ({self.current_patient['patient_id']})")
-            self.patient_info_label.setStyleSheet("color: #2C3E50; font-weight: bold;")
+    def load_custom_statuses(self):
+        """Load custom dental statuses."""
+        try:
+            # Initialize custom statuses if needed
+            custom_status_service.initialize_default_statuses()
             
-            # Load examination data if available
-            if self.current_patient.get('examination_date'):
-                self.exam_date_edit.setDate(self.current_patient['examination_date'])
-            if self.current_patient.get('chief_complaint'):
-                self.chief_complaint_edit.setPlainText(self.current_patient['chief_complaint'])
-            
-            # Clear any existing tooth selections
-            for quadrant in self.quadrants.values():
-                quadrant.clear_selection()
-            
-            # Reset tooth detail panel
-            self.tooth_detail_panel.set_enabled(False)
-            
-            # Load dental chart data with fresh colors
-            self._load_dental_chart()
-        else:
-            self.current_patient = None
-            self.patient_info_label.setText("No patient selected")
-            self.patient_info_label.setStyleSheet("color: #7F8C8D; font-style: italic;")
-            self._clear_chart()
+        except Exception as e:
+            logger.error(f"Error loading custom statuses: {str(e)}")
     
-    def _create_new_examination(self):
-        """Create a new examination for the selected patient."""
-        if not self.current_patient:
-            msg_box = QMessageBox(self)
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setWindowTitle("No Patient Selected")
-            msg_box.setText("Please select a patient first.")
-            msg_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            msg_box.exec()
+    def load_latest_examination(self):
+        """Load the most recent examination for current patient."""
+        if not self.current_patient_id:
             return
         
-        examination_data = {
-            'examination_date': self.exam_date_edit.date().toPython(),
-            'chief_complaint': self.chief_complaint_edit.toPlainText().strip()
-        }
-        
-        # Update patient with examination data
-        success = dental_service.update_patient_examination(
-            self.current_patient['patient_id'],
-            examination_data
-        )
-        
-        if success:
-            # Reload patient data
-            updated_patient = patient_service.get_patient_by_id(self.current_patient['patient_id'])
-            if updated_patient:
-                self.current_patient = updated_patient
-                self._load_dental_chart()
+        try:
+            # Get latest examination
+            examinations = dental_examination_service.get_patient_examinations(self.current_patient_id)
             
-            success_box = QMessageBox(self)
-            success_box.setIcon(QMessageBox.Information)
-            success_box.setWindowTitle("Examination Updated")
-            success_box.setText("Examination data updated successfully!")
-            success_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            success_box.exec()
-        else:
-            error_box = QMessageBox(self)
-            error_box.setIcon(QMessageBox.Critical)
-            error_box.setWindowTitle("Error")
-            error_box.setText("Failed to update examination data.")
-            error_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            error_box.exec()
+            if examinations:
+                # Load most recent examination
+                latest_exam = examinations[0]  # Assuming sorted by date desc
+                if self.examination_panel:
+                    # Find the examination in the combo and select it
+                    for i in range(self.examination_panel.examination_combo.count()):
+                        item_data = self.examination_panel.examination_combo.itemData(i)
+                        if item_data == latest_exam.get('id'):
+                            self.examination_panel.examination_combo.setCurrentIndex(i)
+                            break
+                self.on_examination_selected(latest_exam)
+            else:
+                # No examinations - prepare for new one
+                self.current_examination_id = None
+                self.current_exam_label.setText("No examinations - Create new")
+                
+        except Exception as e:
+            logger.error(f"Error loading latest examination: {str(e)}")
     
-    def _save_examination(self):
-        """Save examination details (date and chief complaint)."""
-        if not self.current_patient:
-            msg_box = QMessageBox(self)
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setWindowTitle("No Patient Selected")
-            msg_box.setText("Please select a patient first.")
-            msg_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            msg_box.exec()
+    def load_examination_dental_data(self):
+        """Load dental chart data for current examination."""
+        if not self.current_patient_id or not self.current_examination_id:
             return
         
-        # Get examination data from the form
-        examination_data = {
-            'examination_date': self.exam_date_edit.date().toPython(),
-            'chief_complaint': self.chief_complaint_edit.toPlainText().strip()
-        }
-        
-        # Save the examination data
-        success = dental_service.update_patient_examination(
-            self.current_patient['patient_id'],
-            examination_data
-        )
-        
-        if success:
-            # Reload patient data to get updated information
-            updated_patient = patient_service.get_patient_by_id(self.current_patient['patient_id'])
-            if updated_patient:
-                self.current_patient = updated_patient
+        try:
+            # Load tooth history for current examination
+            patient_history = tooth_history_service.get_examination_tooth_history(
+                self.current_patient_id, 
+                self.current_examination_id,
+                'patient_problem'
+            )
             
-            success_box = QMessageBox(self)
-            success_box.setIcon(QMessageBox.Information)
-            success_box.setWindowTitle("Examination Saved")
-            success_box.setText("Examination details saved successfully!")
-            success_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            success_box.exec()
+            doctor_history = tooth_history_service.get_examination_tooth_history(
+                self.current_patient_id,
+                self.current_examination_id, 
+                'doctor_finding'
+            )
             
-            # Update patient combo to reflect changes
-            self._load_patients()
-            
-            # Re-select the current patient
-            for i in range(self.patient_combo.count()):
-                patient_data = self.patient_combo.itemData(i)
-                if patient_data and patient_data['patient_id'] == self.current_patient['patient_id']:
-                    self.patient_combo.setCurrentIndex(i)
-                    break
-        else:
-            error_box = QMessageBox(self)
-            error_box.setIcon(QMessageBox.Critical)
-            error_box.setWindowTitle("Error")
-            error_box.setText("Failed to save examination details. Please try again.")
-            error_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            error_box.exec()
+            # Update charts with loaded data
+            if self.patient_chart_panel:
+                self.patient_chart_panel.load_tooth_data(patient_history)
+            if self.doctor_chart_panel:
+                self.doctor_chart_panel.load_tooth_data(doctor_history)
+                
+        except Exception as e:
+            logger.error(f"Error loading examination dental data: {str(e)}")
     
-    def _load_dental_chart(self):
-        """Load dental chart data for current patient."""
-        if not self.current_patient:
+    def load_tooth_history(self, tooth_number, chart_type):
+        """Load tooth history for selected tooth."""
+        if not self.current_patient_id or not self.current_examination_id:
             return
         
-        # First, reset all teeth to normal status to clear previous patient's data
-        for quadrant_name, quadrant in self.quadrants.items():
-            for tooth_number in range(1, 8):  # 7 teeth per quadrant
-                quadrant.update_tooth_status(tooth_number, 'normal')
-        
-        # Then load the actual data for the current patient
-        chart_data = dental_service.get_dental_chart(self.current_patient['patient_id'])
-        
-        for quadrant_name, records in chart_data.items():
-            if quadrant_name in self.quadrants:
-                quadrant = self.quadrants[quadrant_name]
-                for record in records:
-                    tooth_number = record['tooth_number']
-                    status = record['status']
-                    quadrant.update_tooth_status(tooth_number, status)
+        try:
+            record_type = f'{chart_type}_problem' if chart_type == 'patient' else f'{chart_type}_finding'
+            
+            # Get tooth history for this tooth and examination
+            history = tooth_history_service.get_tooth_history(
+                self.current_patient_id,
+                tooth_number,
+                record_type,
+                self.current_examination_id
+            )
+            
+            # Update the appropriate chart panel with history
+            if chart_type == "patient" and self.patient_chart_panel:
+                self.patient_chart_panel.display_tooth_history(tooth_number, history)
+            elif chart_type == "doctor" and self.doctor_chart_panel:
+                self.doctor_chart_panel.display_tooth_history(tooth_number, history)
+                
+        except Exception as e:
+            logger.error(f"Error loading tooth history: {str(e)}")
     
-    def _on_tooth_selected(self, quadrant: str, tooth_number: int):
-        """Handle tooth selection."""
-        if not self.current_patient:
-            msg_box = QMessageBox(self)
-            msg_box.setIcon(QMessageBox.Warning)
-            msg_box.setWindowTitle("No Patient")
-            msg_box.setText("Please select a patient first.")
-            msg_box.setStyleSheet("""
-                QMessageBox {
-                    background-color: white;
-                    color: black;
-                }
-                QMessageBox QLabel {
-                    color: black;
-                    background-color: white;
-                }
-                QMessageBox QPushButton {
-                    background-color: #f0f0f0;
-                    color: black;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    min-width: 80px;
-                }
-                QMessageBox QPushButton:hover {
-                    background-color: #e0e0e0;
-                }
-            """)
-            msg_box.exec()
+    def add_tooth_history_from_visit(self, tooth_number, visit_data):
+        """Add tooth history entries from visit data."""
+        if not self.current_patient_id or not self.current_examination_id:
             return
         
-        # Clear selection from other quadrants
-        for quad_name, quad_widget in self.quadrants.items():
-            if quad_name != quadrant:
-                quad_widget.clear_selection()
+        try:
+            # Add patient problem entry if chief complaint mentions this tooth
+            chief_complaint = visit_data.get('chief_complaint', '')
+            if chief_complaint:
+                patient_history = {
+                    'examination_id': self.current_examination_id,
+                    'tooth_number': tooth_number,
+                    'record_type': 'patient_problem',
+                    'status': 'problem',
+                    'description': chief_complaint,
+                    'date_recorded': date.today()
+                }
+                tooth_history_service.add_tooth_history(self.current_patient_id, patient_history)
+            
+            # Add doctor finding entry if treatment was performed
+            treatment = visit_data.get('treatment_performed', '')
+            if treatment:
+                doctor_history = {
+                    'examination_id': self.current_examination_id,
+                    'tooth_number': tooth_number,
+                    'record_type': 'doctor_finding',
+                    'status': 'treated',
+                    'description': treatment,
+                    'date_recorded': date.today()
+                }
+                tooth_history_service.add_tooth_history(self.current_patient_id, doctor_history)
+                
+        except Exception as e:
+            logger.error(f"Error adding tooth history from visit: {str(e)}")
+    
+    # === UI ACTIONS ===
+    def create_new_examination(self):
+        """Create a new examination."""
+        if not self.current_patient_id:
+            QMessageBox.warning(self, "Warning", "Please select a patient first.")
+            return
         
-        # Set tooth in detail panel
-        self.tooth_detail_panel.set_tooth(
-            self.current_patient['patient_id'],
-            quadrant,
-            tooth_number
-        )
+        if self.examination_panel:
+            self.examination_panel.create_new_examination()
     
-    def _on_tooth_saved(self):
-        """Handle tooth data saved."""
-        # Refresh the chart to show updated status
-        if self.current_patient:
-            self._load_dental_chart()
+    def save_all_changes(self):
+        """Save all pending changes across components."""
+        try:
+            # Save examination if modified
+            if self.examination_panel and hasattr(self.examination_panel, 'save_examination'):
+                self.examination_panel.save_examination()
+            
+            # Save any pending tooth changes
+            if self.patient_chart_panel and hasattr(self.patient_chart_panel, 'save_pending_changes'):
+                self.patient_chart_panel.save_pending_changes()
+            if self.doctor_chart_panel and hasattr(self.doctor_chart_panel, 'save_pending_changes'):
+                self.doctor_chart_panel.save_pending_changes()
+            
+            # Update timestamp
+            self.update_last_saved()
+            
+            # Update status
+            self.exam_status_label.setText("All changes saved successfully")
+            
+            # Emit signal
+            self.data_saved.emit()
+            
+        except Exception as e:
+            logger.error(f"Error saving changes: {str(e)}")
+            QMessageBox.critical(self, "Save Error", f"Failed to save changes: {str(e)}")
     
-    def _clear_chart(self):
-        """Clear the dental chart."""
-        for quadrant in self.quadrants.values():
-            quadrant.clear_selection()
-            for tooth_number in range(1, 8):  # Changed from range(1, 9) to range(1, 8) for 7 teeth
-                quadrant.update_tooth_status(tooth_number, 'normal')
+    def export_data(self):
+        """Export current examination data."""
+        if not self.current_patient_id or not self.current_examination_id:
+            QMessageBox.warning(self, "Warning", "Please select a patient and examination first.")
+            return
         
-        self.tooth_detail_panel.set_enabled(False)
-        self.chief_complaint_edit.clear()
+        try:
+            # Mock export functionality - implement actual export logic
+            self.exam_status_label.setText("Export functionality coming soon...")
+            QMessageBox.information(self, "Export", "Export functionality will be implemented in future updates.")
+            
+        except Exception as e:
+            logger.error(f"Error exporting data: {str(e)}")
+            QMessageBox.critical(self, "Export Error", f"Failed to export data: {str(e)}")
     
+    def clear_tooth_selections(self):
+        """Clear all tooth selections."""
+        if self.patient_chart_panel:
+            self.patient_chart_panel.clear_selection()
+        if self.doctor_chart_panel:
+            self.doctor_chart_panel.clear_selection()
+        
+        self.selected_tooth_number = None
+        self.selected_chart_type = None
+    
+    def clear_all_data(self):
+        """Clear all data when no patient selected."""
+        # Clear chart selections
+        self.clear_tooth_selections()
+        
+        # Reset examination
+        self.current_examination_id = None
+        self.current_exam_label.setText("No examination selected")
+        
+        # Clear panels
+        if self.examination_panel:
+            self.examination_panel.set_patient(None)
+        if self.visit_records_panel:
+            self.visit_records_panel.set_patient(None)
+        if self.treatment_episodes_panel:
+            self.treatment_episodes_panel.set_patient(None)
+        
+        # Update status
+        self.exam_status_label.setText("Ready - Select a patient to begin")
+        self.total_amount_label.setText("Total: $0.00")
+    
+    def update_last_saved(self):
+        """Update last saved timestamp."""
+        current_time = datetime.now().strftime('%H:%M:%S')
+        self.last_saved_label.setText(f"Saved: {current_time}")
+    
+    def apply_global_styles(self):
+        """Apply consistent styling across the widget."""
+        self.setStyleSheet("""
+            QWidget {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                font-size: 12px;
+            }
+            
+            QGroupBox {
+                font-weight: bold;
+                border: 2px solid #19c5e5;
+                border-radius: 8px;
+                margin-top: 10px;
+                padding-top: 15px;
+                background-color: white;
+            }
+            
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                padding: 0 10px;
+                color: #19c5e5;
+                font-size: 14px;
+            }
+            
+            QPushButton {
+                background-color: #19c5e5;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            
+            QPushButton:hover {
+                background-color: #0ea5c7;
+            }
+            
+            QPushButton:disabled {
+                background-color: #cccccc;
+                color: #666666;
+            }
+        """)
+    
+    # === PUBLIC INTERFACE ===
     def set_patient(self, patient: dict):
-        """Set specific patient for examination."""
+        """Set specific patient for examination (public interface)."""
         # Find and select the patient in the combo box
         for i in range(self.patient_combo.count()):
             combo_patient = self.patient_combo.itemData(i)
-            if combo_patient and combo_patient['patient_id'] == patient['patient_id']:
+            if combo_patient and combo_patient.get('patient_id') == patient.get('patient_id'):
                 self.patient_combo.setCurrentIndex(i)
-                break
-        else:
-            # If patient not found in combo, add them and select
-            display_text = f"{patient['full_name']} ({patient['patient_id']})"
+                return
+        
+        # If patient not found in combo, add them and select
+        if patient:
+            display_text = f"{patient.get('full_name', 'Unknown')} - ID: {patient.get('patient_id', 'N/A')}"
             self.patient_combo.addItem(display_text, patient)
             self.patient_combo.setCurrentIndex(self.patient_combo.count() - 1)
+
+
+# Maintain backward compatibility with existing code
+DentalChart = AdvancedDentalChart

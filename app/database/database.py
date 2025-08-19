@@ -72,11 +72,11 @@ class DatabaseManager:
                 return
             
             # Create default admin user
-            default_password = "yashoda@123"
+            default_password = "a"
             password_hash = bcrypt.hashpw(default_password.encode('utf-8'), bcrypt.gensalt())
             
             admin_user = User(
-                username="Yashoda",
+                username="a",
                 password_hash=password_hash.decode('utf-8')
             )
             

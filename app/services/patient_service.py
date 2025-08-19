@@ -5,8 +5,8 @@ import logging
 from datetime import datetime, date
 from typing import List, Optional, Dict, Any
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, func
-from ..database.models import Patient
+from sqlalchemy import or_, func, extract
+from ..database.models import Patient, DentalExamination
 from ..database.database import db_manager
 from ..utils.constants import PATIENT_ID_PREFIX, PATIENT_ID_LENGTH
 
@@ -47,9 +47,7 @@ class PatientService:
                 phone_number=patient_data['phone_number'],
                 date_of_birth=dob,
                 email=patient_data.get('email'),
-                address=patient_data.get('address'),
-                examination_date=patient_data.get('examination_date'),
-                chief_complaint=patient_data.get('chief_complaint')
+                address=patient_data.get('address')
             )
             
             session.add(patient)
@@ -140,8 +138,6 @@ class PatientService:
             patient.date_of_birth = dob if 'date_of_birth' in patient_data else patient.date_of_birth
             patient.email = patient_data.get('email', patient.email)
             patient.address = patient_data.get('address', patient.address)
-            patient.examination_date = patient_data.get('examination_date', patient.examination_date)
-            patient.chief_complaint = patient_data.get('chief_complaint', patient.chief_complaint)
             patient.updated_at = datetime.utcnow()
             
             session.commit()
@@ -262,7 +258,6 @@ class PatientService:
         """Get number of patients added this month."""
         try:
             from datetime import datetime
-            from sqlalchemy import extract
             
             session = db_manager.get_session()
             current_year = datetime.now().year
@@ -284,7 +279,6 @@ class PatientService:
         """Get comprehensive patient statistics."""
         try:
             from datetime import datetime, timedelta
-            from sqlalchemy import extract
             
             session = db_manager.get_session()
             
@@ -313,16 +307,13 @@ class PatientService:
                 func.date(Patient.created_at) == today
             ).scalar() or 0
             
-            # Total examinations (patients with examination_date set)
-            stats['total_examinations'] = session.query(func.count(Patient.id)).filter(
-                Patient.examination_date.isnot(None)
-            ).scalar() or 0
+            # Total examinations (count from dental_examinations table)
+            stats['total_examinations'] = session.query(func.count(DentalExamination.id)).scalar() or 0
             
             # Examinations this month
-            stats['examinations_this_month'] = session.query(func.count(Patient.id)).filter(
-                Patient.examination_date.isnot(None),
-                extract('year', Patient.examination_date) == current_year,
-                extract('month', Patient.examination_date) == current_month
+            stats['examinations_this_month'] = session.query(func.count(DentalExamination.id)).filter(
+                extract('year', DentalExamination.examination_date) == current_year,
+                extract('month', DentalExamination.examination_date) == current_month
             ).scalar() or 0
             
             session.close()
@@ -374,8 +365,6 @@ class PatientService:
             'date_of_birth': patient.date_of_birth,
             'email': patient.email,
             'address': patient.address,
-            'examination_date': patient.examination_date,
-            'chief_complaint': patient.chief_complaint,
             'created_at': patient.created_at,
             'updated_at': patient.updated_at
         }
