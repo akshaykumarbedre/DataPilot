@@ -11695,3 +11695,11 @@ WHERE custom_statuses.status_name = ?
 2025-08-19 19:56:55,478 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
 2025-08-19 19:56:57,612 - app.ui.main_window - INFO - Main window initialized
 2025-08-19 19:57:22,920 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 0
+2025-08-19 19:57:52,938 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 0
+2025-08-19 19:58:03,923 - app.ui.main_window - INFO - Navigated to patients
+2025-08-19 19:58:05,839 - app.ui.main_window - INFO - Navigated to examination
+2025-08-19 19:58:05,885 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-19 19:58:22,933 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 0
+2025-08-19 19:58:52,883 - app.services.auth_service - INFO - User a logged out
+2025-08-19 19:58:52,905 - app.database.database - INFO - Database connections closed
+2025-08-19 19:58:52,907 - app.main - INFO - Application shutdown complete
