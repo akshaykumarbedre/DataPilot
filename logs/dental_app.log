@@ -11669,3 +11669,29 @@ WHERE custom_statuses.status_name = ?
 2025-08-19 19:56:44,693 - app.services.auth_service - INFO - User a logged out
 2025-08-19 19:56:46,094 - app.database.database - INFO - Database connections closed
 2025-08-19 19:56:46,097 - app.main - INFO - Application shutdown complete
+2025-08-19 19:56:49,581 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-19 19:56:49,650 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-19 19:56:49,658 - app.main - INFO - Running startup optimizations...
+2025-08-19 19:56:49,658 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-19 19:56:49,658 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-19 19:56:49,658 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-19 19:56:49,658 - app.utils.performance - INFO - Database sessions optimized
+2025-08-19 19:56:49,658 - app.utils.performance - INFO - Memory usage: {'rss_mb': 67.6796875, 'vms_mb': 44.4296875, 'memory_percent': 0.8389006653684026}
+2025-08-19 19:56:49,658 - app.utils.performance - INFO - Performance optimization completed
+2025-08-19 19:56:49,666 - app.main - INFO - Initializing database...
+2025-08-19 19:56:49,773 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-19 19:56:49,773 - app.main - INFO - Showing login dialog...
+2025-08-19 19:56:52,756 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-19 19:56:52,756 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-19 19:56:52,796 - app.main - INFO - Login successful, showing main window...
+2025-08-19 19:56:52,957 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 0
+2025-08-19 19:56:52,980 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-19 19:56:52,980 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-19 19:56:55,397 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-19 19:56:55,430 - app.services.custom_status_service - ERROR - Error creating custom status: (sqlite3.IntegrityError) UNIQUE constraint failed: custom_statuses.status_code
+[SQL: INSERT INTO custom_statuses (status_name, status_code, display_name, description, color, color_code, category, is_active, sort_order, icon_name, created_by, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('metal_crown', 'MC', 'Metal Crown', '', '#C0C0C0', '#C0C0C0', 'prosthetic', 1, 0, '', None, '2025-08-19 14:26:55.422438', '2025-08-19 14:26:55.422438')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-08-19 19:56:55,478 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-19 19:56:57,612 - app.ui.main_window - INFO - Main window initialized
+2025-08-19 19:57:22,920 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 0
