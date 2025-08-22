@@ -51,6 +51,7 @@ class EnhancedToothWidget(QWidget):
         
         # Status dropdown (initially hidden)
         self.status_dropdown = QComboBox()
+        self.status_dropdown.setSizeAdjustPolicy(QComboBox.AdjustToContents)
         self.status_dropdown.setMaximumHeight(25)
         self.status_dropdown.hide()
         self.status_dropdown.currentTextChanged.connect(self.on_status_dropdown_changed)
@@ -120,6 +121,13 @@ class EnhancedToothWidget(QWidget):
         """Set doctor-diagnosed status."""
         self.doctor_status = status
         self.update_tooth_appearance()
+
+    def update_status(self, status: str):
+        """Update the status based on the current mode."""
+        if self.current_mode == 'doctor':
+            self.set_doctor_status(status)
+        else:
+            self.set_patient_status(status)
     
     def set_mode(self, mode: str):
         """Set display mode (patient or doctor)."""

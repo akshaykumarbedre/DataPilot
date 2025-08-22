@@ -50,14 +50,6 @@ class ExaminationFormWidget(QFrame):
         self.exam_date_edit.setCalendarPopup(True)
         form_layout.addRow("Examination Date:", self.exam_date_edit)
         
-        # Examination type
-        self.exam_type_combo = QComboBox()
-        self.exam_type_combo.addItems([
-            "routine_checkup", "emergency", "consultation", 
-            "follow_up", "pre_treatment", "post_treatment"
-        ])
-        form_layout.addRow("Examination Type:", self.exam_type_combo)
-        
         # Chief complaint
         self.chief_complaint_edit = QTextEdit()
         self.chief_complaint_edit.setMaximumHeight(80)
@@ -83,41 +75,6 @@ class ExaminationFormWidget(QFrame):
         form_layout.addRow("Dental History:", self.dental_history_edit)
         
         layout.addLayout(form_layout)
-        
-        # Vital signs section
-        vitals_group = QGroupBox("Vital Signs")
-        vitals_layout = QGridLayout(vitals_group)
-        
-        # Blood pressure
-        vitals_layout.addWidget(QLabel("Blood Pressure:"), 0, 0)
-        self.bp_systolic_spin = QSpinBox()
-        self.bp_systolic_spin.setRange(50, 250)
-        self.bp_systolic_spin.setValue(120)
-        vitals_layout.addWidget(self.bp_systolic_spin, 0, 1)
-        vitals_layout.addWidget(QLabel("/"), 0, 2)
-        self.bp_diastolic_spin = QSpinBox()
-        self.bp_diastolic_spin.setRange(30, 150)
-        self.bp_diastolic_spin.setValue(80)
-        vitals_layout.addWidget(self.bp_diastolic_spin, 0, 3)
-        vitals_layout.addWidget(QLabel("mmHg"), 0, 4)
-        
-        # Pulse rate
-        vitals_layout.addWidget(QLabel("Pulse Rate:"), 1, 0)
-        self.pulse_spin = QSpinBox()
-        self.pulse_spin.setRange(40, 200)
-        self.pulse_spin.setValue(72)
-        vitals_layout.addWidget(self.pulse_spin, 1, 1)
-        vitals_layout.addWidget(QLabel("bpm"), 1, 2)
-        
-        # Temperature
-        vitals_layout.addWidget(QLabel("Temperature:"), 2, 0)
-        self.temp_line_edit = QLineEdit()
-        self.temp_line_edit.setText("98.6")
-        self.temp_line_edit.setMaximumWidth(60)
-        vitals_layout.addWidget(self.temp_line_edit, 2, 1)
-        vitals_layout.addWidget(QLabel("°F"), 2, 2)
-        
-        layout.addWidget(vitals_group)
     
     def load_examination(self, examination_data: Dict):
         """Load examination data into the form."""
@@ -130,57 +87,29 @@ class ExaminationFormWidget(QFrame):
                 exam_date = datetime.strptime(exam_date, '%Y-%m-%d').date()
             self.exam_date_edit.setDate(QDate(exam_date))
         
-        exam_type = examination_data.get('examination_type', 'routine_checkup')  # Default to routine_checkup if not found
-        index = self.exam_type_combo.findText(exam_type)
-        if index >= 0:
-            self.exam_type_combo.setCurrentIndex(index)
-        else:
-            # If exact match not found, set to default (routine_checkup)
-            self.exam_type_combo.setCurrentIndex(0)
-        
         self.chief_complaint_edit.setPlainText(examination_data.get('chief_complaint', ''))
-        self.present_illness_edit.setPlainText(examination_data.get('present_illness', ''))
+        self.present_illness_edit.setPlainText(examination_data.get('history_of_presenting_illness', ''))
         self.medical_history_edit.setPlainText(examination_data.get('medical_history', ''))
         self.dental_history_edit.setPlainText(examination_data.get('dental_history', ''))
-        
-        # Load vital signs
-        vital_signs = examination_data.get('vital_signs', {})
-        if isinstance(vital_signs, dict):
-            self.bp_systolic_spin.setValue(vital_signs.get('blood_pressure_systolic', 120))
-            self.bp_diastolic_spin.setValue(vital_signs.get('blood_pressure_diastolic', 80))
-            self.pulse_spin.setValue(vital_signs.get('pulse_rate', 72))
-            self.temp_line_edit.setText(str(vital_signs.get('temperature', '98.6')))
     
     def get_examination_data(self) -> Dict:
         """Get examination data from the form."""
         return {
             'examination_date': self.exam_date_edit.date().toPython(),
-            'examination_type': self.exam_type_combo.currentText(),
             'chief_complaint': self.chief_complaint_edit.toPlainText().strip(),
-            'present_illness': self.present_illness_edit.toPlainText().strip(),
+            'history_of_presenting_illness': self.present_illness_edit.toPlainText().strip(),
             'medical_history': self.medical_history_edit.toPlainText().strip(),
-            'dental_history': self.dental_history_edit.toPlainText().strip(),
-            'vital_signs': {
-                'blood_pressure_systolic': self.bp_systolic_spin.value(),
-                'blood_pressure_diastolic': self.bp_diastolic_spin.value(),
-                'pulse_rate': self.pulse_spin.value(),
-                'temperature': self.temp_line_edit.text().strip()
-            }
+            'dental_history': self.dental_history_edit.toPlainText().strip()
         }
     
     def clear_form(self):
         """Clear all form fields."""
         self.current_examination = None
         self.exam_date_edit.setDate(QDate.currentDate())
-        self.exam_type_combo.setCurrentIndex(0)  # Reset to first option (routine_checkup)
         self.chief_complaint_edit.clear()
         self.present_illness_edit.clear()
         self.medical_history_edit.clear()
         self.dental_history_edit.clear()
-        self.bp_systolic_spin.setValue(120)
-        self.bp_diastolic_spin.setValue(80)
-        self.pulse_spin.setValue(72)
-        self.temp_line_edit.setText("98.6")
 
 
 class ExaminationFindings(QFrame):
@@ -469,9 +398,8 @@ class DentalExaminationPanel(QGroupBox):
             
             for exam in self.examinations_list:
                 exam_date = exam.get('examination_date', 'Unknown')
-                exam_type = exam.get('examination_type', 'routine_checkup').replace('_', ' ').title()
-                chief_complaint = exam.get('chief_complaint', '')[:30]  # First 30 chars of complaint
-                display_text = f"{exam_date} - {exam_type} - {chief_complaint}..."
+                chief_complaint = exam.get('chief_complaint', '')[:40]  # First 40 chars of complaint
+                display_text = f"{exam_date} - {chief_complaint}..."
                 self.examination_combo.addItem(display_text, exam.get('id'))
             
             # Update status
@@ -533,9 +461,6 @@ class DentalExaminationPanel(QGroupBox):
         
         # Reset combo selection to default
         self.examination_combo.setCurrentIndex(0)
-        
-        # Ensure examination type is reset to default
-        self.form_widget.exam_type_combo.setCurrentIndex(0)  # Set to first option (routine_checkup)
         
         # Update status
         self.status_label.setText("New examination - ready to save")

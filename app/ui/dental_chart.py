@@ -321,13 +321,13 @@ class AdvancedDentalChart(QWidget):
         # === DENTAL CHARTS ===
         if self.patient_chart_panel:
             self.patient_chart_panel.tooth_selected.connect(
-                lambda tooth_num: self.on_tooth_selected(tooth_num, "patient")
+                lambda tooth_num, panel_type="patient": self.on_tooth_selected(tooth_num, panel_type)
             )
             self.patient_chart_panel.tooth_status_changed.connect(self.on_tooth_status_changed)
         
         if self.doctor_chart_panel:
             self.doctor_chart_panel.tooth_selected.connect(
-                lambda tooth_num: self.on_tooth_selected(tooth_num, "doctor")
+                lambda tooth_num, panel_type="doctor": self.on_tooth_selected(tooth_num, panel_type)
             )
             self.doctor_chart_panel.tooth_status_changed.connect(self.on_tooth_status_changed)
         
@@ -360,6 +360,10 @@ class AdvancedDentalChart(QWidget):
             # Update all components with new patient
             if self.examination_panel:
                 self.examination_panel.set_patient(self.current_patient_id)
+            if self.patient_chart_panel:
+                self.patient_chart_panel.set_patient(self.current_patient_id)
+            if self.doctor_chart_panel:
+                self.doctor_chart_panel.set_patient(self.current_patient_id)
             # Re-enabled for displaying old visits
             if self.visit_records_panel:
                 self.visit_records_panel.set_patient(self.current_patient_id)

@@ -93,9 +93,16 @@ class ToothHistory(Base):
     examination_id = Column(Integer, ForeignKey("dental_examinations.id"))
     tooth_number = Column(Integer, nullable=False)  # Full tooth number (11-18, 21-28, 31-38, 41-48)
     record_type = Column(String(20), nullable=False)  # 'patient_problem' or 'doctor_finding'
-    status = Column(String(50))  # Current status
-    description = Column(Text)  # Detailed description
-    date_recorded = Column(Date, nullable=False)
+    
+    # JSON fields for storing history as lists
+    status_history = Column(Text)  # JSON list of status entries
+    description_history = Column(Text)  # JSON list of description entries  
+    date_history = Column(Text)  # JSON list of date entries
+    
+    # Keep single fields for backward compatibility
+    status = Column(String(50))  # Current/latest status
+    description = Column(Text)  # Current/latest description
+    date_recorded = Column(Date, nullable=False)  # Current/latest date
     
     created_at = Column(DateTime, default=datetime.utcnow)
     

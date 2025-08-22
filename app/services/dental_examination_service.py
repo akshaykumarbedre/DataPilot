@@ -53,7 +53,7 @@ class DentalExaminationService:
                 patient_id=patient_id,
                 examination_date=examination_data.get('examination_date', date.today()),
                 chief_complaint=examination_data.get('chief_complaint', ''),
-                history_of_presenting_illness=examination_data.get('present_illness'),  # Map present_illness to history_of_presenting_illness
+                history_of_presenting_illness=examination_data.get('history_of_presenting_illness'),  # Use correct field name
                 medical_history=examination_data.get('medical_history'),
                 dental_history=examination_data.get('dental_history'),
                 examination_findings=examination_findings,  # Use serialized JSON string
@@ -121,7 +121,7 @@ class DentalExaminationService:
                 'patient_id': examination.patient_id,
                 'examination_date': examination.examination_date,
                 'chief_complaint': examination.chief_complaint,
-                'present_illness': examination.history_of_presenting_illness,  # Map back to present_illness for UI
+                'history_of_presenting_illness': examination.history_of_presenting_illness,  # Use correct field name
                 'medical_history': examination.medical_history,
                 'dental_history': examination.dental_history,
                 'examination_findings': examination_findings or {},
@@ -177,7 +177,7 @@ class DentalExaminationService:
                     'patient_id': exam.patient_id,
                     'examination_date': exam.examination_date,
                     'chief_complaint': exam.chief_complaint,
-                    'present_illness': exam.history_of_presenting_illness,  # Map back to present_illness for UI
+                    'history_of_presenting_illness': exam.history_of_presenting_illness,  # Use correct field name
                     'medical_history': exam.medical_history,
                     'dental_history': exam.dental_history,
                     'examination_findings': examination_findings or {},
@@ -242,8 +242,8 @@ class DentalExaminationService:
             # Update fields if provided with JSON serialization for complex fields
             if 'chief_complaint' in examination_data:
                 examination.chief_complaint = examination_data['chief_complaint']
-            if 'present_illness' in examination_data:
-                examination.history_of_presenting_illness = examination_data['present_illness']
+            if 'history_of_presenting_illness' in examination_data:
+                examination.history_of_presenting_illness = examination_data['history_of_presenting_illness']
             if 'medical_history' in examination_data:
                 examination.medical_history = examination_data['medical_history']
             if 'dental_history' in examination_data:

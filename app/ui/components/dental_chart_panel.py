@@ -197,7 +197,7 @@ class DentalChartPanel(QGroupBox):
         """Create bottom panel for selected tooth info and history."""
         bottom_widget = QWidget()
         bottom_widget.setMinimumHeight(140)  # Further reduced
-        bottom_widget.setMaximumHeight(180)
+        bottom_widget.setMaximumHeight(280)
         layout = QHBoxLayout(bottom_widget)
         layout.setSpacing(5)
         layout.setContentsMargins(1, 3, 1, 3)
@@ -264,7 +264,7 @@ class DentalChartPanel(QGroupBox):
         info_layout.addWidget(self.description_label)
         
         self.description_input = QTextEdit()
-        self.description_input.setMaximumHeight(60)
+        self.description_input.setMaximumHeight(100)
         self.description_input.setPlaceholderText("Enter description for this tooth...")
         self.description_input.setStyleSheet("""
             QTextEdit {
@@ -334,7 +334,7 @@ class DentalChartPanel(QGroupBox):
         self.history_text = QTextEdit()
         self.history_text.setReadOnly(True)
         self.history_text.setMinimumHeight(100)
-        self.history_text.setMaximumHeight(160)
+        self.history_text.setMaximumHeight(240)
         self.history_text.setPlaceholderText("Select a tooth to view history...")
         self.history_text.setStyleSheet("""
             QTextEdit {
@@ -564,7 +564,7 @@ class DentalChartPanel(QGroupBox):
             logger.error(f"Error loading tooth data in {self.panel_type} panel: {str(e)}")
     
     def load_patient_data(self):
-        """Load patient's tooth data for this panel type."""
+        """Load patient's tooth data for this panel type using the new JSON-based system."""
         if not self.patient_id:
             return
         
@@ -584,63 +584,92 @@ class DentalChartPanel(QGroupBox):
                         status = 'normal'
                         if summary['latest_patient_problem']:
                             status = summary['latest_patient_problem']['status']
-                        tooth_widget.set_patient_status(status)
+                        
+                        # Update tooth widget appearance
+                        if hasattr(tooth_widget, 'set_patient_status'):
+                            tooth_widget.set_patient_status(status)
+                        elif hasattr(tooth_widget, 'update_status'):
+                            tooth_widget.update_status(status)
+                        elif hasattr(tooth_widget, 'set_status'):
+                            tooth_widget.set_status(status)
+                            
                     else:
                         # Show doctor findings
                         status = 'normal'
                         if summary['latest_doctor_finding']:
                             status = summary['latest_doctor_finding']['status']
-                        tooth_widget.set_doctor_status(status)
+                        
+                        # Update tooth widget appearance
+                        if hasattr(tooth_widget, 'set_doctor_status'):
+                            tooth_widget.set_doctor_status(status)
+                        elif hasattr(tooth_widget, 'update_status'):
+                            tooth_widget.update_status(status)
+                        elif hasattr(tooth_widget, 'set_status'):
+                            tooth_widget.set_status(status)
                 else:
                     # Reset to normal if no data
                     if self.panel_type == 'patient':
-                        tooth_widget.set_patient_status('normal')
+                        if hasattr(tooth_widget, 'set_patient_status'):
+                            tooth_widget.set_patient_status('normal')
+                        elif hasattr(tooth_widget, 'update_status'):
+                            tooth_widget.update_status('normal')
+                        elif hasattr(tooth_widget, 'set_status'):
+                            tooth_widget.set_status('normal')
                     else:
-                        tooth_widget.set_doctor_status('normal')
+                        if hasattr(tooth_widget, 'set_doctor_status'):
+                            tooth_widget.set_doctor_status('normal')
+                        elif hasattr(tooth_widget, 'update_status'):
+                            tooth_widget.update_status('normal')
+                        elif hasattr(tooth_widget, 'set_status'):
+                            tooth_widget.set_status('normal')
+            
+            logger.info(f"Loaded patient data for {len(self.tooth_widgets)} teeth in {self.panel_type} panel")
         
         except Exception as e:
             logger.error(f"Error loading patient data: {str(e)}")
+            # Reset all tooth widgets to normal on error
+            for tooth_widget in self.tooth_widgets.values():
+                if hasattr(tooth_widget, 'set_status'):
+                    tooth_widget.set_status('normal')
     
-    def on_tooth_clicked(self, tooth_number: int, click_type: str):
+    def on_tooth_clicked(self, tooth_number: int, click_type: str = 'left'):
         """Handle tooth click events."""
-        self.selected_tooth = tooth_number
-        
+        self.selected_tooth = tooth_number  # Ensure selected tooth is updated
+
         # Update selected tooth display
         quadrant = tooth_number // 10
         position = tooth_number % 10
         self.tooth_info_label.setText(f"Tooth {tooth_number} ({quadrant},{position})")
-        
+
         # Load tooth history
         self.load_tooth_history(tooth_number)
-        
+
         # Enable add record button only if there's text in description or no description field exists
         if hasattr(self, 'description_input'):
             has_description = bool(self.description_input.toPlainText().strip())
             self.add_record_btn.setEnabled(has_description)
         else:
             self.add_record_btn.setEnabled(True)
-        
-        # Emit signal
+
+        # Emit signal with correct parameters
         self.tooth_selected.emit(tooth_number, self.panel_type)
-        
+
         if click_type == 'right':
             # Right click - could open detailed dialog
             self.show_tooth_details(tooth_number)
     
     def load_tooth_history(self, tooth_number: int):
-        """Load and display tooth history."""
+        """Load and display tooth history using the new JSON-based system."""
         if not self.patient_id:
             return
         
         try:
-            # Get tooth history for this panel type
+            # Get complete tooth history for this panel type
             record_type = 'patient_problem' if self.panel_type == 'patient' else 'doctor_finding'
             
-            history = tooth_history_service.get_tooth_history(
-                self.patient_id, 
-                tooth_number, 
-                record_type=record_type,
-                examination_id=self.examination_id
+            # Get the full history data including JSON arrays
+            full_history = tooth_history_service.get_tooth_full_history(
+                self.patient_id, tooth_number, record_type
             )
             
             # Get current status
@@ -656,6 +685,7 @@ class DentalChartPanel(QGroupBox):
                     if latest['description']:
                         status_text += f"\nDescription: {latest['description']}"
                     status_text += f"\nDate: {latest['date_recorded']}"
+                    status_text += f"\nTotal Problems: {current_status['patient_problems_count']}"
                 else:
                     status_text = "Current Status: Normal\nNo patient problems recorded"
             else:
@@ -665,31 +695,61 @@ class DentalChartPanel(QGroupBox):
                     if latest['description']:
                         status_text += f"\nDescription: {latest['description']}"
                     status_text += f"\nDate: {latest['date_recorded']}"
+                    status_text += f"\nTotal Findings: {current_status['doctor_findings_count']}"
                 else:
                     status_text = "Current Status: Normal\nNo doctor findings recorded"
             
             self.current_status_label.setText(status_text)
             
-            # Format history text
-            if history:
-                history_text = f"{self.panel_type.title()} History for Tooth {tooth_number}:\n\n"
-                
-                for record in history:
-                    history_text += f"Date: {record['date_recorded']}\n"
-                    history_text += f"Status: {record['status']}\n"
-                    if record['description']:
-                        history_text += f"Description: {record['description']}\n"
-                    if record['examination_date']:
-                        history_text += f"Examination: {record['examination_date']}\n"
-                    history_text += "-" * 40 + "\n\n"
-                
-                self.history_text.setPlainText(history_text)
+            # Format history text using the JSON history data
+            history_text = f"{self.panel_type.title()} History for Tooth {tooth_number}:\n\n"
+            
+            # Get the relevant records based on panel type
+            if self.panel_type == 'patient':
+                records = full_history.get('patient_problems', [])
             else:
-                self.history_text.setPlainText(f"No {self.panel_type} history recorded for this tooth.")
+                records = full_history.get('doctor_findings', [])
+            
+            if records:
+                for record in records:
+                    # Display current/latest info
+                    history_text += f"CURRENT STATUS:\n"
+                    history_text += f"Status: {record.get('current_status', 'N/A')}\n"
+                    if record.get('current_description'):
+                        history_text += f"Description: {record['current_description']}\n"
+                    history_text += f"Date: {record.get('current_date', 'N/A')}\n"
+                    
+                    # Display history timeline
+                    status_history = record.get('status_history', [])
+                    description_history = record.get('description_history', [])
+                    date_history = record.get('date_history', [])
+                    
+                    if status_history and len(status_history) > 1:
+                        history_text += f"\nHISTORY TIMELINE ({len(status_history)} entries):\n"
+                        # Show history in reverse order (newest first)
+                        for i in reversed(range(len(status_history))):
+                            history_text += f"  {i+1}. "
+                            if i < len(date_history):
+                                history_text += f"{date_history[i]} - "
+                            if i < len(status_history):
+                                history_text += f"Status: {status_history[i]}"
+                            if i < len(description_history) and description_history[i]:
+                                history_text += f" - {description_history[i]}"
+                            history_text += "\n"
+                    elif len(status_history) == 1:
+                        history_text += f"\nSingle entry recorded.\n"
+                    
+                    history_text += "\n" + "="*50 + "\n\n"
+            else:
+                history_text += f"No {self.panel_type.replace('_', ' ')} history recorded for this tooth.\n"
+                history_text += "Click 'Add Record' to add the first entry."
+            
+            self.history_text.setPlainText(history_text)
                 
         except Exception as e:
             logger.error(f"Error loading tooth history: {str(e)}")
             self.history_text.setPlainText("Error loading tooth history.")
+            self.current_status_label.setText("Error loading status")
     
     def display_tooth_history(self, tooth_number: int, history: List[Dict[str, Any]]):
         """Display tooth history data in the panel."""
@@ -728,21 +788,22 @@ class DentalChartPanel(QGroupBox):
                 self.history_text.setPlainText("Error displaying tooth history.")
     
     def on_tooth_status_changed(self, tooth_number: int, status: str, record_type: str):
-        """Handle tooth status change."""
+        """Handle tooth status change from tooth widget interactions."""
         if not self.patient_id:
             return
         
         try:
-            # Update tooth status in database
-            record_type_db = 'patient_problem' if record_type == 'patient' else 'doctor_finding'
+            # Convert panel type to database record type
+            db_record_type = 'patient_problem' if self.panel_type == 'patient' else 'doctor_finding'
             
-            success = tooth_history_service.update_tooth_status(
-                self.patient_id,
-                tooth_number,
-                status,
-                record_type_db,
-                f"Status changed to {status}",
-                self.examination_id
+            # Add new history entry for the status change
+            success = tooth_history_service.add_tooth_history_entry(
+                patient_id=self.patient_id,
+                tooth_number=tooth_number,
+                record_type=db_record_type,
+                status=status,
+                description=f"Status changed to {status} via UI interaction",
+                examination_id=self.examination_id
             )
             
             if success:
@@ -750,8 +811,15 @@ class DentalChartPanel(QGroupBox):
                 if tooth_number == self.selected_tooth:
                     self.load_tooth_history(tooth_number)
                 
-                # Emit signal
-                self.tooth_status_changed.emit(tooth_number, status, record_type_db)
+                # Refresh patient data to update tooth widget appearance
+                self.load_patient_data()
+                
+                # Emit signal for parent components
+                self.tooth_status_changed.emit(tooth_number, status, db_record_type)
+                
+                logger.info(f"Updated tooth {tooth_number} status to {status} in {self.panel_type} panel")
+            else:
+                logger.error(f"Failed to update tooth {tooth_number} status")
             
         except Exception as e:
             logger.error(f"Error updating tooth status: {str(e)}")
@@ -775,59 +843,86 @@ class DentalChartPanel(QGroupBox):
     
     def add_tooth_record(self):
         """Add new tooth record for selected tooth."""
-        if not self.selected_tooth or not self.patient_id:
+        if self.selected_tooth is None or not self.patient_id:
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.warning(self, "Warning", "Please select a tooth first.")
             return
         
         # Get description from input field
         description = self.description_input.toPlainText().strip()
         
-        # If description is provided, save it directly
-        if description:
-            try:
-                from ...services.tooth_history_service import tooth_history_service
-                
-                # Save tooth record with description
-                success = tooth_history_service.update_tooth_status(
-                    patient_id=self.patient_id,
-                    tooth_number=self.selected_tooth,
-                    status='normal',  # Default status
-                    record_type=self.panel_type,  # Use panel type (patient_problem or doctor_finding)
-                    description=description
+        if not description:
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.warning(self, "Warning", "Please enter a description for this tooth record.")
+            return
+        
+        try:
+            # Get current status from tooth widget (if available)
+            current_status = 'normal'
+            if self.selected_tooth in self.tooth_widgets:
+                tooth_widget = self.tooth_widgets[self.selected_tooth]
+                if hasattr(tooth_widget, 'current_status'):
+                    current_status = tooth_widget.current_status
+                elif hasattr(tooth_widget, 'get_status'):
+                    current_status = tooth_widget.get_status()
+            
+            # If no specific status is set, try to get from existing records
+            if current_status == 'normal':
+                existing_status = tooth_history_service.get_tooth_current_status(
+                    self.patient_id, self.selected_tooth
                 )
-                
-                if success:
-                    # Clear description input
-                    self.description_input.clear()
-                    # Refresh data
-                    self.load_patient_data()
-                    self.load_tooth_history(self.selected_tooth)
-                    # Show success message
-                    from PySide6.QtWidgets import QMessageBox
-                    QMessageBox.information(self, "Success", "Tooth record saved successfully!")
+                if self.panel_type == 'patient':
+                    if existing_status.get('latest_patient_problem'):
+                        current_status = existing_status['latest_patient_problem']['status']
                 else:
-                    from PySide6.QtWidgets import QMessageBox
-                    QMessageBox.warning(self, "Error", "Failed to save tooth record.")
-                    
-            except Exception as e:
-                logger.error(f"Error saving tooth record: {str(e)}")
-                from PySide6.QtWidgets import QMessageBox
-                QMessageBox.critical(self, "Error", f"Error saving record: {str(e)}")
-        else:
-            # If no description, open detailed dialog
-            try:
-                from ...widgets.dental_chart_widget import ToothDetailsDialog
-                dialog = ToothDetailsDialog(self.selected_tooth, self.patient_id, self)
-                dialog.exec()
+                    if existing_status.get('latest_doctor_finding'):
+                        current_status = existing_status['latest_doctor_finding']['status']
+            
+            # Determine record type based on panel type
+            record_type = 'patient_problem' if self.panel_type == 'patient' else 'doctor_finding'
+            
+            # Add new tooth history entry using JSON-based system
+            success = tooth_history_service.add_tooth_history_entry(
+                patient_id=self.patient_id,
+                tooth_number=self.selected_tooth,
+                record_type=record_type,
+                status=current_status,
+                description=description,
+                examination_id=self.examination_id
+            )
+            
+            if success:
+                # Clear description input
+                self.description_input.clear()
                 
-                # Refresh data after dialog closes
+                # Refresh tooth widget appearance
                 self.load_patient_data()
+                
+                # Refresh tooth history display
                 self.load_tooth_history(self.selected_tooth)
-            except ImportError:
-                logger.warning("ToothDetailsDialog not available")
-                # Fallback - just refresh the data
-                self.load_patient_data()
-                if self.selected_tooth:
-                    self.load_tooth_history(self.selected_tooth)
+                
+                # Emit signal for parent components
+                self.tooth_status_changed.emit(self.selected_tooth, current_status, record_type)
+                
+                # Show success message
+                from PySide6.QtWidgets import QMessageBox
+                QMessageBox.information(self, "Success", 
+                    f"Tooth {self.selected_tooth} record added successfully!\n"
+                    f"Type: {record_type.replace('_', ' ').title()}\n"
+                    f"Status: {current_status}\n"
+                    f"Description: {description[:50]}{'...' if len(description) > 50 else ''}")
+                
+                # Disable button until new description is entered
+                self.add_record_btn.setEnabled(False)
+                
+            else:
+                from PySide6.QtWidgets import QMessageBox
+                QMessageBox.warning(self, "Error", "Failed to save tooth record.")
+                
+        except Exception as e:
+            logger.error(f"Error saving tooth record: {str(e)}")
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.critical(self, "Error", f"Error saving record: {str(e)}")
     
     def refresh_data(self):
         """Refresh all tooth data."""
