@@ -6,10 +6,10 @@ from typing import Dict, List, Optional, Any, Callable
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QComboBox, 
     QLabel, QDialog, QDialogButtonBox, QFormLayout, QLineEdit,
-    QColorDialog, QMessageBox, QFrame
+    QColorDialog, QMessageBox, QFrame, QListView
 )
 from PySide6.QtCore import Qt, Signal, QSize
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont
+from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QFontMetrics
 
 from ...services.custom_status_service import custom_status_service
 
@@ -32,6 +32,7 @@ class EnhancedToothWidget(QWidget):
         
         self.setup_ui()
         self.load_status_options()
+        self.adjust_dropdown_width()
     
     def setup_ui(self):
         """Setup the tooth widget UI with button and dropdown."""
@@ -51,6 +52,7 @@ class EnhancedToothWidget(QWidget):
         
         # Status dropdown (initially hidden)
         self.status_dropdown = QComboBox()
+        self.status_dropdown.setView(QListView())
         self.status_dropdown.setSizeAdjustPolicy(QComboBox.AdjustToContents)
         self.status_dropdown.setMaximumHeight(25)
         self.status_dropdown.hide()
@@ -279,6 +281,7 @@ class EnhancedToothWidget(QWidget):
         if dialog.exec() == QDialog.Accepted:
             # Reload status options
             self.load_status_options()
+            self.adjust_dropdown_width()
     
     def set_status_change_callback(self, callback: Callable):
         """Set callback function for status changes."""
@@ -287,6 +290,21 @@ class EnhancedToothWidget(QWidget):
     def get_current_status(self) -> str:
         """Get current status based on mode."""
         return self.doctor_status if self.current_mode == 'doctor' else self.patient_status
+
+    def adjust_dropdown_width(self):
+        """Adjust dropdown width to fit the longest item."""
+        font = self.status_dropdown.font()
+        metrics = QFontMetrics(font)
+        
+        max_width = 0
+        for i in range(self.status_dropdown.count()):
+            item_text = self.status_dropdown.itemText(i)
+            width = metrics.horizontalAdvance(item_text)
+            if width > max_width:
+                max_width = width
+                
+        # Add some padding for the dropdown arrow and margins
+        self.status_dropdown.view().setMinimumWidth(max_width + 40)
     
     def force_hide_dropdown(self):
         """Force hide the status dropdown."""
