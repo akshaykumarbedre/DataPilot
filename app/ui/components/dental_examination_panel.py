@@ -31,10 +31,10 @@ class ExaminationFormWidget(QFrame):
         self.setFrameStyle(QFrame.Box)
         self.setStyleSheet("""
             QFrame {
-                border: 1px solid #19c5e5;
-                border-radius: 8px;
-                padding: 10px;
-                background-color: #f8f9fa;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                padding: 8px;
+                background-color: white;
             }
         """)
         
@@ -195,10 +195,10 @@ class ExaminationFindings(QFrame):
         self.setFrameStyle(QFrame.Box)
         self.setStyleSheet("""
             QFrame {
-                border: 1px solid #19c5e5;
-                border-radius: 8px;
-                padding: 10px;
-                background-color: #f8f9fa;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                padding: 8px;
+                background-color: white;
             }
         """)
         
@@ -334,7 +334,19 @@ class DentalExaminationPanel(QGroupBox):
         
         self.delete_btn = QPushButton("Delete")
         self.delete_btn.clicked.connect(self.delete_examination)
-        self.delete_btn.setStyleSheet("background-color: #dc3545; color: white;")
+        self.delete_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #dc3545; 
+                color: white;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #c82333;
+            }
+        """)
         header_layout.addWidget(self.delete_btn)
         
         layout.addLayout(header_layout)
@@ -363,7 +375,7 @@ class DentalExaminationPanel(QGroupBox):
         
         # Status bar
         self.status_label = QLabel("Ready")
-        self.status_label.setStyleSheet("color: #666; font-style: italic; padding: 5px;")
+        self.status_label.setStyleSheet("color: #7F8C8D; font-style: italic; padding: 4px;")
         layout.addWidget(self.status_label)
         
         # Apply styles
@@ -379,24 +391,30 @@ class DentalExaminationPanel(QGroupBox):
         """Apply consistent styling to the panel."""
         self.setStyleSheet("""
             QPushButton {
-                background-color: #19c5e5;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
-                padding: 8px 16px;
+                padding: 6px 12px;
                 border-radius: 4px;
                 font-weight: bold;
+                font-size: 11px;
             }
             QPushButton:hover {
-                background-color: #0ea5c7;
+                background-color: #45a049;
             }
             QPushButton:disabled {
-                background-color: #cccccc;
-                color: #666666;
+                background-color: #BDC3C7;
+                color: #7F8C8D;
             }
             QComboBox {
-                padding: 5px;
-                border: 1px solid #19c5e5;
-                border-radius: 3px;
+                padding: 4px;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                background-color: white;
+                color: #2C3E50;
+            }
+            QComboBox:focus {
+                border-color: #3498DB;
             }
         """)
     

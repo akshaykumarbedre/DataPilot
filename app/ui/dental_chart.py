@@ -100,22 +100,24 @@ class AdvancedDentalChart(QWidget):
     def create_header_section(self) -> QWidget:
         """Create header with patient selection and quick actions."""
         header_widget = QFrame()
-        header_widget.setFixedHeight(65)  # Reduced from 80
+        header_widget.setFixedHeight(60)  # Slightly reduced
         header_widget.setStyleSheet("""
             QFrame {
-                background-color: #19c5e5;
-                border-radius: 6px;
-                padding: 8px;
+                background-color: #2C3E50;
+                border-radius: 4px;
+                padding: 6px;
             }
         """)
         
         header_layout = QHBoxLayout(header_widget)
+        header_layout.setSpacing(10)
+        header_layout.setContentsMargins(8, 8, 8, 8)
         
         # Title
         title_label = QLabel("Advanced Dental Chart System")
         title_label.setStyleSheet("""
             color: white;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
         """)
         header_layout.addWidget(title_label)
@@ -128,14 +130,18 @@ class AdvancedDentalChart(QWidget):
         header_layout.addWidget(patient_label)
         
         self.patient_combo = QComboBox()
-        self.patient_combo.setMinimumWidth(250)
+        self.patient_combo.setMinimumWidth(230)
         self.patient_combo.setStyleSheet("""
             QComboBox {
                 background-color: white;
-                border: 2px solid #0ea5c7;
+                border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                padding: 8px;
+                padding: 6px;
                 font-size: 12px;
+                color: #2C3E50;
+            }
+            QComboBox:focus {
+                border-color: #3498DB;
             }
         """)
         header_layout.addWidget(self.patient_combo)
@@ -145,9 +151,10 @@ class AdvancedDentalChart(QWidget):
         self.current_exam_label.setStyleSheet("""
             color: white;
             font-weight: bold;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 6px 8px;
             border-radius: 4px;
+            font-size: 11px;
         """)
         header_layout.addWidget(self.current_exam_label)
         
@@ -160,14 +167,15 @@ class AdvancedDentalChart(QWidget):
             btn.setStyleSheet("""
                 QPushButton {
                     background-color: white;
-                    color: #19c5e5;
+                    color: #2C3E50;
                     border: none;
                     border-radius: 4px;
-                    padding: 8px 16px;
+                    padding: 6px 12px;
                     font-weight: bold;
+                    font-size: 11px;
                 }
                 QPushButton:hover {
-                    background-color: #f0f9fc;
+                    background-color: #ECF0F1;
                 }
             """)
             header_layout.addWidget(btn)
@@ -215,17 +223,17 @@ class AdvancedDentalChart(QWidget):
         charts_widget = QFrame()
         charts_widget.setStyleSheet("""
             QFrame {
-                border: 1px solid #e0e0e0;
+                border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                background-color: #ffffff;
+                background-color: white;
             }
         """)
-        charts_widget.setMinimumHeight(600)  # Increased from 400 to accommodate bottom panels
+        charts_widget.setMinimumHeight(580)  # Slightly adjusted
         
         # Use HORIZONTAL layout for side-by-side charts
         charts_layout = QHBoxLayout(charts_widget)
-        charts_layout.setContentsMargins(8, 8, 8, 8)
-        charts_layout.setSpacing(12)
+        charts_layout.setContentsMargins(5, 5, 5, 5)
+        charts_layout.setSpacing(8)
         
         # Patient Problems Chart (Left)
         self.patient_chart_panel = DentalChartPanel(
@@ -239,7 +247,7 @@ class AdvancedDentalChart(QWidget):
         separator = QFrame()
         separator.setFrameShape(QFrame.VLine)
         separator.setFrameShadow(QFrame.Plain)
-        separator.setStyleSheet("color: #e0e0e0; background-color: #e0e0e0; max-width: 2px;")
+        separator.setStyleSheet("color: #BDC3C7; background-color: #BDC3C7; max-width: 1px;")
         charts_layout.addWidget(separator, 0)  # No stretch
         
         # Doctor Findings Chart (Right)
@@ -272,16 +280,16 @@ class AdvancedDentalChart(QWidget):
     def create_status_bar(self) -> QWidget:
         """Create status bar with current info."""
         status_widget = QFrame()
-        status_widget.setFixedHeight(25)  # Reduced from 30
+        status_widget.setFixedHeight(24)  # Slightly reduced
         status_widget.setStyleSheet("""
             QFrame {
-                background-color: #e6f9fd;
-                border-top: 1px solid #19c5e5;
+                background-color: #ECF0F1;
+                border-top: 1px solid #BDC3C7;
             }
         """)
         
         status_layout = QHBoxLayout(status_widget)
-        status_layout.setContentsMargins(10, 5, 10, 5)
+        status_layout.setContentsMargins(8, 4, 8, 4)
         
         # Status labels
         self.exam_status_label = QLabel("Ready")
@@ -289,7 +297,7 @@ class AdvancedDentalChart(QWidget):
         self.last_saved_label = QLabel("Never saved")
         
         for label in [self.exam_status_label, self.total_amount_label, self.last_saved_label]:
-            label.setStyleSheet("color: #0ea5c7; font-size: 11px;")
+            label.setStyleSheet("color: #7F8C8D; font-size: 11px;")
         
         status_layout.addWidget(self.exam_status_label)
         status_layout.addStretch()
@@ -795,41 +803,43 @@ class AdvancedDentalChart(QWidget):
             QWidget {
                 font-family: 'Segoe UI', Arial, sans-serif;
                 font-size: 12px;
+                color: #2C3E50;
             }
             
             QGroupBox {
                 font-weight: bold;
-                border: 1px solid #19c5e5;
+                border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                margin-top: 8px;
-                padding-top: 12px;
+                margin-top: 6px;
+                padding-top: 8px;
                 background-color: white;
             }
             
             QGroupBox::title {
                 subcontrol-origin: margin;
                 subcontrol-position: top left;
-                padding: 0 8px;
-                color: #19c5e5;
-                font-size: 13px;
+                padding: 0 6px;
+                color: #2C3E50;
+                font-size: 12px;
             }
             
             QPushButton {
-                background-color: #19c5e5;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
-                border-radius: 3px;
+                border-radius: 4px;
                 padding: 6px 12px;
                 font-weight: bold;
+                font-size: 11px;
             }
             
             QPushButton:hover {
-                background-color: #0ea5c7;
+                background-color: #45a049;
             }
             
             QPushButton:disabled {
-                background-color: #cccccc;
-                color: #666666;
+                background-color: #BDC3C7;
+                color: #7F8C8D;
             }
             
             QScrollArea {
@@ -838,19 +848,35 @@ class AdvancedDentalChart(QWidget):
             }
             
             QScrollBar:vertical {
-                background: #f0f0f0;
-                width: 12px;
-                border-radius: 6px;
+                background: #ECF0F1;
+                width: 10px;
+                border-radius: 5px;
             }
             
             QScrollBar::handle:vertical {
-                background: #19c5e5;
-                border-radius: 6px;
+                background: #BDC3C7;
+                border-radius: 5px;
                 min-height: 20px;
             }
             
             QScrollBar::handle:vertical:hover {
-                background: #0ea5c7;
+                background: #95A5A6;
+            }
+            
+            QScrollBar:horizontal {
+                background: #ECF0F1;
+                height: 10px;
+                border-radius: 5px;
+            }
+            
+            QScrollBar::handle:horizontal {
+                background: #BDC3C7;
+                border-radius: 5px;
+                min-width: 20px;
+            }
+            
+            QScrollBar::handle:horizontal:hover {
+                background: #95A5A6;
             }
         """)
     

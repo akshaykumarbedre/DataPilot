@@ -42,17 +42,17 @@ class DentalChartPanel(QGroupBox):
             QGroupBox {
                 font-weight: bold;
                 font-size: 12pt;
-                border: 2px solid #19c5e5;
-                border-radius: 8px;
-                margin-top: 15px;
-                padding-top: 15px;
-                background-color: #ffffff;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                margin-top: 10px;
+                padding-top: 10px;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 15px;
-                padding: 0 15px 0 15px;
-                color: #19c5e5;
+                left: 10px;
+                padding: 0 10px 0 10px;
+                color: #2C3E50;
                 font-weight: bold;
             }
         """)
@@ -62,8 +62,8 @@ class DentalChartPanel(QGroupBox):
     def setup_ui(self):
         """Setup the dental chart panel UI."""
         layout = QVBoxLayout(self)
-        layout.setSpacing(10)
-        layout.setContentsMargins(15, 25, 15, 15)
+        layout.setSpacing(8)
+        layout.setContentsMargins(10, 15, 10, 10)
         
         # Set size constraints for better side-by-side display
         self.setMinimumWidth(400)
@@ -90,22 +90,22 @@ class DentalChartPanel(QGroupBox):
         upper_section.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
-                border: 2px solid #19c5e5;
-                border-radius: 5px;
-                margin-top: 10px;
-                padding-top: 10px;
-                background-color: #f8f9fa;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                margin-top: 8px;
+                padding-top: 8px;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 10px 0 10px;
-                color: #19c5e5;
+                left: 8px;
+                padding: 0 8px 0 8px;
+                color: #2C3E50;
             }
         """)
         upper_layout = QHBoxLayout(upper_section)
         upper_layout.setSpacing(2)
-        upper_layout.setContentsMargins(10, 20, 10, 10)
+        upper_layout.setContentsMargins(8, 15, 8, 8)
         
         # Upper right: 18-11 (reversed for visual layout)
         for i, tooth_num in enumerate(range(18, 10, -1)):
@@ -120,7 +120,7 @@ class DentalChartPanel(QGroupBox):
         separator1 = QLabel(" | ")
         separator1.setFont(QFont("Arial", 16, QFont.Bold))
         separator1.setAlignment(Qt.AlignCenter)
-        separator1.setStyleSheet("color: #19c5e5; margin: 0 5px;")
+        separator1.setStyleSheet("color: #2C3E50; margin: 0 5px;")
         upper_layout.addWidget(separator1)
         
         # Upper left: 21-28
@@ -135,7 +135,7 @@ class DentalChartPanel(QGroupBox):
         layout.addWidget(upper_section)
         
         # Add spacing between upper and lower
-        layout.addSpacing(15)
+        layout.addSpacing(10)
         
         # Lower teeth section
         lower_section = QGroupBox("Lower Jaw (Right 8-1 | Left 1-8)")
@@ -143,22 +143,22 @@ class DentalChartPanel(QGroupBox):
         lower_section.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
-                border: 2px solid #19c5e5;
-                border-radius: 5px;
-                margin-top: 10px;
-                padding-top: 10px;
-                background-color: #f8f9fa;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                margin-top: 8px;
+                padding-top: 8px;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 10px 0 10px;
-                color: #19c5e5;
+                left: 8px;
+                padding: 0 8px 0 8px;
+                color: #2C3E50;
             }
         """)
         lower_layout = QHBoxLayout(lower_section)
         lower_layout.setSpacing(2)
-        lower_layout.setContentsMargins(10, 20, 10, 10)
+        lower_layout.setContentsMargins(8, 15, 8, 8)
         
         # Lower right: 48-41 (reversed for visual layout)
         for i, tooth_num in enumerate(range(48, 40, -1)):
@@ -173,7 +173,7 @@ class DentalChartPanel(QGroupBox):
         separator2 = QLabel(" | ")
         separator2.setFont(QFont("Arial", 16, QFont.Bold))
         separator2.setAlignment(Qt.AlignCenter)
-        separator2.setStyleSheet("color: #19c5e5; margin: 0 5px;")
+        separator2.setStyleSheet("color: #2C3E50; margin: 0 5px;")
         lower_layout.addWidget(separator2)
         
         # Lower left: 31-38
@@ -192,47 +192,47 @@ class DentalChartPanel(QGroupBox):
     def create_bottom_panel(self) -> QWidget:
         """Create bottom panel for selected tooth info and history."""
         bottom_widget = QWidget()
-        bottom_widget.setMinimumHeight(180)  # Ensure adequate height
-        bottom_widget.setMaximumHeight(250)
+        bottom_widget.setMinimumHeight(160)  # Slightly reduced
+        bottom_widget.setMaximumHeight(220)
         layout = QHBoxLayout(bottom_widget)
-        layout.setSpacing(15)
-        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(10)
+        layout.setContentsMargins(5, 5, 5, 5)
         
         # Selected tooth info (left side of bottom panel)
         self.tooth_info_group = QGroupBox("Selected Tooth")
         self.tooth_info_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
-                font-size: 11pt;
-                border: 2px solid #19c5e5;
-                border-radius: 6px;
-                margin-top: 12px;
-                padding-top: 12px;
-                background-color: #f8f9fa;
+                font-size: 10pt;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                margin-top: 8px;
+                padding-top: 8px;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 10px 0 10px;
-                color: #19c5e5;
+                left: 8px;
+                padding: 0 8px 0 8px;
+                color: #2C3E50;
             }
         """)
-        self.tooth_info_group.setMinimumWidth(220)
-        self.tooth_info_group.setMaximumWidth(280)
-        self.tooth_info_group.setMinimumHeight(140)
+        self.tooth_info_group.setMinimumWidth(200)
+        self.tooth_info_group.setMaximumWidth(260)
+        self.tooth_info_group.setMinimumHeight(120)
         info_layout = QVBoxLayout(self.tooth_info_group)
-        info_layout.setSpacing(8)
+        info_layout.setSpacing(6)
         
         self.tooth_info_label = QLabel("No tooth selected")
-        self.tooth_info_label.setFont(QFont("Arial", 11, QFont.Bold))
+        self.tooth_info_label.setFont(QFont("Arial", 10, QFont.Bold))
         self.tooth_info_label.setStyleSheet("""
             QLabel {
-                color: #19c5e5; 
-                padding: 10px;
-                background-color: #f0f0f0;
+                color: #2C3E50; 
+                padding: 8px;
+                background-color: #ECF0F1;
                 border-radius: 4px;
-                border: 1px solid #ddd;
-                min-height: 20px;
+                border: 1px solid #BDC3C7;
+                min-height: 18px;
             }
         """)
         self.tooth_info_label.setAlignment(Qt.AlignCenter)
@@ -242,12 +242,13 @@ class DentalChartPanel(QGroupBox):
         self.current_status_label.setWordWrap(True)
         self.current_status_label.setStyleSheet("""
             QLabel {
-                padding: 8px;
+                padding: 6px;
                 background-color: white;
-                border: 1px solid #e0e0e0;
+                border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                font-size: 10pt;
-                min-height: 30px;
+                font-size: 9pt;
+                min-height: 25px;
+                color: #2C3E50;
             }
         """)
         info_layout.addWidget(self.current_status_label)
@@ -256,20 +257,21 @@ class DentalChartPanel(QGroupBox):
         self.add_record_btn = QPushButton(f"Add Record")
         self.add_record_btn.setStyleSheet("""
             QPushButton {
-                background-color: #19c5e5;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
-                padding: 10px 15px;
+                padding: 8px 12px;
                 border-radius: 4px;
                 font-weight: bold;
-                font-size: 10pt;
-                min-height: 15px;
+                font-size: 9pt;
+                min-height: 12px;
             }
             QPushButton:hover {
-                background-color: #0ea5c7;
+                background-color: #45a049;
             }
             QPushButton:disabled {
-                background-color: #bdc3c7;
+                background-color: #BDC3C7;
+                color: #7F8C8D;
             }
         """)
         self.add_record_btn.setEnabled(False)
@@ -283,37 +285,38 @@ class DentalChartPanel(QGroupBox):
         self.history_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
-                font-size: 11pt;
-                border: 2px solid #19c5e5;
-                border-radius: 6px;
-                margin-top: 12px;
-                padding-top: 12px;
-                background-color: #f8f9fa;
+                font-size: 10pt;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                margin-top: 8px;
+                padding-top: 8px;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 10px 0 10px;
-                color: #19c5e5;
+                left: 8px;
+                padding: 0 8px 0 8px;
+                color: #2C3E50;
             }
         """)
-        self.history_group.setMinimumHeight(140)
+        self.history_group.setMinimumHeight(120)
         history_layout = QVBoxLayout(self.history_group)
-        history_layout.setSpacing(8)
+        history_layout.setSpacing(6)
         
         self.history_text = QTextEdit()
         self.history_text.setReadOnly(True)
-        self.history_text.setMinimumHeight(120)
-        self.history_text.setMaximumHeight(180)
+        self.history_text.setMinimumHeight(100)
+        self.history_text.setMaximumHeight(160)
         self.history_text.setPlaceholderText("Select a tooth to view history...")
         self.history_text.setStyleSheet("""
             QTextEdit {
-                border: 1px solid #ccc; 
-                background-color: #fafafa;
-                padding: 8px;
+                border: 1px solid #BDC3C7; 
+                background-color: white;
+                padding: 6px;
                 border-radius: 4px;
                 font-family: Arial;
-                font-size: 10pt;
+                font-size: 9pt;
+                color: #2C3E50;
             }
         """)
         history_layout.addWidget(self.history_text)
@@ -336,17 +339,17 @@ class DentalChartPanel(QGroupBox):
             QGroupBox {
                 font-weight: bold;
                 font-size: 10pt;
-                border: 1px solid #19c5e5;
+                border: 1px solid #BDC3C7;
                 border-radius: 4px;
                 margin-top: 8px;
                 padding-top: 8px;
-                background-color: #f8f9fa;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
                 left: 8px;
                 padding: 0 8px 0 8px;
-                color: #19c5e5;
+                color: #2C3E50;
             }
         """)
         info_layout = QVBoxLayout(self.tooth_info_group)
@@ -356,11 +359,11 @@ class DentalChartPanel(QGroupBox):
         self.tooth_info_label.setFont(QFont("Arial", 10, QFont.Bold))
         self.tooth_info_label.setStyleSheet("""
             QLabel {
-                color: #19c5e5; 
+                color: #2C3E50; 
                 padding: 6px;
-                background-color: #f0f0f0;
+                background-color: #ECF0F1;
                 border-radius: 3px;
-                border: 1px solid #ddd;
+                border: 1px solid #BDC3C7;
             }
         """)
         self.tooth_info_label.setAlignment(Qt.AlignCenter)
@@ -372,9 +375,10 @@ class DentalChartPanel(QGroupBox):
             QLabel {
                 padding: 4px;
                 background-color: white;
-                border: 1px solid #e0e0e0;
+                border: 1px solid #BDC3C7;
                 border-radius: 3px;
                 font-size: 9pt;
+                color: #2C3E50;
             }
         """)
         info_layout.addWidget(self.current_status_label)
@@ -387,17 +391,17 @@ class DentalChartPanel(QGroupBox):
             QGroupBox {
                 font-weight: bold;
                 font-size: 10pt;
-                border: 1px solid #19c5e5;
+                border: 1px solid #BDC3C7;
                 border-radius: 4px;
                 margin-top: 8px;
                 padding-top: 8px;
-                background-color: #f8f9fa;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
                 left: 8px;
                 padding: 0 8px 0 8px;
-                color: #19c5e5;
+                color: #2C3E50;
             }
         """)
         history_layout = QVBoxLayout(self.history_group)
@@ -410,12 +414,13 @@ class DentalChartPanel(QGroupBox):
         self.history_text.setPlaceholderText("Select a tooth...")
         self.history_text.setStyleSheet("""
             QTextEdit {
-                border: 1px solid #ccc; 
-                background-color: #fafafa;
+                border: 1px solid #BDC3C7; 
+                background-color: white;
                 padding: 4px;
                 border-radius: 3px;
                 font-family: Arial;
                 font-size: 9pt;
+                color: #2C3E50;
             }
         """)
         history_layout.addWidget(self.history_text)
@@ -424,19 +429,20 @@ class DentalChartPanel(QGroupBox):
         self.add_record_btn = QPushButton(f"Add Record")
         self.add_record_btn.setStyleSheet("""
             QPushButton {
-                background-color: #19c5e5;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
                 padding: 6px 12px;
-                border-radius: 3px;
+                border-radius: 4px;
                 font-weight: bold;
                 font-size: 9pt;
             }
             QPushButton:hover {
-                background-color: #0ea5c7;
+                background-color: #45a049;
             }
             QPushButton:disabled {
-                background-color: #bdc3c7;
+                background-color: #BDC3C7;
+                color: #7F8C8D;
             }
         """)
         self.add_record_btn.setEnabled(False)

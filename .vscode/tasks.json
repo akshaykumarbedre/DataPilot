@@ -73,6 +73,20 @@
 			"command": "python app.py",
 			"isBackground": false,
 			"group": "build"
+		},
+		{
+			"label": "Test Clean UI Updates",
+			"type": "shell",
+			"command": "python app.py",
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Final Clean UI Test",
+			"type": "shell",
+			"command": "python app.py",
+			"isBackground": false,
+			"group": "build"
 		}
 	]
 }

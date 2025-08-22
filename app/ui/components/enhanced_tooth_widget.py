@@ -169,13 +169,13 @@ class EnhancedToothWidget(QWidget):
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                         stop:0 {primary_color}, stop:0.5 {primary_color},
                         stop:0.5 {secondary_color}, stop:1 {secondary_color});
-                    border: 2px solid #19c5e5;
-                    border-radius: 8px;
+                    border: 2px solid #BDC3C7;
+                    border-radius: 6px;
                     color: white;
                     font-weight: bold;
                 }}
                 QPushButton:hover {{
-                    border: 3px solid #0ea5c7;
+                    border: 2px solid #95A5A6;
                 }}
                 QPushButton:pressed {{
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
@@ -190,13 +190,13 @@ class EnhancedToothWidget(QWidget):
             style = f"""
                 QPushButton {{
                     background-color: {primary_color};
-                    border: 2px solid #19c5e5;
-                    border-radius: 8px;
+                    border: 2px solid #BDC3C7;
+                    border-radius: 6px;
                     color: white;
                     font-weight: bold;
                 }}
                 QPushButton:hover {{
-                    border: 3px solid #0ea5c7;
+                    border: 2px solid #95A5A6;
                     background-color: {self.adjust_color(primary_color, 20)};
                 }}
                 QPushButton:pressed {{

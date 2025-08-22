@@ -33,20 +33,20 @@ class VisitRecordWidget(QFrame):
         self.setFrameStyle(QFrame.Box)
         self.setStyleSheet("""
             QFrame {
-                border: 1px solid #19c5e5;
-                border-radius: 6px;
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
                 margin: 2px;
-                padding: 8px;
-                background-color: #f8f9fa;
+                padding: 6px;
+                background-color: white;
             }
             QFrame:hover {
-                background-color: #e6f9fd;
-                border: 2px solid #0ea5c7;
+                background-color: #ECF0F1;
+                border: 1px solid #95A5A6;
             }
         """)
         
         layout = QVBoxLayout(self)
-        layout.setSpacing(4)
+        layout.setSpacing(3)
         
         # Header with date and amount
         header_layout = QHBoxLayout()
@@ -67,7 +67,7 @@ class VisitRecordWidget(QFrame):
         
         date_label = QLabel(date_time_text)
         date_label.setFont(QFont("Arial", 10, QFont.Bold))
-        date_label.setStyleSheet("color: #19c5e5;")
+        date_label.setStyleSheet("color: #2C3E50;")
         header_layout.addWidget(date_label)
         
         header_layout.addStretch()
@@ -88,13 +88,13 @@ class VisitRecordWidget(QFrame):
         visit_type = self.visit_data.get('visit_type', '').replace('_', ' ').title()
         if visit_type:
             type_label = QLabel(f"Type: {visit_type}")
-            type_label.setStyleSheet("color: #666; font-size: 11px;")
+            type_label.setStyleSheet("color: #7F8C8D; font-size: 11px;")
             type_status_layout.addWidget(type_label)
         
         status = self.visit_data.get('status', '').title()
         if status:
             status_label = QLabel(f"Status: {status}")
-            status_label.setStyleSheet("color: #666; font-size: 11px;")
+            status_label.setStyleSheet("color: #7F8C8D; font-size: 11px;")
             type_status_layout.addWidget(status_label)
         
         type_status_layout.addStretch()
@@ -174,15 +174,15 @@ class VisitRecordWidget(QFrame):
         edit_btn.setMaximumWidth(60)
         edit_btn.setStyleSheet("""
             QPushButton {
-                background-color: #19c5e5;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
                 padding: 4px 8px;
-                border-radius: 3px;
+                border-radius: 4px;
                 font-size: 10px;
             }
             QPushButton:hover {
-                background-color: #0ea5c7;
+                background-color: #45a049;
             }
         """)
         edit_btn.clicked.connect(lambda: self.visit_edit_requested.emit(self.visit_data))
@@ -237,6 +237,20 @@ class VisitRecordsPanel(QGroupBox):
         # Refresh button
         refresh_btn = QPushButton("Refresh")
         refresh_btn.setMaximumWidth(80)
+        refresh_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 6px 12px;
+                font-weight: bold;
+                font-size: 11px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+        """)
         refresh_btn.clicked.connect(self.refresh_records)
         header_layout.addWidget(refresh_btn)
         
@@ -256,7 +270,7 @@ class VisitRecordsPanel(QGroupBox):
         
         # Summary info
         self.summary_label = QLabel("No visits recorded")
-        self.summary_label.setStyleSheet("color: #666; font-style: italic; padding: 10px;")
+        self.summary_label.setStyleSheet("color: #7F8C8D; font-style: italic; padding: 8px;")
         layout.addWidget(self.summary_label)
         
         # Load initial data

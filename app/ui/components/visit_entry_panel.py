@@ -240,21 +240,21 @@ class VisitEntryPanel(QGroupBox):
         self.add_visit_btn = QPushButton("Add Visit Record")
         self.add_visit_btn.setStyleSheet("""
             QPushButton {
-                background-color: #19c5e5;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
-                padding: 12px 24px;
-                border-radius: 6px;
+                padding: 10px 20px;
+                border-radius: 4px;
                 font-weight: bold;
-                font-size: 14px;
+                font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #0ea5c7;
+                background-color: #45a049;
             }
             QPushButton:disabled {
-                background-color: #cccccc;
-                color: #666666;
-                border: 2px dashed #999999;
+                background-color: #BDC3C7;
+                color: #7F8C8D;
+                border: 1px dashed #95A5A6;
             }
         """)
         self.add_visit_btn.clicked.connect(self.add_visit_record)
