@@ -14492,3 +14492,391 @@ AttributeError: 'DentalChartPanel' object has no attribute 'tooth_info_label'
 2025-08-22 17:25:29,706 - app.ui.main_window - INFO - Navigated to patients
 2025-08-22 17:25:30,940 - app.ui.main_window - INFO - Navigated to examination
 2025-08-22 17:25:31,010 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-22 17:25:40,880 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:26:01,646 - app.services.dental_examination_service - INFO - Updated examination 1
+2025-08-22 17:26:10,879 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:26:37,914 - app.services.dental_examination_service - INFO - Updated examination 2
+2025-08-22 17:26:40,878 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:27:10,875 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:27:40,909 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:28:10,923 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:28:40,974 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:29:10,973 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:29:40,974 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:30:10,969 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:30:40,974 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:31:10,989 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:31:41,024 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:32:11,016 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:32:41,021 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:33:11,035 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:33:41,031 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:34:11,032 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:34:29,960 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:34:30,034 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:34:30,034 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:34:30,034 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:34:30,034 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:34:30,050 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:34:30,050 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:34:30,054 - app.utils.performance - INFO - Memory usage: {'rss_mb': 70.64453125, 'vms_mb': 45.51953125, 'memory_percent': 0.875650382845871}
+2025-08-22 17:34:30,055 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:34:30,055 - app.main - INFO - Initializing database...
+2025-08-22 17:34:30,165 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:34:30,165 - app.main - INFO - Showing login dialog...
+2025-08-22 17:34:32,045 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:34:32,075 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:34:32,127 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:34:32,442 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:34:32,458 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:34:32,471 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:34:36,737 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:34:36,799 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:34:39,199 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:34:40,702 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:35:02,411 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:35:32,433 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:36:02,446 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:38:01,722 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:38:01,782 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:38:01,782 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:38:01,785 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:38:01,785 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:38:01,787 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:38:01,788 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:38:01,794 - app.utils.performance - INFO - Memory usage: {'rss_mb': 70.3359375, 'vms_mb': 45.44140625, 'memory_percent': 0.8718253134378077}
+2025-08-22 17:38:01,795 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:38:01,796 - app.main - INFO - Initializing database...
+2025-08-22 17:38:01,908 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:38:01,908 - app.main - INFO - Showing login dialog...
+2025-08-22 17:38:04,361 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:38:04,400 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:38:04,416 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:38:04,796 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:38:04,824 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:38:04,832 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:38:08,645 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:38:08,721 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:38:10,637 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:38:11,973 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:38:34,775 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:39:04,769 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:39:34,763 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:39:50,889 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:39:50,962 - app.database.database - INFO - Database connections closed
+2025-08-22 17:39:50,968 - app.main - INFO - Application shutdown complete
+2025-08-22 17:39:54,053 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:39:54,121 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:39:54,122 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:39:54,122 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:39:54,123 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:39:54,124 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:39:54,124 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:39:54,128 - app.utils.performance - INFO - Memory usage: {'rss_mb': 70.203125, 'vms_mb': 45.328125, 'memory_percent': 0.8701790810343375}
+2025-08-22 17:39:54,132 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:39:54,134 - app.main - INFO - Initializing database...
+2025-08-22 17:39:54,216 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:39:54,216 - app.main - INFO - Showing login dialog...
+2025-08-22 17:39:56,796 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:39:56,797 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:39:56,809 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:39:57,152 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:39:57,192 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:39:57,201 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:40:02,596 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:40:02,674 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:40:04,885 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:40:05,873 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:40:26,951 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:40:56,959 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:41:07,853 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:41:07,906 - app.database.database - INFO - Database connections closed
+2025-08-22 17:41:07,907 - app.main - INFO - Application shutdown complete
+2025-08-22 17:41:46,049 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:41:46,097 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:41:46,097 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:41:46,097 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:41:46,111 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:41:46,112 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:41:46,113 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:41:46,118 - app.utils.performance - INFO - Memory usage: {'rss_mb': 69.60546875, 'vms_mb': 45.0625, 'memory_percent': 0.8627710352187213}
+2025-08-22 17:41:46,119 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:41:46,119 - app.main - INFO - Initializing database...
+2025-08-22 17:41:46,211 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:41:46,211 - app.main - INFO - Showing login dialog...
+2025-08-22 17:41:48,257 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:41:48,258 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:41:48,304 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:41:48,638 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:41:48,685 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:41:48,763 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:41:53,578 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:41:53,696 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:41:55,611 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:41:56,903 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:42:17,742 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:42:17,821 - app.database.database - INFO - Database connections closed
+2025-08-22 17:42:17,955 - app.main - INFO - Application shutdown complete
+2025-08-22 17:42:21,297 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:42:21,350 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:42:21,351 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:42:21,352 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:42:21,352 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:42:21,353 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:42:21,353 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:42:21,357 - app.utils.performance - INFO - Memory usage: {'rss_mb': 69.5859375, 'vms_mb': 44.6875, 'memory_percent': 0.862528942218211}
+2025-08-22 17:42:21,358 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:42:21,360 - app.main - INFO - Initializing database...
+2025-08-22 17:42:21,481 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:42:21,482 - app.main - INFO - Showing login dialog...
+2025-08-22 17:42:36,910 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:42:36,910 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:42:36,967 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:42:37,151 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:42:37,168 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:42:37,174 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:42:40,316 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:42:40,393 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:42:42,134 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:42:43,631 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:43:07,123 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:43:24,063 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:43:24,125 - app.database.database - INFO - Database connections closed
+2025-08-22 17:43:24,134 - app.main - INFO - Application shutdown complete
+2025-08-22 17:43:26,981 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:43:27,041 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:43:27,042 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:43:27,042 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:43:27,043 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:43:27,043 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:43:27,044 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:43:27,048 - app.utils.performance - INFO - Memory usage: {'rss_mb': 69.76953125, 'vms_mb': 44.96875, 'memory_percent': 0.8648046164230082}
+2025-08-22 17:43:27,048 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:43:27,049 - app.main - INFO - Initializing database...
+2025-08-22 17:43:27,164 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:43:27,164 - app.main - INFO - Showing login dialog...
+2025-08-22 17:43:29,409 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:43:29,425 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:43:29,472 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:43:30,150 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:43:30,176 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:43:30,187 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:43:35,208 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:43:35,275 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:43:37,122 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:43:38,244 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:44:00,140 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:44:25,775 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:44:25,821 - app.database.database - INFO - Database connections closed
+2025-08-22 17:44:25,826 - app.main - INFO - Application shutdown complete
+2025-08-22 17:44:30,757 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:44:30,814 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:44:30,815 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:44:30,816 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:44:30,817 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:44:30,818 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:44:30,819 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:44:30,824 - app.utils.performance - INFO - Memory usage: {'rss_mb': 69.63671875, 'vms_mb': 44.6484375, 'memory_percent': 0.8631583840195378}
+2025-08-22 17:44:30,825 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:44:30,825 - app.main - INFO - Initializing database...
+2025-08-22 17:44:30,980 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:44:30,981 - app.main - INFO - Showing login dialog...
+2025-08-22 17:44:35,872 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:44:35,903 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:44:35,919 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:44:36,200 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:44:36,216 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:44:36,232 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:44:39,936 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:44:40,003 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:44:41,952 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:44:43,073 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:45:06,128 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:45:18,207 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:45:18,302 - app.database.database - INFO - Database connections closed
+2025-08-22 17:45:18,377 - app.main - INFO - Application shutdown complete
+2025-08-22 17:45:22,304 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:45:22,359 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:45:22,360 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:45:22,360 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:45:22,361 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:45:22,362 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:45:22,362 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:45:22,367 - app.utils.performance - INFO - Memory usage: {'rss_mb': 69.52734375, 'vms_mb': 44.6796875, 'memory_percent': 0.8618026632166801}
+2025-08-22 17:45:22,368 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:45:22,369 - app.main - INFO - Initializing database...
+2025-08-22 17:45:22,470 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:45:22,470 - app.main - INFO - Showing login dialog...
+2025-08-22 17:45:32,449 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:45:32,449 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:45:32,499 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:45:32,696 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:45:32,724 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:45:32,731 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:45:35,746 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:45:35,817 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:45:37,747 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:45:39,068 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:46:02,682 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:46:12,899 - app.ui.main_window - INFO - Navigated to patients
+2025-08-22 17:46:13,890 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:46:13,960 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-22 17:46:25,171 - app.services.dental_examination_service - INFO - Updated examination 1
+2025-08-22 17:46:32,659 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:46:37,373 - app.services.dental_examination_service - INFO - Updated examination 1
+2025-08-22 17:47:00,558 - app.services.dental_examination_service - INFO - Updated examination 1
+2025-08-22 17:47:02,660 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:47:32,671 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:48:02,673 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:48:32,696 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:49:02,688 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:49:32,693 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:50:02,689 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:50:32,688 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:51:02,706 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:51:32,703 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:52:02,711 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:52:32,711 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:52:41,599 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:52:41,676 - app.database.database - INFO - Database connections closed
+2025-08-22 17:52:41,742 - app.main - INFO - Application shutdown complete
+2025-08-22 17:52:46,177 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:52:46,250 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:52:46,250 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:52:46,250 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:52:46,250 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:52:46,250 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:52:46,264 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:52:46,269 - app.utils.performance - INFO - Memory usage: {'rss_mb': 70.734375, 'vms_mb': 45.890625, 'memory_percent': 0.8767640106482186}
+2025-08-22 17:52:46,272 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:52:46,273 - app.main - INFO - Initializing database...
+2025-08-22 17:52:46,400 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:52:46,400 - app.main - INFO - Showing login dialog...
+2025-08-22 17:52:48,152 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:52:48,182 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:52:48,223 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:52:48,568 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:52:48,584 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:52:48,584 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:52:53,614 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:52:53,701 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:52:56,719 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:52:58,152 - app.ui.main_window - INFO - Navigated to patients
+2025-08-22 17:52:59,636 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:52:59,758 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-22 17:53:18,512 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:53:48,526 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:54:44,626 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:54:44,709 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:54:44,709 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:54:44,709 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:54:44,709 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:54:44,709 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:54:44,709 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:54:44,725 - app.utils.performance - INFO - Memory usage: {'rss_mb': 70.5, 'vms_mb': 45.71484375, 'memory_percent': 0.8738588946420945}
+2025-08-22 17:54:44,725 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:54:44,725 - app.main - INFO - Initializing database...
+2025-08-22 17:54:44,869 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:54:44,870 - app.main - INFO - Showing login dialog...
+2025-08-22 17:54:46,840 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:54:46,844 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:54:46,901 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:54:47,108 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:54:47,146 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:54:47,158 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:54:54,150 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:54:54,290 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:54:57,426 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:54:58,854 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:55:17,074 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:55:47,093 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:56:17,119 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:56:47,115 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:57:08,186 - app.services.auth_service - INFO - User a logged out
+2025-08-22 17:57:08,278 - app.database.database - INFO - Database connections closed
+2025-08-22 17:57:08,344 - app.main - INFO - Application shutdown complete
+2025-08-22 17:57:14,237 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 17:57:14,303 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 17:57:14,303 - app.main - INFO - Running startup optimizations...
+2025-08-22 17:57:14,303 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 17:57:14,303 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 17:57:14,303 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 17:57:14,303 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 17:57:14,319 - app.utils.performance - INFO - Memory usage: {'rss_mb': 69.72265625, 'vms_mb': 45.33203125, 'memory_percent': 0.8642235932217834}
+2025-08-22 17:57:14,320 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 17:57:14,321 - app.main - INFO - Initializing database...
+2025-08-22 17:57:14,418 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 17:57:14,418 - app.main - INFO - Showing login dialog...
+2025-08-22 17:57:19,601 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 17:57:19,601 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 17:57:19,632 - app.main - INFO - Login successful, showing main window...
+2025-08-22 17:57:19,802 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:57:19,819 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:57:19,832 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 17:57:25,000 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 17:57:25,085 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 17:57:28,568 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 17:57:29,823 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 17:57:39,801 - app.services.dental_examination_service - INFO - Updated examination 2
+2025-08-22 17:57:49,805 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:58:19,790 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:58:49,778 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:59:00,277 - app.services.dental_examination_service - INFO - Updated examination 2
+2025-08-22 17:59:19,788 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 17:59:49,799 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:00:19,821 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:00:49,825 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:01:19,833 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:01:49,840 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:02:19,854 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:02:49,850 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:03:19,882 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:03:49,882 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:04:19,882 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:04:49,900 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:05:19,886 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:05:49,912 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:06:19,914 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:06:49,900 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:07:19,908 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:07:42,825 - app.services.auth_service - INFO - User a logged out
+2025-08-22 18:07:42,881 - app.database.database - INFO - Database connections closed
+2025-08-22 18:07:42,917 - app.main - INFO - Application shutdown complete
+2025-08-22 18:07:45,808 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-22 18:07:45,863 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-22 18:07:45,863 - app.main - INFO - Running startup optimizations...
+2025-08-22 18:07:45,863 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-22 18:07:45,866 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-22 18:07:45,866 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-22 18:07:45,866 - app.utils.performance - INFO - Database sessions optimized
+2025-08-22 18:07:45,870 - app.utils.performance - INFO - Memory usage: {'rss_mb': 70.67578125, 'vms_mb': 45.9453125, 'memory_percent': 0.8760377316466875}
+2025-08-22 18:07:45,870 - app.utils.performance - INFO - Performance optimization completed
+2025-08-22 18:07:45,870 - app.main - INFO - Initializing database...
+2025-08-22 18:07:45,972 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-22 18:07:45,980 - app.main - INFO - Showing login dialog...
+2025-08-22 18:07:50,355 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-22 18:07:50,355 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-22 18:07:50,464 - app.main - INFO - Login successful, showing main window...
+2025-08-22 18:07:50,708 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:07:50,747 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 18:07:50,757 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-22 18:07:54,546 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-22 18:07:54,622 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-22 18:07:56,721 - app.ui.main_window - INFO - Main window initialized
+2025-08-22 18:07:59,029 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 18:07:59,345 - app.ui.main_window - INFO - Navigated to patients
+2025-08-22 18:08:00,606 - app.ui.main_window - INFO - Navigated to examination
+2025-08-22 18:08:00,672 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-22 18:08:05,185 - app.ui.components.dental_chart_panel - WARNING - Cannot update tooth status: no patient selected
+2025-08-22 18:08:08,470 - app.ui.components.dental_chart_panel - WARNING - Cannot update tooth status: no patient selected
+2025-08-22 18:08:11,722 - app.ui.components.dental_chart_panel - WARNING - Cannot update tooth status: no patient selected
+2025-08-22 18:08:12,836 - app.ui.components.dental_chart_panel - WARNING - Cannot update tooth status: no patient selected
+2025-08-22 18:08:17,362 - app.ui.components.dental_chart_panel - WARNING - Cannot add tooth record: missing tooth selection or patient ID
+2025-08-22 18:08:17,959 - app.ui.components.dental_chart_panel - WARNING - Cannot add tooth record: missing tooth selection or patient ID
+2025-08-22 18:08:18,161 - app.ui.components.dental_chart_panel - WARNING - Cannot add tooth record: missing tooth selection or patient ID
+2025-08-22 18:08:20,648 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:08:22,849 - app.ui.components.dental_chart_panel - WARNING - Cannot update tooth status: no patient selected
+2025-08-22 18:08:25,112 - app.ui.components.dental_chart_panel - WARNING - Cannot add tooth record: missing tooth selection or patient ID
+2025-08-22 18:08:25,304 - app.ui.components.dental_chart_panel - WARNING - Cannot add tooth record: missing tooth selection or patient ID
+2025-08-22 18:08:50,657 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2
+2025-08-22 18:09:20,675 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 2

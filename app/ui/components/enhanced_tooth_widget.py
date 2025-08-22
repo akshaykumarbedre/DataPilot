@@ -36,13 +36,13 @@ class EnhancedToothWidget(QWidget):
     def setup_ui(self):
         """Setup the tooth widget UI with button and dropdown."""
         layout = QVBoxLayout(self)
-        layout.setSpacing(2)
-        layout.setContentsMargins(2, 2, 2, 2)
+        layout.setSpacing(1)
+        layout.setContentsMargins(1, 1, 1, 1)
         
         # Tooth button with (quadrant.position) display format
         self.tooth_button = QPushButton()
-        self.tooth_button.setFixedSize(60, 45)
-        self.tooth_button.setFont(QFont("Arial", 8, QFont.Bold))
+        self.tooth_button.setFixedSize(65, 50)  # Increased size for better visibility
+        self.tooth_button.setFont(QFont("Arial", 9, QFont.Bold))  # Slightly larger font
         self.tooth_button.setText(self.get_display_number(self.tooth_number))
         self.tooth_button.clicked.connect(self.on_tooth_button_clicked)
         self.tooth_button.setContextMenuPolicy(Qt.CustomContextMenu)

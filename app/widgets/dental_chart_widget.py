@@ -286,7 +286,7 @@ class ToothDetailsDialog(QDialog):
         position = self.tooth_number % 10
         header = QLabel(f"Tooth {self.tooth_number} ({quadrant},{position})")
         header.setFont(QFont("Arial", 14, QFont.Bold))
-        header.setStyleSheet("color: #19c5e5; margin: 10px;")
+        header.setStyleSheet("color: #2C3E50; margin: 10px;")
         layout.addWidget(header)
         
         # Tab widget for different views
@@ -362,7 +362,7 @@ class ToothDetailsDialog(QDialog):
         self.add_button = QPushButton("Add Record")
         self.add_button.setStyleSheet("""
             QPushButton {
-                background-color: #19c5e5;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
                 padding: 8px 16px;
@@ -370,7 +370,7 @@ class ToothDetailsDialog(QDialog):
                 font-weight: bold;
             }
             QPushButton:hover {
-                background-color: #0ea5c7;
+                background-color: #45a049;
             }
         """)
         self.add_button.clicked.connect(self.add_record)
@@ -455,7 +455,7 @@ class ToothDetailsDialog(QDialog):
         """Create widget for a history record."""
         widget = QFrame()
         widget.setFrameStyle(QFrame.Box)
-        widget.setStyleSheet("QFrame { border: 1px solid #19c5e5; margin: 2px; padding: 5px; }")
+        widget.setStyleSheet("QFrame { border: 1px solid #BDC3C7; margin: 2px; padding: 5px; }")
         
         layout = QVBoxLayout(widget)
         

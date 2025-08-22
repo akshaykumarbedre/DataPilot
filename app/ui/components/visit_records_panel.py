@@ -242,8 +242,7 @@ class VisitRecordsPanel(QGroupBox):
                 background-color: #4CAF50;
                 color: white;
                 border: none;
-                border-radius: 4px;
-                padding: 6px 12px;
+                padding: 2px 6;
                 font-weight: bold;
                 font-size: 11px;
             }
@@ -367,7 +366,7 @@ class VisitRecordsPanel(QGroupBox):
         
         if not records:
             self.summary_label.setText("No visits found for selected filter")
-            self.total_label.setText("Total: $0.00")
+            self.total_label.setText("Total: Rs 0.00")
             self.total_amount = 0.0
             return
         
@@ -393,7 +392,7 @@ class VisitRecordsPanel(QGroupBox):
         
         # Update total and summary
         self.total_amount = total_amount
-        self.total_label.setText(f"Total: ${total_amount:.2f}")
+        self.total_label.setText(f"Total: Rs {total_amount:.2f}")
         self.summary_label.setText(f"{len(sorted_records)} visit{'s' if len(sorted_records) != 1 else ''} found")
         
         # Emit total amount change
@@ -410,7 +409,7 @@ class VisitRecordsPanel(QGroupBox):
         """Clear all records and reset display."""
         self.visit_records = []
         self.clear_records_display()
-        self.total_label.setText("Total: $0.00")
+        self.total_label.setText("Total: Rs 0.00")
         self.summary_label.setText("No visits recorded")
         self.total_amount = 0.0
     

@@ -62,8 +62,8 @@ class DentalChartPanel(QGroupBox):
     def setup_ui(self):
         """Setup the dental chart panel UI."""
         layout = QVBoxLayout(self)
-        layout.setSpacing(8)
-        layout.setContentsMargins(10, 15, 10, 10)
+        layout.setSpacing(5)
+        layout.setContentsMargins(5, 10, 5, 8)
         
         # Set size constraints for better side-by-side display
         self.setMinimumWidth(400)
@@ -77,12 +77,16 @@ class DentalChartPanel(QGroupBox):
         # Selected tooth info and history (bottom)
         bottom_panel = self.create_bottom_panel()
         layout.addWidget(bottom_panel)
+        
+        # Connect description input change to update button state
+        if hasattr(self, 'description_input'):
+            self.description_input.textChanged.connect(self.on_description_changed)
     
     def create_dental_chart_area(self) -> QWidget:
         """Create the 32-tooth layout area."""
         chart_widget = QWidget()
         layout = QVBoxLayout(chart_widget)
-        layout.setSpacing(10)
+        layout.setSpacing(6)
         
         # Upper teeth section
         upper_section = QGroupBox("Upper Jaw (Right 8-1 | Left 1-8)")
@@ -92,20 +96,20 @@ class DentalChartPanel(QGroupBox):
                 font-weight: bold;
                 border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                margin-top: 8px;
-                padding-top: 8px;
+                margin-top: 5px;
+                padding-top: 5px;
                 background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 8px;
-                padding: 0 8px 0 8px;
+                left: 5px;
+                padding: 0 5px 0 5px;
                 color: #2C3E50;
             }
         """)
         upper_layout = QHBoxLayout(upper_section)
-        upper_layout.setSpacing(2)
-        upper_layout.setContentsMargins(8, 15, 8, 8)
+        upper_layout.setSpacing(1)  # Minimal spacing between teeth
+        upper_layout.setContentsMargins(5, 10, 5, 5)
         
         # Upper right: 18-11 (reversed for visual layout)
         for i, tooth_num in enumerate(range(18, 10, -1)):
@@ -118,9 +122,9 @@ class DentalChartPanel(QGroupBox):
         
         # Separator between right and left
         separator1 = QLabel(" | ")
-        separator1.setFont(QFont("Arial", 16, QFont.Bold))
+        separator1.setFont(QFont("Arial", 14, QFont.Bold))
         separator1.setAlignment(Qt.AlignCenter)
-        separator1.setStyleSheet("color: #2C3E50; margin: 0 5px;")
+        separator1.setStyleSheet("color: #2C3E50; margin: 0 2px;")  # Reduced margin
         upper_layout.addWidget(separator1)
         
         # Upper left: 21-28
@@ -135,7 +139,7 @@ class DentalChartPanel(QGroupBox):
         layout.addWidget(upper_section)
         
         # Add spacing between upper and lower
-        layout.addSpacing(10)
+        layout.addSpacing(5)
         
         # Lower teeth section
         lower_section = QGroupBox("Lower Jaw (Right 8-1 | Left 1-8)")
@@ -145,20 +149,20 @@ class DentalChartPanel(QGroupBox):
                 font-weight: bold;
                 border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                margin-top: 8px;
-                padding-top: 8px;
+                margin-top: 5px;
+                padding-top: 5px;
                 background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 8px;
-                padding: 0 8px 0 8px;
+                left: 5px;
+                padding: 0 5px 0 5px;
                 color: #2C3E50;
             }
         """)
         lower_layout = QHBoxLayout(lower_section)
-        lower_layout.setSpacing(2)
-        lower_layout.setContentsMargins(8, 15, 8, 8)
+        lower_layout.setSpacing(1)  # Minimal spacing between teeth
+        lower_layout.setContentsMargins(5, 10, 5, 5)
         
         # Lower right: 48-41 (reversed for visual layout)
         for i, tooth_num in enumerate(range(48, 40, -1)):
@@ -171,9 +175,9 @@ class DentalChartPanel(QGroupBox):
         
         # Separator between right and left
         separator2 = QLabel(" | ")
-        separator2.setFont(QFont("Arial", 16, QFont.Bold))
+        separator2.setFont(QFont("Arial", 14, QFont.Bold))
         separator2.setAlignment(Qt.AlignCenter)
-        separator2.setStyleSheet("color: #2C3E50; margin: 0 5px;")
+        separator2.setStyleSheet("color: #2C3E50; margin: 0 2px;")  # Reduced margin
         lower_layout.addWidget(separator2)
         
         # Lower left: 31-38
@@ -192,11 +196,11 @@ class DentalChartPanel(QGroupBox):
     def create_bottom_panel(self) -> QWidget:
         """Create bottom panel for selected tooth info and history."""
         bottom_widget = QWidget()
-        bottom_widget.setMinimumHeight(160)  # Slightly reduced
-        bottom_widget.setMaximumHeight(220)
+        bottom_widget.setMinimumHeight(140)  # Further reduced
+        bottom_widget.setMaximumHeight(180)
         layout = QHBoxLayout(bottom_widget)
-        layout.setSpacing(10)
-        layout.setContentsMargins(5, 5, 5, 5)
+        layout.setSpacing(5)
+        layout.setContentsMargins(1, 3, 1, 3)
         
         # Selected tooth info (left side of bottom panel)
         self.tooth_info_group = QGroupBox("Selected Tooth")
@@ -206,22 +210,23 @@ class DentalChartPanel(QGroupBox):
                 font-size: 10pt;
                 border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                margin-top: 8px;
-                padding-top: 8px;
+                margin-top: 5px;
+                padding-top: 5px;
                 background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 8px;
-                padding: 0 8px 0 8px;
+                left: 5px;
+                padding: 0 5px 0 5px;
                 color: #2C3E50;
             }
         """)
-        self.tooth_info_group.setMinimumWidth(200)
-        self.tooth_info_group.setMaximumWidth(260)
-        self.tooth_info_group.setMinimumHeight(120)
+        self.tooth_info_group.setMinimumWidth(160)
+        self.tooth_info_group.setMaximumWidth(180)
+        self.tooth_info_group.setMaximumWidth(240)
+        self.tooth_info_group.setMinimumHeight(110)
         info_layout = QVBoxLayout(self.tooth_info_group)
-        info_layout.setSpacing(6)
+        info_layout.setSpacing(4)
         
         self.tooth_info_label = QLabel("No tooth selected")
         self.tooth_info_label.setFont(QFont("Arial", 10, QFont.Bold))
@@ -242,16 +247,39 @@ class DentalChartPanel(QGroupBox):
         self.current_status_label.setWordWrap(True)
         self.current_status_label.setStyleSheet("""
             QLabel {
-                padding: 6px;
+                padding: 4px;
                 background-color: white;
                 border: 1px solid #BDC3C7;
                 border-radius: 4px;
                 font-size: 9pt;
-                min-height: 25px;
+                min-height: 20px;
                 color: #2C3E50;
             }
         """)
         info_layout.addWidget(self.current_status_label)
+        
+        # Description input for tooth record
+        self.description_label = QLabel("Description:")
+        self.description_label.setStyleSheet("QLabel { color: #2C3E50; font-weight: bold; }")
+        info_layout.addWidget(self.description_label)
+        
+        self.description_input = QTextEdit()
+        self.description_input.setMaximumHeight(60)
+        self.description_input.setPlaceholderText("Enter description for this tooth...")
+        self.description_input.setStyleSheet("""
+            QTextEdit {
+                border: 1px solid #BDC3C7;
+                border-radius: 4px;
+                padding: 4px;
+                background-color: white;
+                font-size: 9pt;
+                color: #2C3E50;
+            }
+            QTextEdit:focus {
+                border-color: #4CAF50;
+            }
+        """)
+        info_layout.addWidget(self.description_input)
         
         # Add record button
         self.add_record_btn = QPushButton(f"Add Record")
@@ -260,11 +288,11 @@ class DentalChartPanel(QGroupBox):
                 background-color: #4CAF50;
                 color: white;
                 border: none;
-                padding: 8px 12px;
+                padding: 6px 10px;
                 border-radius: 4px;
                 font-weight: bold;
                 font-size: 9pt;
-                min-height: 12px;
+                min-height: 10px;
             }
             QPushButton:hover {
                 background-color: #45a049;
@@ -288,20 +316,20 @@ class DentalChartPanel(QGroupBox):
                 font-size: 10pt;
                 border: 1px solid #BDC3C7;
                 border-radius: 4px;
-                margin-top: 8px;
-                padding-top: 8px;
+                margin-top: 5px;
+                padding-top: 5px;
                 background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 8px;
-                padding: 0 8px 0 8px;
+                left: 5px;
+                padding: 0 5px 0 5px;
                 color: #2C3E50;
             }
         """)
-        self.history_group.setMinimumHeight(120)
+        self.history_group.setMinimumHeight(110)
         history_layout = QVBoxLayout(self.history_group)
-        history_layout.setSpacing(6)
+        history_layout.setSpacing(4)
         
         self.history_text = QTextEdit()
         self.history_text.setReadOnly(True)
@@ -382,6 +410,29 @@ class DentalChartPanel(QGroupBox):
             }
         """)
         info_layout.addWidget(self.current_status_label)
+        
+        # Description input for tooth record
+        self.description_label = QLabel("Description:")
+        self.description_label.setStyleSheet("QLabel { color: #2C3E50; font-weight: bold; }")
+        info_layout.addWidget(self.description_label)
+        
+        self.description_input = QTextEdit()
+        self.description_input.setMaximumHeight(50)
+        self.description_input.setPlaceholderText("Enter description...")
+        self.description_input.setStyleSheet("""
+            QTextEdit {
+                border: 1px solid #BDC3C7;
+                border-radius: 3px;
+                padding: 4px;
+                background-color: white;
+                font-size: 9pt;
+                color: #2C3E50;
+            }
+            QTextEdit:focus {
+                border-color: #4CAF50;
+            }
+        """)
+        info_layout.addWidget(self.description_input)
         
         layout.addWidget(self.tooth_info_group)
         
@@ -562,8 +613,12 @@ class DentalChartPanel(QGroupBox):
         # Load tooth history
         self.load_tooth_history(tooth_number)
         
-        # Enable add record button
-        self.add_record_btn.setEnabled(True)
+        # Enable add record button only if there's text in description or no description field exists
+        if hasattr(self, 'description_input'):
+            has_description = bool(self.description_input.toPlainText().strip())
+            self.add_record_btn.setEnabled(has_description)
+        else:
+            self.add_record_btn.setEnabled(True)
         
         # Emit signal
         self.tooth_selected.emit(tooth_number, self.panel_type)
@@ -723,21 +778,56 @@ class DentalChartPanel(QGroupBox):
         if not self.selected_tooth or not self.patient_id:
             return
         
-        # Import here to avoid circular imports
-        try:
-            from ...widgets.dental_chart_widget import ToothDetailsDialog
-            dialog = ToothDetailsDialog(self.selected_tooth, self.patient_id, self)
-            dialog.exec()
-            
-            # Refresh data after dialog closes
-            self.load_patient_data()
-            self.load_tooth_history(self.selected_tooth)
-        except ImportError:
-            logger.warning("ToothDetailsDialog not available")
-            # Fallback - just refresh the data
-            self.load_patient_data()
-            if self.selected_tooth:
+        # Get description from input field
+        description = self.description_input.toPlainText().strip()
+        
+        # If description is provided, save it directly
+        if description:
+            try:
+                from ...services.tooth_history_service import tooth_history_service
+                
+                # Save tooth record with description
+                success = tooth_history_service.update_tooth_status(
+                    patient_id=self.patient_id,
+                    tooth_number=self.selected_tooth,
+                    status='normal',  # Default status
+                    record_type=self.panel_type,  # Use panel type (patient_problem or doctor_finding)
+                    description=description
+                )
+                
+                if success:
+                    # Clear description input
+                    self.description_input.clear()
+                    # Refresh data
+                    self.load_patient_data()
+                    self.load_tooth_history(self.selected_tooth)
+                    # Show success message
+                    from PySide6.QtWidgets import QMessageBox
+                    QMessageBox.information(self, "Success", "Tooth record saved successfully!")
+                else:
+                    from PySide6.QtWidgets import QMessageBox
+                    QMessageBox.warning(self, "Error", "Failed to save tooth record.")
+                    
+            except Exception as e:
+                logger.error(f"Error saving tooth record: {str(e)}")
+                from PySide6.QtWidgets import QMessageBox
+                QMessageBox.critical(self, "Error", f"Error saving record: {str(e)}")
+        else:
+            # If no description, open detailed dialog
+            try:
+                from ...widgets.dental_chart_widget import ToothDetailsDialog
+                dialog = ToothDetailsDialog(self.selected_tooth, self.patient_id, self)
+                dialog.exec()
+                
+                # Refresh data after dialog closes
+                self.load_patient_data()
                 self.load_tooth_history(self.selected_tooth)
+            except ImportError:
+                logger.warning("ToothDetailsDialog not available")
+                # Fallback - just refresh the data
+                self.load_patient_data()
+                if self.selected_tooth:
+                    self.load_tooth_history(self.selected_tooth)
     
     def refresh_data(self):
         """Refresh all tooth data."""
@@ -751,9 +841,18 @@ class DentalChartPanel(QGroupBox):
         self.tooth_info_label.setText("No tooth selected")
         self.current_status_label.setText("")
         self.history_text.clear()
+        if hasattr(self, 'description_input'):
+            self.description_input.clear()  # Clear description input
         self.add_record_btn.setEnabled(False)
     
     def hide_all_dropdowns(self):
         """Hide all tooth status dropdowns."""
         for tooth_widget in self.tooth_widgets.values():
             tooth_widget.force_hide_dropdown()
+    
+    def on_description_changed(self):
+        """Handle description input change to update button state."""
+        if self.selected_tooth and hasattr(self, 'description_input'):
+            has_description = bool(self.description_input.toPlainText().strip())
+            # Enable button if tooth is selected and has description
+            self.add_record_btn.setEnabled(has_description)

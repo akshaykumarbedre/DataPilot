@@ -74,8 +74,8 @@ class AdvancedDentalChart(QWidget):
         
         # Main layout
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(5, 5, 5, 5)  # Reduced margins
-        main_layout.setSpacing(8)  # Reduced spacing
+        main_layout.setContentsMargins(3, 3, 3, 3)  # Reduced margins
+        main_layout.setSpacing(5)  # Reduced spacing
         
         # === HEADER SECTION ===
         header_widget = self.create_header_section()
@@ -193,8 +193,8 @@ class AdvancedDentalChart(QWidget):
         # Content widget inside scroll area
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
-        left_layout.setContentsMargins(5, 5, 5, 5)  # Reduced margins
-        left_layout.setSpacing(8)  # Reduced spacing
+        left_layout.setContentsMargins(3, 3, 3, 3)  # Reduced margins
+        left_layout.setSpacing(5)  # Reduced spacing
         
         # Examination Management Panel
         self.examination_panel = DentalExaminationPanel()
@@ -232,8 +232,8 @@ class AdvancedDentalChart(QWidget):
         
         # Use HORIZONTAL layout for side-by-side charts
         charts_layout = QHBoxLayout(charts_widget)
-        charts_layout.setContentsMargins(5, 5, 5, 5)
-        charts_layout.setSpacing(8)
+        charts_layout.setContentsMargins(3, 3, 3, 3)
+        charts_layout.setSpacing(5)
         
         # Patient Problems Chart (Left)
         self.patient_chart_panel = DentalChartPanel(

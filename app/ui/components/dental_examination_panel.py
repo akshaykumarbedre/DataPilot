@@ -172,7 +172,7 @@ class ExaminationFormWidget(QFrame):
         """Clear all form fields."""
         self.current_examination = None
         self.exam_date_edit.setDate(QDate.currentDate())
-        self.exam_type_combo.setCurrentIndex(0)
+        self.exam_type_combo.setCurrentIndex(0)  # Reset to first option (routine_checkup)
         self.chief_complaint_edit.clear()
         self.present_illness_edit.clear()
         self.medical_history_edit.clear()
@@ -426,6 +426,11 @@ class DentalExaminationPanel(QGroupBox):
     def set_patient(self, patient_id: int):
         """Set the current patient and load examinations."""
         self.patient_id = patient_id
+        # Clear forms when patient changes
+        self.clear_forms()
+        self.current_examination_id = None
+        # Reset examination selector
+        self.examination_combo.setCurrentIndex(0)
         self.update_panel_state()
         self.load_examinations()
     
@@ -522,12 +527,15 @@ class DentalExaminationPanel(QGroupBox):
             QMessageBox.warning(self, "Warning", "Please select a patient first.")
             return
         
-        # Clear forms
+        # Clear forms and reset to defaults
         self.clear_forms()
         self.current_examination_id = None
         
-        # Reset combo selection
+        # Reset combo selection to default
         self.examination_combo.setCurrentIndex(0)
+        
+        # Ensure examination type is reset to default
+        self.form_widget.exam_type_combo.setCurrentIndex(0)  # Set to first option (routine_checkup)
         
         # Update status
         self.status_label.setText("New examination - ready to save")
