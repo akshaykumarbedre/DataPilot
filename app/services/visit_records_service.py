@@ -1,9 +1,11 @@
 """
 Service for managing visit records.
 """
+import json
 import logging
 from datetime import date, datetime, time, timedelta
 from typing import List, Dict, Any, Optional
+from decimal import Decimal
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, and_, or_, func, text
 
@@ -30,20 +32,69 @@ class VisitRecordsService:
         try:
             session = db_manager.get_session()
             
+            # Handle visit_date conversion
+            visit_date = visit_data.get('visit_date', date.today())
+            if isinstance(visit_date, str):
+                visit_date = datetime.strptime(visit_date, '%Y-%m-%d').date()
+            elif isinstance(visit_date, datetime):
+                visit_date = visit_date.date()
+            elif hasattr(visit_date, 'toPython'):  # Handle Qt date objects
+                visit_date = visit_date.toPython()
+            
+            # Handle visit_time conversion
+            visit_time = visit_data.get('visit_time')
+            if isinstance(visit_time, time):
+                visit_time = visit_time.strftime('%H:%M:%S')
+            elif isinstance(visit_time, datetime):
+                visit_time = visit_time.strftime('%H:%M:%S')
+            elif hasattr(visit_time, 'toPython'):  # Handle Qt time objects
+                visit_time = visit_time.toPython().strftime('%H:%M:%S')
+            
+            # Handle next_visit_date conversion
+            next_visit_date = visit_data.get('next_visit_date')
+            if isinstance(next_visit_date, str) and next_visit_date:
+                next_visit_date = datetime.strptime(next_visit_date, '%Y-%m-%d').date()
+            elif isinstance(next_visit_date, datetime):
+                next_visit_date = next_visit_date.date()
+            elif hasattr(next_visit_date, 'toPython'):  # Handle Qt date objects
+                next_visit_date = next_visit_date.toPython()
+            
+            # Handle affected_teeth conversion (should be JSON string, not list)
+            affected_teeth = visit_data.get('affected_teeth')
+            if isinstance(affected_teeth, list):
+                affected_teeth = json.dumps(affected_teeth)
+            elif affected_teeth is None:
+                affected_teeth = '[]'
+            
+            # Handle cost conversion
+            cost = visit_data.get('cost')
+            if cost is not None and not isinstance(cost, Decimal):
+                cost = Decimal(str(cost))
+            
+            # Handle amount_paid conversion
+            amount_paid = visit_data.get('amount_paid', 0.0)
+            if amount_paid is not None and not isinstance(amount_paid, Decimal):
+                amount_paid = Decimal(str(amount_paid))
+            
             visit = VisitRecord(
                 patient_id=patient_id,
                 examination_id=visit_data.get('examination_id'),
-                visit_date=visit_data.get('visit_date', date.today()),
-                visit_time=visit_data.get('visit_time'),
+                visit_date=visit_date,
+                visit_time=visit_time,
                 visit_type=visit_data.get('visit_type', 'consultation'),
                 status=visit_data.get('status', 'scheduled'),
                 notes=visit_data.get('notes', ''),
                 duration_minutes=visit_data.get('duration_minutes'),
                 treatment_performed=visit_data.get('treatment_performed', ''),
-                next_visit_date=visit_data.get('next_visit_date'),
-                doctor_name=visit_data.get('doctor_name', ''),
-                cost=visit_data.get('cost'),
-                payment_status=visit_data.get('payment_status', 'pending')
+                next_visit_date=next_visit_date,
+                doctor_name=visit_data.get('doctor_name', 'Dr. Default'),
+                cost=cost,
+                amount_paid=amount_paid,
+                payment_status=visit_data.get('payment_status', 'pending'),
+                chief_complaint=visit_data.get('chief_complaint'),
+                diagnosis=visit_data.get('diagnosis'),
+                advice=visit_data.get('advice'),
+                affected_teeth=affected_teeth
             )
             
             session.add(visit)

@@ -438,7 +438,7 @@ class CustomStatusService:
             
             # Crowns/Caps
             {"status_name": "porcelain_crown", "status_code": "PC", "display_name": "Porcelain Crown", "category": "prosthetic", "color": "#E6E6FA"},
-            {"status_name": "metal_crown", "status_code": "MC", "display_name": "Metal Crown", "category": "prosthetic", "color": "#C0C0C0"},
+            {"status_name": "metal_crown", "status_code": "METC", "display_name": "Metal Crown", "category": "prosthetic", "color": "#C0C0C0"},
             {"status_name": "porcelain_fused_metal", "status_code": "PFM", "display_name": "Porcelain Fused to Metal", "category": "prosthetic", "color": "#D3D3D3"},
             {"status_name": "gold_crown", "status_code": "GC", "display_name": "Gold Crown", "category": "prosthetic", "color": "#DAA520"},
             {"status_name": "zirconia_crown", "status_code": "ZC", "display_name": "Zirconia Crown", "category": "prosthetic", "color": "#F8F8FF"},

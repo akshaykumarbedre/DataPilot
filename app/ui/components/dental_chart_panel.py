@@ -5,7 +5,8 @@ import logging
 from typing import Dict, List, Optional, Any, Callable
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, 
-    QLabel, QTextEdit, QScrollArea, QFrame, QPushButton, QSplitter
+    QLabel, QTextEdit, QScrollArea, QFrame, QPushButton, QSplitter,
+    QSizePolicy
 )
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFont
@@ -30,39 +31,81 @@ class DentalChartPanel(QGroupBox):
         self.selected_tooth = None
         self.tooth_widgets = {}
         
-        # Set panel title
-        title = "Patient Problems" if panel_type == 'patient' else "Doctor Findings"
+        # Set panel title with improved formatting
+        if panel_type == 'patient':
+            title = "Patient Problems (Dental Chart)"
+        else:
+            title = "Doctor Findings (Dental Chart)"
+        
         self.setTitle(title)
+        self.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                font-size: 12pt;
+                border: 2px solid #19c5e5;
+                border-radius: 8px;
+                margin-top: 15px;
+                padding-top: 15px;
+                background-color: #ffffff;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 15px;
+                padding: 0 15px 0 15px;
+                color: #19c5e5;
+                font-weight: bold;
+            }
+        """)
         
         self.setup_ui()
     
     def setup_ui(self):
         """Setup the dental chart panel UI."""
         layout = QVBoxLayout(self)
+        layout.setSpacing(10)
+        layout.setContentsMargins(15, 25, 15, 15)
         
-        # Main splitter
-        splitter = QSplitter(Qt.Horizontal)
-        layout.addWidget(splitter)
+        # Set size constraints for better side-by-side display
+        self.setMinimumWidth(400)
+        self.setMaximumWidth(700)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         
-        # Dental chart area
+        # Dental chart area (top)
         chart_area = self.create_dental_chart_area()
-        splitter.addWidget(chart_area)
+        layout.addWidget(chart_area)
         
-        # Right panel for tooth info and history
-        right_panel = self.create_right_panel()
-        splitter.addWidget(right_panel)
-        
-        # Set splitter sizes (chart larger than info panel)
-        splitter.setSizes([600, 300])
+        # Selected tooth info and history (bottom)
+        bottom_panel = self.create_bottom_panel()
+        layout.addWidget(bottom_panel)
     
     def create_dental_chart_area(self) -> QWidget:
         """Create the 32-tooth layout area."""
         chart_widget = QWidget()
         layout = QVBoxLayout(chart_widget)
+        layout.setSpacing(10)
         
         # Upper teeth section
-        upper_section = QGroupBox("Upper Teeth")
-        upper_layout = QGridLayout(upper_section)
+        upper_section = QGroupBox("Upper Jaw (Right 8-1 | Left 1-8)")
+        upper_section.setFont(QFont("Arial", 10, QFont.Bold))
+        upper_section.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                border: 2px solid #19c5e5;
+                border-radius: 5px;
+                margin-top: 10px;
+                padding-top: 10px;
+                background-color: #f8f9fa;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 10px 0 10px;
+                color: #19c5e5;
+            }
+        """)
+        upper_layout = QHBoxLayout(upper_section)
+        upper_layout.setSpacing(2)
+        upper_layout.setContentsMargins(10, 20, 10, 10)
         
         # Upper right: 18-11 (reversed for visual layout)
         for i, tooth_num in enumerate(range(18, 10, -1)):
@@ -71,7 +114,14 @@ class DentalChartPanel(QGroupBox):
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
             tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
-            upper_layout.addWidget(tooth_widget, 0, i)
+            upper_layout.addWidget(tooth_widget)
+        
+        # Separator between right and left
+        separator1 = QLabel(" | ")
+        separator1.setFont(QFont("Arial", 16, QFont.Bold))
+        separator1.setAlignment(Qt.AlignCenter)
+        separator1.setStyleSheet("color: #19c5e5; margin: 0 5px;")
+        upper_layout.addWidget(separator1)
         
         # Upper left: 21-28
         for i, tooth_num in enumerate(range(21, 29)):
@@ -80,16 +130,35 @@ class DentalChartPanel(QGroupBox):
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
             tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
-            upper_layout.addWidget(tooth_widget, 0, 8 + i)
+            upper_layout.addWidget(tooth_widget)
         
         layout.addWidget(upper_section)
         
         # Add spacing between upper and lower
-        layout.addSpacing(20)
+        layout.addSpacing(15)
         
         # Lower teeth section
-        lower_section = QGroupBox("Lower Teeth")
-        lower_layout = QGridLayout(lower_section)
+        lower_section = QGroupBox("Lower Jaw (Right 8-1 | Left 1-8)")
+        lower_section.setFont(QFont("Arial", 10, QFont.Bold))
+        lower_section.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                border: 2px solid #19c5e5;
+                border-radius: 5px;
+                margin-top: 10px;
+                padding-top: 10px;
+                background-color: #f8f9fa;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 10px 0 10px;
+                color: #19c5e5;
+            }
+        """)
+        lower_layout = QHBoxLayout(lower_section)
+        lower_layout.setSpacing(2)
+        lower_layout.setContentsMargins(10, 20, 10, 10)
         
         # Lower right: 48-41 (reversed for visual layout)
         for i, tooth_num in enumerate(range(48, 40, -1)):
@@ -98,7 +167,14 @@ class DentalChartPanel(QGroupBox):
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
             tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
-            lower_layout.addWidget(tooth_widget, 0, i)
+            lower_layout.addWidget(tooth_widget)
+        
+        # Separator between right and left
+        separator2 = QLabel(" | ")
+        separator2.setFont(QFont("Arial", 16, QFont.Bold))
+        separator2.setAlignment(Qt.AlignCenter)
+        separator2.setStyleSheet("color: #19c5e5; margin: 0 5px;")
+        lower_layout.addWidget(separator2)
         
         # Lower left: 31-38
         for i, tooth_num in enumerate(range(31, 39)):
@@ -107,52 +183,254 @@ class DentalChartPanel(QGroupBox):
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
             tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
-            lower_layout.addWidget(tooth_widget, 0, 8 + i)
+            lower_layout.addWidget(tooth_widget)
         
         layout.addWidget(lower_section)
         
         return chart_widget
     
-    def create_right_panel(self) -> QWidget:
-        """Create right panel for selected tooth info and history."""
-        right_widget = QWidget()
-        layout = QVBoxLayout(right_widget)
+    def create_bottom_panel(self) -> QWidget:
+        """Create bottom panel for selected tooth info and history."""
+        bottom_widget = QWidget()
+        bottom_widget.setMinimumHeight(180)  # Ensure adequate height
+        bottom_widget.setMaximumHeight(250)
+        layout = QHBoxLayout(bottom_widget)
+        layout.setSpacing(15)
+        layout.setContentsMargins(10, 10, 10, 10)
         
-        # Selected tooth info
-        self.tooth_info_group = QGroupBox("Selected Tooth Information")
+        # Selected tooth info (left side of bottom panel)
+        self.tooth_info_group = QGroupBox("Selected Tooth")
+        self.tooth_info_group.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                font-size: 11pt;
+                border: 2px solid #19c5e5;
+                border-radius: 6px;
+                margin-top: 12px;
+                padding-top: 12px;
+                background-color: #f8f9fa;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 10px 0 10px;
+                color: #19c5e5;
+            }
+        """)
+        self.tooth_info_group.setMinimumWidth(220)
+        self.tooth_info_group.setMaximumWidth(280)
+        self.tooth_info_group.setMinimumHeight(140)
         info_layout = QVBoxLayout(self.tooth_info_group)
+        info_layout.setSpacing(8)
         
         self.tooth_info_label = QLabel("No tooth selected")
-        self.tooth_info_label.setFont(QFont("Arial", 10, QFont.Bold))
-        self.tooth_info_label.setStyleSheet("color: #19c5e5; padding: 5px;")
+        self.tooth_info_label.setFont(QFont("Arial", 11, QFont.Bold))
+        self.tooth_info_label.setStyleSheet("""
+            QLabel {
+                color: #19c5e5; 
+                padding: 10px;
+                background-color: #f0f0f0;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                min-height: 20px;
+            }
+        """)
+        self.tooth_info_label.setAlignment(Qt.AlignCenter)
         info_layout.addWidget(self.tooth_info_label)
         
         self.current_status_label = QLabel("")
         self.current_status_label.setWordWrap(True)
+        self.current_status_label.setStyleSheet("""
+            QLabel {
+                padding: 8px;
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
+                font-size: 10pt;
+                min-height: 30px;
+            }
+        """)
         info_layout.addWidget(self.current_status_label)
         
-        layout.addWidget(self.tooth_info_group)
-        
-        # History text area for selected tooth
-        self.history_group = QGroupBox("Tooth History")
-        history_layout = QVBoxLayout(self.history_group)
-        
-        self.history_text = QTextEdit()
-        self.history_text.setReadOnly(True)
-        self.history_text.setMaximumHeight(200)
-        self.history_text.setPlaceholderText("Select a tooth to view history...")
-        history_layout.addWidget(self.history_text)
-        
-        # Add new record button
-        self.add_record_btn = QPushButton(f"Add {self.panel_type.title()} Record")
+        # Add record button
+        self.add_record_btn = QPushButton(f"Add Record")
         self.add_record_btn.setStyleSheet("""
             QPushButton {
                 background-color: #19c5e5;
                 color: white;
                 border: none;
-                padding: 8px 16px;
+                padding: 10px 15px;
                 border-radius: 4px;
                 font-weight: bold;
+                font-size: 10pt;
+                min-height: 15px;
+            }
+            QPushButton:hover {
+                background-color: #0ea5c7;
+            }
+            QPushButton:disabled {
+                background-color: #bdc3c7;
+            }
+        """)
+        self.add_record_btn.setEnabled(False)
+        self.add_record_btn.clicked.connect(self.add_tooth_record)
+        info_layout.addWidget(self.add_record_btn)
+        
+        layout.addWidget(self.tooth_info_group)
+        
+        # History text area (right side of bottom panel)
+        self.history_group = QGroupBox(f"Tooth History - {self.panel_type.title()}")
+        self.history_group.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                font-size: 11pt;
+                border: 2px solid #19c5e5;
+                border-radius: 6px;
+                margin-top: 12px;
+                padding-top: 12px;
+                background-color: #f8f9fa;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 10px 0 10px;
+                color: #19c5e5;
+            }
+        """)
+        self.history_group.setMinimumHeight(140)
+        history_layout = QVBoxLayout(self.history_group)
+        history_layout.setSpacing(8)
+        
+        self.history_text = QTextEdit()
+        self.history_text.setReadOnly(True)
+        self.history_text.setMinimumHeight(120)
+        self.history_text.setMaximumHeight(180)
+        self.history_text.setPlaceholderText("Select a tooth to view history...")
+        self.history_text.setStyleSheet("""
+            QTextEdit {
+                border: 1px solid #ccc; 
+                background-color: #fafafa;
+                padding: 8px;
+                border-radius: 4px;
+                font-family: Arial;
+                font-size: 10pt;
+            }
+        """)
+        history_layout.addWidget(self.history_text)
+        
+        layout.addWidget(self.history_group)
+        
+        return bottom_widget
+
+    def create_right_panel(self) -> QWidget:
+        """Create right panel for selected tooth info and history."""
+        right_widget = QWidget()
+        right_widget.setMinimumWidth(200)
+        right_widget.setMaximumWidth(300)
+        layout = QVBoxLayout(right_widget)
+        layout.setSpacing(8)
+        
+        # Selected tooth info (compact)
+        self.tooth_info_group = QGroupBox("Selected Tooth")
+        self.tooth_info_group.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                font-size: 10pt;
+                border: 1px solid #19c5e5;
+                border-radius: 4px;
+                margin-top: 8px;
+                padding-top: 8px;
+                background-color: #f8f9fa;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 8px;
+                padding: 0 8px 0 8px;
+                color: #19c5e5;
+            }
+        """)
+        info_layout = QVBoxLayout(self.tooth_info_group)
+        info_layout.setSpacing(5)
+        
+        self.tooth_info_label = QLabel("No tooth selected")
+        self.tooth_info_label.setFont(QFont("Arial", 10, QFont.Bold))
+        self.tooth_info_label.setStyleSheet("""
+            QLabel {
+                color: #19c5e5; 
+                padding: 6px;
+                background-color: #f0f0f0;
+                border-radius: 3px;
+                border: 1px solid #ddd;
+            }
+        """)
+        self.tooth_info_label.setAlignment(Qt.AlignCenter)
+        info_layout.addWidget(self.tooth_info_label)
+        
+        self.current_status_label = QLabel("")
+        self.current_status_label.setWordWrap(True)
+        self.current_status_label.setStyleSheet("""
+            QLabel {
+                padding: 4px;
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                border-radius: 3px;
+                font-size: 9pt;
+            }
+        """)
+        info_layout.addWidget(self.current_status_label)
+        
+        layout.addWidget(self.tooth_info_group)
+        
+        # History text area (compact)
+        self.history_group = QGroupBox(f"History")
+        self.history_group.setStyleSheet("""
+            QGroupBox {
+                font-weight: bold;
+                font-size: 10pt;
+                border: 1px solid #19c5e5;
+                border-radius: 4px;
+                margin-top: 8px;
+                padding-top: 8px;
+                background-color: #f8f9fa;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 8px;
+                padding: 0 8px 0 8px;
+                color: #19c5e5;
+            }
+        """)
+        history_layout = QVBoxLayout(self.history_group)
+        history_layout.setSpacing(5)
+        
+        self.history_text = QTextEdit()
+        self.history_text.setReadOnly(True)
+        self.history_text.setMinimumHeight(80)
+        self.history_text.setMaximumHeight(120)
+        self.history_text.setPlaceholderText("Select a tooth...")
+        self.history_text.setStyleSheet("""
+            QTextEdit {
+                border: 1px solid #ccc; 
+                background-color: #fafafa;
+                padding: 4px;
+                border-radius: 3px;
+                font-family: Arial;
+                font-size: 9pt;
+            }
+        """)
+        history_layout.addWidget(self.history_text)
+        
+        # Add record button (compact)
+        self.add_record_btn = QPushButton(f"Add Record")
+        self.add_record_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #19c5e5;
+                color: white;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 3px;
+                font-weight: bold;
+                font-size: 9pt;
             }
             QPushButton:hover {
                 background-color: #0ea5c7;
@@ -178,6 +456,55 @@ class DentalChartPanel(QGroupBox):
         """Set the current examination context."""
         self.examination_id = examination_id
         self.load_patient_data()
+    
+    def load_tooth_data(self, history_data: List[Dict[str, Any]]):
+        """Load tooth data from history records and update tooth widgets."""
+        if not history_data:
+            return
+        
+        try:
+            # Group history by tooth number and get latest status for each tooth
+            tooth_status_map = {}
+            
+            for record in history_data:
+                tooth_number = record.get('tooth_number')
+                status = record.get('status', 'normal')
+                date_recorded = record.get('date_recorded')
+                
+                if tooth_number:
+                    # Keep the most recent status for each tooth
+                    if tooth_number not in tooth_status_map:
+                        tooth_status_map[tooth_number] = {
+                            'status': status,
+                            'date_recorded': date_recorded,
+                            'description': record.get('description', '')
+                        }
+                    else:
+                        # Compare dates and keep the most recent
+                        existing_date = tooth_status_map[tooth_number]['date_recorded']
+                        if date_recorded and (not existing_date or date_recorded > existing_date):
+                            tooth_status_map[tooth_number] = {
+                                'status': status,
+                                'date_recorded': date_recorded,
+                                'description': record.get('description', '')
+                            }
+            
+            # Update tooth widgets with the latest status
+            for tooth_number, status_info in tooth_status_map.items():
+                if tooth_number in self.tooth_widgets:
+                    tooth_widget = self.tooth_widgets[tooth_number]
+                    status = status_info['status']
+                    
+                    # Update the tooth widget's visual status
+                    if hasattr(tooth_widget, 'update_status'):
+                        tooth_widget.update_status(status)
+                    elif hasattr(tooth_widget, 'set_status'):
+                        tooth_widget.set_status(status)
+            
+            logger.info(f"Loaded tooth data for {len(tooth_status_map)} teeth in {self.panel_type} panel")
+            
+        except Exception as e:
+            logger.error(f"Error loading tooth data in {self.panel_type} panel: {str(e)}")
     
     def load_patient_data(self):
         """Load patient's tooth data for this panel type."""
@@ -303,6 +630,42 @@ class DentalChartPanel(QGroupBox):
             logger.error(f"Error loading tooth history: {str(e)}")
             self.history_text.setPlainText("Error loading tooth history.")
     
+    def display_tooth_history(self, tooth_number: int, history: List[Dict[str, Any]]):
+        """Display tooth history data in the panel."""
+        try:
+            # Update current status and history display
+            self.selected_tooth = tooth_number
+            self.tooth_info_label.setText(f"Tooth #{tooth_number}")
+            self.add_record_btn.setEnabled(True)
+            
+            # Format and display history
+            if history:
+                history_text = f"{self.panel_type.title()} History for Tooth {tooth_number}:\n\n"
+                
+                for record in history:
+                    history_text += f"Date: {record.get('date_recorded', 'Unknown')}\n"
+                    history_text += f"Status: {record.get('status', 'Unknown')}\n"
+                    if record.get('description'):
+                        history_text += f"Description: {record['description']}\n"
+                    if record.get('examination_date'):
+                        history_text += f"Examination: {record['examination_date']}\n"
+                    history_text += "-" * 40 + "\n\n"
+                
+                self.history_text.setPlainText(history_text)
+            else:
+                self.history_text.setPlainText(f"No {self.panel_type} history recorded for this tooth.")
+            
+            # Update tooth widget visual status if available
+            if tooth_number in self.tooth_widgets and history:
+                latest_record = history[0]  # Assuming history is sorted by date descending
+                latest_status = latest_record.get('status', 'normal')
+                self.tooth_widgets[tooth_number].update_status(latest_status)
+                
+        except Exception as e:
+            logger.error(f"Error displaying tooth history: {str(e)}")
+            if hasattr(self, 'history_text'):
+                self.history_text.setPlainText("Error displaying tooth history.")
+    
     def on_tooth_status_changed(self, tooth_number: int, status: str, record_type: str):
         """Handle tooth status change."""
         if not self.patient_id:
@@ -335,10 +698,14 @@ class DentalChartPanel(QGroupBox):
     def show_tooth_details(self, tooth_number: int):
         """Show detailed tooth information dialog."""
         # Import here to avoid circular imports
-        from ...widgets.dental_chart_widget import ToothDetailsDialog
-        
-        dialog = ToothDetailsDialog(tooth_number, self.patient_id, self)
-        dialog.exec()
+        try:
+            from ...widgets.dental_chart_widget import ToothDetailsDialog
+            dialog = ToothDetailsDialog(tooth_number, self.patient_id, self)
+            dialog.exec()
+        except ImportError:
+            logger.warning("ToothDetailsDialog not available")
+            # Fallback - just log the tooth selection
+            logger.info(f"Tooth {tooth_number} details requested")
         
         # Refresh data after dialog closes
         self.load_patient_data()
@@ -351,14 +718,20 @@ class DentalChartPanel(QGroupBox):
             return
         
         # Import here to avoid circular imports
-        from ...widgets.dental_chart_widget import ToothDetailsDialog
-        
-        dialog = ToothDetailsDialog(self.selected_tooth, self.patient_id, self)
-        dialog.exec()
-        
-        # Refresh data after dialog closes
-        self.load_patient_data()
-        self.load_tooth_history(self.selected_tooth)
+        try:
+            from ...widgets.dental_chart_widget import ToothDetailsDialog
+            dialog = ToothDetailsDialog(self.selected_tooth, self.patient_id, self)
+            dialog.exec()
+            
+            # Refresh data after dialog closes
+            self.load_patient_data()
+            self.load_tooth_history(self.selected_tooth)
+        except ImportError:
+            logger.warning("ToothDetailsDialog not available")
+            # Fallback - just refresh the data
+            self.load_patient_data()
+            if self.selected_tooth:
+                self.load_tooth_history(self.selected_tooth)
     
     def refresh_data(self):
         """Refresh all tooth data."""

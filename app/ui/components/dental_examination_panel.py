@@ -130,10 +130,13 @@ class ExaminationFormWidget(QFrame):
                 exam_date = datetime.strptime(exam_date, '%Y-%m-%d').date()
             self.exam_date_edit.setDate(QDate(exam_date))
         
-        exam_type = examination_data.get('examination_type', '')
+        exam_type = examination_data.get('examination_type', 'routine_checkup')  # Default to routine_checkup if not found
         index = self.exam_type_combo.findText(exam_type)
         if index >= 0:
             self.exam_type_combo.setCurrentIndex(index)
+        else:
+            # If exact match not found, set to default (routine_checkup)
+            self.exam_type_combo.setCurrentIndex(0)
         
         self.chief_complaint_edit.setPlainText(examination_data.get('chief_complaint', ''))
         self.present_illness_edit.setPlainText(examination_data.get('present_illness', ''))
@@ -355,6 +358,9 @@ class DentalExaminationPanel(QGroupBox):
         
         layout.addWidget(self.tab_widget)
         
+        # Set minimum height for better visibility
+        self.setMinimumHeight(400)  # Increased height
+        
         # Status bar
         self.status_label = QLabel("Ready")
         self.status_label.setStyleSheet("color: #666; font-style: italic; padding: 5px;")
@@ -362,6 +368,9 @@ class DentalExaminationPanel(QGroupBox):
         
         # Apply styles
         self.apply_styles()
+        
+        # Connect form change signals to update button states
+        self.connect_form_signals()
         
         # Initial state
         self.update_panel_state()
@@ -391,6 +400,11 @@ class DentalExaminationPanel(QGroupBox):
             }
         """)
     
+    def connect_form_signals(self):
+        """Connect form field signals to update button states."""
+        if hasattr(self.form_widget, 'chief_complaint_edit'):
+            self.form_widget.chief_complaint_edit.textChanged.connect(self.update_panel_state)
+    
     def set_patient(self, patient_id: int):
         """Set the current patient and load examinations."""
         self.patient_id = patient_id
@@ -408,7 +422,11 @@ class DentalExaminationPanel(QGroupBox):
         
         # Update button states
         has_examination = self.current_examination_id is not None
-        self.save_btn.setEnabled(has_examination or self.form_widget.current_examination is not None)
+        has_patient = self.patient_id is not None
+        has_chief_complaint = bool(self.form_widget.chief_complaint_edit.toPlainText().strip()) if hasattr(self.form_widget, 'chief_complaint_edit') else False
+        
+        # Enable save button if we have a patient and chief complaint (for new) or existing examination
+        self.save_btn.setEnabled(has_patient and (has_examination or has_chief_complaint))
         self.delete_btn.setEnabled(has_examination)
     
     def load_examinations(self):
@@ -428,8 +446,9 @@ class DentalExaminationPanel(QGroupBox):
             
             for exam in self.examinations_list:
                 exam_date = exam.get('examination_date', 'Unknown')
-                exam_type = exam.get('examination_type', '').replace('_', ' ').title()
-                display_text = f"{exam_date} - {exam_type}"
+                exam_type = exam.get('examination_type', 'routine_checkup').replace('_', ' ').title()
+                chief_complaint = exam.get('chief_complaint', '')[:30]  # First 30 chars of complaint
+                display_text = f"{exam_date} - {exam_type} - {chief_complaint}..."
                 self.examination_combo.addItem(display_text, exam.get('id'))
             
             # Update status

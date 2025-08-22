@@ -2,6 +2,7 @@
 Service for managing dental examinations.
 """
 import logging
+import json
 from datetime import date, datetime
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
@@ -16,32 +17,51 @@ logger = logging.getLogger(__name__)
 class DentalExaminationService:
     """Service for managing dental examinations."""
     
-    def create_examination(self, patient_id: int, examination_data: Dict[str, Any]) -> Optional[DentalExamination]:
+    def create_examination(self, examination_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create a new dental examination.
         
         Args:
-            patient_id: ID of the patient
-            examination_data: Dictionary containing examination data
+            examination_data: Dictionary containing examination data including patient_id
             
         Returns:
-            Created DentalExamination object or None if failed
+            Dictionary with success status and examination data
         """
         try:
             session = db_manager.get_session()
+            
+            # Extract patient_id from examination_data
+            patient_id = examination_data.get('patient_id')
+            if not patient_id:
+                return {'success': False, 'error': 'Patient ID is required'}
+            
+            # Serialize complex fields to JSON strings
+            examination_findings = examination_data.get('examination_findings')
+            if isinstance(examination_findings, dict):
+                examination_findings = json.dumps(examination_findings)
+            
+            vital_signs = examination_data.get('vital_signs')
+            if isinstance(vital_signs, dict):
+                # Store vital signs in notes field for now since there's no dedicated field
+                notes = examination_data.get('notes', '')
+                if vital_signs:
+                    vital_signs_text = f"Vital Signs: {json.dumps(vital_signs)}"
+                    notes = f"{notes}\n{vital_signs_text}".strip()
+                examination_data['notes'] = notes
             
             examination = DentalExamination(
                 patient_id=patient_id,
                 examination_date=examination_data.get('examination_date', date.today()),
                 chief_complaint=examination_data.get('chief_complaint', ''),
-                history_of_presenting_illness=examination_data.get('history_of_presenting_illness'),
+                history_of_presenting_illness=examination_data.get('present_illness'),  # Map present_illness to history_of_presenting_illness
                 medical_history=examination_data.get('medical_history'),
                 dental_history=examination_data.get('dental_history'),
-                examination_findings=examination_data.get('examination_findings'),
+                examination_findings=examination_findings,  # Use serialized JSON string
                 diagnosis=examination_data.get('diagnosis'),
                 treatment_plan=examination_data.get('treatment_plan'),
                 notes=examination_data.get('notes'),
                 examiner_id=examination_data.get('examiner_id')
+                # Note: examination_type is not stored in database model, only used in UI
             )
             
             session.add(examination)
@@ -51,14 +71,21 @@ class DentalExaminationService:
             session.close()
             
             logger.info(f"Created examination {examination_id} for patient {patient_id}")
-            return self.get_examination_by_id(examination_id)
+            
+            # Get the created examination data
+            created_exam = self.get_examination_by_id(examination_id)
+            
+            return {
+                'success': True,
+                'examination': created_exam
+            }
             
         except Exception as e:
             logger.error(f"Error creating examination: {str(e)}")
-            if session:
+            if 'session' in locals() and session:
                 session.rollback()
                 session.close()
-            return None
+            return {'success': False, 'error': str(e)}
     
     def get_examination_by_id(self, examination_id: int) -> Optional[Dict[str, Any]]:
         """
@@ -81,15 +108,23 @@ class DentalExaminationService:
                 session.close()
                 return None
             
+            # Deserialize JSON fields back to dictionaries
+            examination_findings = examination.examination_findings
+            if examination_findings and isinstance(examination_findings, str):
+                try:
+                    examination_findings = json.loads(examination_findings)
+                except (json.JSONDecodeError, TypeError):
+                    examination_findings = {}
+            
             result = {
                 'id': examination.id,
                 'patient_id': examination.patient_id,
                 'examination_date': examination.examination_date,
                 'chief_complaint': examination.chief_complaint,
-                'history_of_presenting_illness': examination.history_of_presenting_illness,
+                'present_illness': examination.history_of_presenting_illness,  # Map back to present_illness for UI
                 'medical_history': examination.medical_history,
                 'dental_history': examination.dental_history,
-                'examination_findings': examination.examination_findings,
+                'examination_findings': examination_findings or {},
                 'diagnosis': examination.diagnosis,
                 'treatment_plan': examination.treatment_plan,
                 'notes': examination.notes,
@@ -129,15 +164,23 @@ class DentalExaminationService:
             
             results = []
             for exam in examinations:
+                # Deserialize JSON fields
+                examination_findings = exam.examination_findings
+                if examination_findings and isinstance(examination_findings, str):
+                    try:
+                        examination_findings = json.loads(examination_findings)
+                    except (json.JSONDecodeError, TypeError):
+                        examination_findings = {}
+                
                 results.append({
                     'id': exam.id,
                     'patient_id': exam.patient_id,
                     'examination_date': exam.examination_date,
                     'chief_complaint': exam.chief_complaint,
-                    'history_of_presenting_illness': exam.history_of_presenting_illness,
+                    'present_illness': exam.history_of_presenting_illness,  # Map back to present_illness for UI
                     'medical_history': exam.medical_history,
                     'dental_history': exam.dental_history,
-                    'examination_findings': exam.examination_findings,
+                    'examination_findings': examination_findings or {},
                     'diagnosis': exam.diagnosis,
                     'treatment_plan': exam.treatment_plan,
                     'notes': exam.notes,
@@ -174,7 +217,7 @@ class DentalExaminationService:
             logger.error(f"Error getting latest examination for patient {patient_id}: {str(e)}")
             return None
     
-    def update_examination(self, examination_id: int, examination_data: Dict[str, Any]) -> bool:
+    def update_examination(self, examination_id: int, examination_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Update an existing examination.
         
@@ -183,7 +226,7 @@ class DentalExaminationService:
             examination_data: Dictionary containing updated examination data
             
         Returns:
-            True if successful, False otherwise
+            Dictionary with success status and examination data
         """
         try:
             session = db_manager.get_session()
@@ -194,30 +237,53 @@ class DentalExaminationService:
             
             if not examination:
                 session.close()
-                return False
+                return {'success': False, 'error': 'Examination not found'}
             
-            # Update fields if provided
-            for field in ['chief_complaint', 'history_of_presenting_illness', 'medical_history',
-                         'dental_history', 'examination_findings', 'diagnosis', 'treatment_plan',
-                         'notes', 'examiner_id']:
-                if field in examination_data:
-                    setattr(examination, field, examination_data[field])
+            # Update fields if provided with JSON serialization for complex fields
+            if 'chief_complaint' in examination_data:
+                examination.chief_complaint = examination_data['chief_complaint']
+            if 'present_illness' in examination_data:
+                examination.history_of_presenting_illness = examination_data['present_illness']
+            if 'medical_history' in examination_data:
+                examination.medical_history = examination_data['medical_history']
+            if 'dental_history' in examination_data:
+                examination.dental_history = examination_data['dental_history']
+            if 'examination_findings' in examination_data:
+                findings = examination_data['examination_findings']
+                if isinstance(findings, dict):
+                    findings = json.dumps(findings)
+                examination.examination_findings = findings
+            if 'diagnosis' in examination_data:
+                examination.diagnosis = examination_data['diagnosis']
+            if 'treatment_plan' in examination_data:
+                examination.treatment_plan = examination_data['treatment_plan']
+            if 'notes' in examination_data:
+                examination.notes = examination_data['notes']
+            if 'examiner_id' in examination_data:
+                examination.examiner_id = examination_data['examiner_id']
             
             examination.updated_at = datetime.utcnow()
             session.commit()
             session.close()
             
             logger.info(f"Updated examination {examination_id}")
-            return True
+            
+            # Get the updated examination data
+            updated_exam = self.get_examination_by_id(examination_id)
+            
+            return {
+                'success': True,
+                'examination': updated_exam
+            }
             
         except Exception as e:
             logger.error(f"Error updating examination {examination_id}: {str(e)}")
-            if session:
+            if 'session' in locals() and session:
                 session.rollback()
                 session.close()
-            return False
+            return {'success': False, 'error': str(e)}
     
-    def delete_examination(self, examination_id: int) -> bool:
+    def delete_examination(self, examination_id: int) -> Dict[str, Any]:
         """
         Delete an examination and all related records.
         
@@ -225,7 +291,7 @@ class DentalExaminationService:
             examination_id: ID of the examination to delete
             
         Returns:
-            True if successful, False otherwise
+            Dictionary with success status
         """
         try:
             session = db_manager.get_session()
@@ -236,21 +302,21 @@ class DentalExaminationService:
             
             if not examination:
                 session.close()
-                return False
+                return {'success': False, 'error': 'Examination not found'}
             
             session.delete(examination)
             session.commit()
             session.close()
             
             logger.info(f"Deleted examination {examination_id}")
-            return True
+            return {'success': True}
             
         except Exception as e:
             logger.error(f"Error deleting examination {examination_id}: {str(e)}")
-            if session:
+            if 'session' in locals() and session:
                 session.rollback()
                 session.close()
-            return False
+            return {'success': False, 'error': str(e)}
     
     def get_examination_statistics(self, patient_id: Optional[int] = None) -> Dict[str, int]:
         """

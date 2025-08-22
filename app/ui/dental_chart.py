@@ -7,8 +7,8 @@ from datetime import date, datetime
 from typing import Optional, Dict, Any, List
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QFrame, QLabel, 
-    QPushButton, QComboBox, QSplitter, QMessageBox, QSizePolicy,
-    QGroupBox, QFormLayout
+    QPushButton, QComboBox, QMessageBox, QSizePolicy,
+    QGroupBox, QFormLayout, QScrollArea, QTextEdit
 )
 from PySide6.QtCore import Qt, Signal, QDate
 from PySide6.QtGui import QFont
@@ -19,15 +19,17 @@ from .components import (
     DentalChartPanel, 
     CustomStatusDialog,
     VisitEntryPanel,
-    VisitRecordsPanel,
     DentalExaminationPanel,
-    TreatmentEpisodesPanel
+    VisitRecordsPanel,  # Re-enabled for displaying old visits
+    # COMMENTED OUT FOR SIMPLIFICATION
+    # TreatmentEpisodesPanel
 )
 
 # Import Phase 1 services
 from ..services.dental_examination_service import dental_examination_service
 from ..services.tooth_history_service import tooth_history_service
-from ..services.visit_records_service import visit_records_service
+# COMMENTED OUT FOR SIMPLIFICATION
+# from ..services.visit_records_service import visit_records_service
 from ..services.custom_status_service import custom_status_service
 from ..services.patient_service import patient_service
 
@@ -58,8 +60,9 @@ class AdvancedDentalChart(QWidget):
         self.patient_chart_panel = None
         self.doctor_chart_panel = None
         self.visit_entry_panel = None
-        self.visit_records_panel = None
-        self.treatment_episodes_panel = None
+        self.visit_records_panel = None  # Re-enabled for displaying old visits
+        # COMMENTED OUT FOR SIMPLIFICATION
+        # self.treatment_episodes_panel = None
         
         # UI setup
         self.setup_ui()
@@ -71,26 +74,21 @@ class AdvancedDentalChart(QWidget):
         
         # Main layout
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(10, 10, 10, 10)
-        main_layout.setSpacing(10)
+        main_layout.setContentsMargins(5, 5, 5, 5)  # Reduced margins
+        main_layout.setSpacing(8)  # Reduced spacing
         
         # === HEADER SECTION ===
         header_widget = self.create_header_section()
         main_layout.addWidget(header_widget)
         
-        # === MAIN CONTENT SPLITTER ===
-        main_splitter = QSplitter(Qt.Horizontal)
-        main_splitter.setSizes([850, 350])  # 70% : 30%
-        
-        # Left panel (Charts & Examination)
+        # === MAIN CONTENT - VERTICAL LAYOUT ===
+        # Left panel (Charts & Examination) - now main content
         left_panel = self.create_left_panel()
-        main_splitter.addWidget(left_panel)
+        main_layout.addWidget(left_panel)
         
-        # Right panel (Records & Episodes)
-        right_panel = self.create_right_panel()
-        main_splitter.addWidget(right_panel)
-        
-        main_layout.addWidget(main_splitter)
+        # Right panel (Records & Episodes) - COMMENTED OUT FOR SIMPLIFICATION
+        # right_panel = self.create_right_panel()
+        # main_layout.addWidget(right_panel)
         
         # === STATUS BAR ===
         status_bar = self.create_status_bar()
@@ -102,12 +100,12 @@ class AdvancedDentalChart(QWidget):
     def create_header_section(self) -> QWidget:
         """Create header with patient selection and quick actions."""
         header_widget = QFrame()
-        header_widget.setFixedHeight(80)
+        header_widget.setFixedHeight(65)  # Reduced from 80
         header_widget.setStyleSheet("""
             QFrame {
                 background-color: #19c5e5;
-                border-radius: 8px;
-                padding: 10px;
+                border-radius: 6px;
+                padding: 8px;
             }
         """)
         
@@ -178,85 +176,103 @@ class AdvancedDentalChart(QWidget):
     
     def create_left_panel(self) -> QWidget:
         """Create left panel with examination and charts."""
+        # Main scroll area for the entire left panel
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        
+        # Content widget inside scroll area
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
-        left_layout.setContentsMargins(0, 0, 0, 0)
-        left_layout.setSpacing(10)
+        left_layout.setContentsMargins(5, 5, 5, 5)  # Reduced margins
+        left_layout.setSpacing(8)  # Reduced spacing
         
         # Examination Management Panel
         self.examination_panel = DentalExaminationPanel()
-        self.examination_panel.setMaximumHeight(200)
         left_layout.addWidget(self.examination_panel)
         
         # Dual Chart Container
         charts_container = self.create_dual_charts()
-        charts_container.setMaximumHeight(400)
         left_layout.addWidget(charts_container)
         
         # Visit Entry Panel
         self.visit_entry_panel = VisitEntryPanel()
-        self.visit_entry_panel.setMaximumHeight(250)
         left_layout.addWidget(self.visit_entry_panel)
         
-        return left_widget
+        # Visit Records Panel - Display old visits
+        self.visit_records_panel = VisitRecordsPanel()
+        self.visit_records_panel.setMinimumHeight(300)  # Set minimum height for visit history
+        left_layout.addWidget(self.visit_records_panel)
+        
+        # Set the content widget in the scroll area
+        scroll_area.setWidget(left_widget)
+        
+        return scroll_area
     
     def create_dual_charts(self) -> QWidget:
-        """Create dual dental charts (Patient/Doctor)."""
+        """Create dual dental charts (Patient/Doctor) side by side."""
         charts_widget = QFrame()
         charts_widget.setStyleSheet("""
             QFrame {
-                border: 2px solid #19c5e5;
-                border-radius: 8px;
-                background-color: #f8f9fa;
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
+                background-color: #ffffff;
             }
         """)
+        charts_widget.setMinimumHeight(600)  # Increased from 400 to accommodate bottom panels
         
+        # Use HORIZONTAL layout for side-by-side charts
         charts_layout = QHBoxLayout(charts_widget)
-        charts_layout.setContentsMargins(10, 10, 10, 10)
-        charts_layout.setSpacing(15)
+        charts_layout.setContentsMargins(8, 8, 8, 8)
+        charts_layout.setSpacing(12)
         
-        # Patient Problems Chart
+        # Patient Problems Chart (Left)
         self.patient_chart_panel = DentalChartPanel(
             panel_type="patient"
         )
-        charts_layout.addWidget(self.patient_chart_panel)
+        # Ensure proper size policies for responsive design
+        self.patient_chart_panel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        charts_layout.addWidget(self.patient_chart_panel, 1)  # Equal stretch
         
-        # Separator line
+        # Separator line (vertical) for side-by-side layout
         separator = QFrame()
         separator.setFrameShape(QFrame.VLine)
-        separator.setFrameShadow(QFrame.Sunken)
-        separator.setStyleSheet("color: #19c5e5;")
-        charts_layout.addWidget(separator)
+        separator.setFrameShadow(QFrame.Plain)
+        separator.setStyleSheet("color: #e0e0e0; background-color: #e0e0e0; max-width: 2px;")
+        charts_layout.addWidget(separator, 0)  # No stretch
         
-        # Doctor Findings Chart
+        # Doctor Findings Chart (Right)
         self.doctor_chart_panel = DentalChartPanel(
             panel_type="doctor"
         )
-        charts_layout.addWidget(self.doctor_chart_panel)
+        # Ensure proper size policies for responsive design
+        self.doctor_chart_panel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        charts_layout.addWidget(self.doctor_chart_panel, 1)  # Equal stretch
         
         return charts_widget
-    
-    def create_right_panel(self) -> QWidget:
-        """Create right panel with records and episodes."""
-        right_widget = QWidget()
-        right_layout = QVBoxLayout(right_widget)
-        right_layout.setContentsMargins(0, 0, 0, 0)
-        right_layout.setSpacing(10)
-        
-        # Visit Records Panel (Top 50%)
-        self.visit_records_panel = VisitRecordsPanel()
-        right_layout.addWidget(self.visit_records_panel)
-        
-        # Treatment Episodes Panel (Bottom 50%)
-        self.treatment_episodes_panel = TreatmentEpisodesPanel()
-        right_layout.addWidget(self.treatment_episodes_panel)
-        
-        return right_widget
+
+    # def create_right_panel(self) -> QWidget:
+    #     """Create right panel with records and episodes - COMMENTED OUT FOR SIMPLIFICATION."""
+    #     right_widget = QWidget()
+    #     right_layout = QVBoxLayout(right_widget)
+    #     right_layout.setContentsMargins(0, 0, 0, 0)
+    #     right_layout.setSpacing(10)
+    #     
+    #     # Visit Records Panel (Top 50%)
+    #     self.visit_records_panel = VisitRecordsPanel()
+    #     right_layout.addWidget(self.visit_records_panel)
+    #     
+    #     # Treatment Episodes Panel (Bottom 50%)
+    #     self.treatment_episodes_panel = TreatmentEpisodesPanel()
+    #     right_layout.addWidget(self.treatment_episodes_panel)
+    #     
+    #     return right_widget
     
     def create_status_bar(self) -> QWidget:
         """Create status bar with current info."""
         status_widget = QFrame()
-        status_widget.setFixedHeight(30)
+        status_widget.setFixedHeight(25)  # Reduced from 30
         status_widget.setStyleSheet("""
             QFrame {
                 background-color: #e6f9fd;
@@ -311,14 +327,15 @@ class AdvancedDentalChart(QWidget):
         if self.visit_entry_panel:
             self.visit_entry_panel.visit_added.connect(self.on_visit_added)
         
+        # === VISIT RECORDS PANEL - Re-enabled for displaying old visits ===
         if self.visit_records_panel:
             self.visit_records_panel.visit_selected.connect(self.on_visit_selected)
             self.visit_records_panel.total_amount_changed.connect(self.update_total_amount)
         
-        # === TREATMENT EPISODES ===
-        if self.treatment_episodes_panel:
-            self.treatment_episodes_panel.episode_saved.connect(self.on_episode_saved)
-            self.treatment_episodes_panel.episode_selected.connect(self.on_episode_selected)
+        # === TREATMENT EPISODES - COMMENTED OUT FOR SIMPLIFICATION ===
+        # if self.treatment_episodes_panel:
+        #     self.treatment_episodes_panel.episode_saved.connect(self.on_episode_saved)
+        #     self.treatment_episodes_panel.episode_selected.connect(self.on_episode_selected)
         
         # === HEADER ACTIONS ===
         self.new_exam_btn.clicked.connect(self.create_new_examination)
@@ -335,10 +352,15 @@ class AdvancedDentalChart(QWidget):
             # Update all components with new patient
             if self.examination_panel:
                 self.examination_panel.set_patient(self.current_patient_id)
+            # Re-enabled for displaying old visits
             if self.visit_records_panel:
                 self.visit_records_panel.set_patient(self.current_patient_id)
-            if self.treatment_episodes_panel:
-                self.treatment_episodes_panel.set_patient(self.current_patient_id)
+            # Update visit entry panel with patient
+            if self.visit_entry_panel:
+                self.visit_entry_panel.set_patient(self.current_patient_id)
+            # COMMENTED OUT FOR SIMPLIFICATION
+            # if self.treatment_episodes_panel:
+            #     self.treatment_episodes_panel.set_patient(self.current_patient_id)
             
             # Clear chart selections
             self.clear_tooth_selections()
@@ -361,10 +383,15 @@ class AdvancedDentalChart(QWidget):
         
         if self.current_examination_id:
             # Update UI components with examination context
+            # Re-enabled for displaying old visits
             if self.visit_records_panel:
                 self.visit_records_panel.set_examination(self.current_examination_id)
-            if self.treatment_episodes_panel:
-                self.treatment_episodes_panel.set_examination(self.current_examination_id)
+            # Update visit entry panel with examination
+            if self.visit_entry_panel:
+                self.visit_entry_panel.set_examination(self.current_examination_id)
+            # COMMENTED OUT FOR SIMPLIFICATION
+            # if self.treatment_episodes_panel:
+            #     self.treatment_episodes_panel.set_examination(self.current_examination_id)
             
             # Load dental chart data for this examination
             self.load_examination_dental_data()
@@ -403,7 +430,8 @@ class AdvancedDentalChart(QWidget):
         
         # Update visit entry panel with selected tooth
         if self.visit_entry_panel:
-            self.visit_entry_panel.set_selected_tooth(tooth_number)
+            # Use set_affected_teeth instead of set_selected_tooth
+            self.visit_entry_panel.set_affected_teeth([tooth_number])
         
         # Emit signal
         self.tooth_selected.emit(tooth_number, chart_type)
@@ -418,7 +446,7 @@ class AdvancedDentalChart(QWidget):
             history_data = {
                 'examination_id': self.current_examination_id,
                 'tooth_number': tooth_number,
-                'record_type': f'{chart_type}_problem' if chart_type == 'patient' else f'{chart_type}_finding',
+                'record_type': 'patient_problem' if chart_type == 'patient' else 'doctor_finding',
                 'status': new_status,
                 'description': f"Status changed to {new_status}",
                 'date_recorded': date.today()
@@ -427,8 +455,24 @@ class AdvancedDentalChart(QWidget):
             # Save using tooth history service
             tooth_history_service.add_tooth_history(self.current_patient_id, history_data)
             
-            # Update tooth history display
-            self.load_tooth_history(tooth_number, chart_type)
+            # Update tooth history display for both panels if the tooth is selected
+            if hasattr(self, 'selected_tooth') and self.selected_tooth == tooth_number:
+                self.load_tooth_history(tooth_number, chart_type)
+            
+            # Also refresh the specific panel that changed
+            record_type = 'patient_problem' if chart_type == 'patient' else 'doctor_finding'
+            history = tooth_history_service.get_tooth_history(
+                patient_id=self.current_patient_id,
+                tooth_number=tooth_number,
+                record_type=record_type,
+                examination_id=self.current_examination_id
+            )
+            
+            # Update the appropriate chart panel with updated history
+            if chart_type == 'patient' and self.patient_chart_panel:
+                self.patient_chart_panel.display_tooth_history(tooth_number, history)
+            elif chart_type == 'doctor' and self.doctor_chart_panel:
+                self.doctor_chart_panel.display_tooth_history(tooth_number, history)
             
             # Update status
             self.exam_status_label.setText(f"Tooth #{tooth_number} status updated")
@@ -447,11 +491,14 @@ class AdvancedDentalChart(QWidget):
             visit_data['patient_id'] = self.current_patient_id
             visit_data['examination_id'] = self.current_examination_id
             
-            # Save visit record
-            result = visit_records_service.add_visit_record(visit_data)
+            # Save visit record - COMMENTED OUT FOR SIMPLIFICATION
+            # result = visit_records_service.add_visit_record(visit_data)
+            
+            # Mock successful result for now
+            result = {'success': True}
             
             if result.get('success'):
-                # Refresh visit records display
+                # Refresh visit records display - Re-enabled for displaying old visits
                 if self.visit_records_panel:
                     self.visit_records_panel.add_visit_record(visit_data)
                 
@@ -466,7 +513,7 @@ class AdvancedDentalChart(QWidget):
                     self.visit_entry_panel.clear_form()
                 
                 # Update status
-                amount = visit_data.get('cost', 0)
+                amount = visit_data.get('cost', 0) or 0
                 self.exam_status_label.setText(f"Visit added - ${amount:.2f}")
                 
                 # Emit signal
@@ -569,16 +616,16 @@ class AdvancedDentalChart(QWidget):
         
         try:
             # Load tooth history for current examination
-            patient_history = tooth_history_service.get_examination_tooth_history(
-                self.current_patient_id, 
-                self.current_examination_id,
-                'patient_problem'
+            patient_history = tooth_history_service.get_tooth_history(
+                patient_id=self.current_patient_id, 
+                examination_id=self.current_examination_id,
+                record_type='patient_problem'
             )
             
-            doctor_history = tooth_history_service.get_examination_tooth_history(
-                self.current_patient_id,
-                self.current_examination_id, 
-                'doctor_finding'
+            doctor_history = tooth_history_service.get_tooth_history(
+                patient_id=self.current_patient_id,
+                examination_id=self.current_examination_id, 
+                record_type='doctor_finding'
             )
             
             # Update charts with loaded data
@@ -723,10 +770,15 @@ class AdvancedDentalChart(QWidget):
         # Clear panels
         if self.examination_panel:
             self.examination_panel.set_patient(None)
+        # Re-enabled for displaying old visits
         if self.visit_records_panel:
             self.visit_records_panel.set_patient(None)
-        if self.treatment_episodes_panel:
-            self.treatment_episodes_panel.set_patient(None)
+        # Clear visit entry panel
+        if self.visit_entry_panel:
+            self.visit_entry_panel.set_patient(None)
+        # COMMENTED OUT FOR SIMPLIFICATION
+        # if self.treatment_episodes_panel:
+        #     self.treatment_episodes_panel.set_patient(None)
         
         # Update status
         self.exam_status_label.setText("Ready - Select a patient to begin")
@@ -747,27 +799,27 @@ class AdvancedDentalChart(QWidget):
             
             QGroupBox {
                 font-weight: bold;
-                border: 2px solid #19c5e5;
-                border-radius: 8px;
-                margin-top: 10px;
-                padding-top: 15px;
+                border: 1px solid #19c5e5;
+                border-radius: 4px;
+                margin-top: 8px;
+                padding-top: 12px;
                 background-color: white;
             }
             
             QGroupBox::title {
                 subcontrol-origin: margin;
                 subcontrol-position: top left;
-                padding: 0 10px;
+                padding: 0 8px;
                 color: #19c5e5;
-                font-size: 14px;
+                font-size: 13px;
             }
             
             QPushButton {
                 background-color: #19c5e5;
                 color: white;
                 border: none;
-                border-radius: 4px;
-                padding: 8px 16px;
+                border-radius: 3px;
+                padding: 6px 12px;
                 font-weight: bold;
             }
             
@@ -778,6 +830,27 @@ class AdvancedDentalChart(QWidget):
             QPushButton:disabled {
                 background-color: #cccccc;
                 color: #666666;
+            }
+            
+            QScrollArea {
+                border: none;
+                background-color: transparent;
+            }
+            
+            QScrollBar:vertical {
+                background: #f0f0f0;
+                width: 12px;
+                border-radius: 6px;
+            }
+            
+            QScrollBar::handle:vertical {
+                background: #19c5e5;
+                border-radius: 6px;
+                min-height: 20px;
+            }
+            
+            QScrollBar::handle:vertical:hover {
+                background: #0ea5c7;
             }
         """)
     

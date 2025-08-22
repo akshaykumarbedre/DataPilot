@@ -40,6 +40,39 @@
 			"args": [],
 			"isBackground": false,
 			"group": "test"
+		},
+		{
+			"label": "Run Dental Application",
+			"type": "shell",
+			"command": "python app.py",
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Run Dental Application - Fixed",
+			"type": "shell",
+			"command": "python app.py",
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "run-app",
+			"type": "shell",
+			"command": "python run_test.py",
+			"group": "build"
+		},
+		{
+			"label": "run-main-app",
+			"type": "shell",
+			"command": "python app.py",
+			"group": "build"
+		},
+		{
+			"label": "Run Application",
+			"type": "shell",
+			"command": "python app.py",
+			"isBackground": false,
+			"group": "build"
 		}
 	]
 }

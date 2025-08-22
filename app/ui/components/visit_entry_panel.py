@@ -154,6 +154,9 @@ class VisitEntryPanel(QGroupBox):
         scroll_area.setWidgetResizable(True)
         layout.addWidget(scroll_area)
         
+        # Set minimum height for better visibility
+        self.setMinimumHeight(350)  # Increased height for visit entry
+        
         # Basic visit information
         basic_group = QGroupBox("Visit Information")
         basic_layout = QGridLayout(basic_group)
@@ -196,28 +199,28 @@ class VisitEntryPanel(QGroupBox):
         # Chief complaint input
         clinical_layout.addWidget(QLabel("Chief Complaint:"))
         self.chief_complaint_edit = QTextEdit()
-        self.chief_complaint_edit.setMaximumHeight(60)
+        self.chief_complaint_edit.setMaximumHeight(80)  # Increased height
         self.chief_complaint_edit.setPlaceholderText("Patient's main concern or reason for visit...")
         clinical_layout.addWidget(self.chief_complaint_edit)
         
         # Diagnosis input
         clinical_layout.addWidget(QLabel("Diagnosis:"))
         self.diagnosis_edit = QTextEdit()
-        self.diagnosis_edit.setMaximumHeight(60)
+        self.diagnosis_edit.setMaximumHeight(80)  # Increased height
         self.diagnosis_edit.setPlaceholderText("Clinical diagnosis...")
         clinical_layout.addWidget(self.diagnosis_edit)
         
         # Treatment input
         clinical_layout.addWidget(QLabel("Treatment Performed:"))
         self.treatment_edit = QTextEdit()
-        self.treatment_edit.setMaximumHeight(60)
+        self.treatment_edit.setMaximumHeight(80)  # Increased height
         self.treatment_edit.setPlaceholderText("Treatment performed during this visit...")
         clinical_layout.addWidget(self.treatment_edit)
         
         # Advice input
         clinical_layout.addWidget(QLabel("Doctor's Advice:"))
         self.advice_edit = QTextEdit()
-        self.advice_edit.setMaximumHeight(60)
+        self.advice_edit.setMaximumHeight(80)  # Increased height
         self.advice_edit.setPlaceholderText("Instructions and advice given to patient...")
         clinical_layout.addWidget(self.advice_edit)
         
@@ -249,7 +252,9 @@ class VisitEntryPanel(QGroupBox):
                 background-color: #0ea5c7;
             }
             QPushButton:disabled {
-                background-color: #bdc3c7;
+                background-color: #cccccc;
+                color: #666666;
+                border: 2px dashed #999999;
             }
         """)
         self.add_visit_btn.clicked.connect(self.add_visit_record)
@@ -275,9 +280,11 @@ class VisitEntryPanel(QGroupBox):
         
         if not has_patient:
             self.setTitle("Add New Visit (Select a patient first)")
+            self.add_visit_btn.setText("Select Patient First")
         else:
             examination_text = f" - Exam #{self.examination_id}" if self.examination_id else ""
             self.setTitle(f"Add New Visit{examination_text}")
+            self.add_visit_btn.setText("Add Visit Record")
     
     def on_teeth_selected(self, selected_teeth: List[int]):
         """Handle tooth selection change."""
