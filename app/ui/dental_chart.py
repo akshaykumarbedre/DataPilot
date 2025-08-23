@@ -136,6 +136,13 @@ class AdvancedDentalChart(QWidget):
     
     def create_left_panel(self) -> QWidget:
         """Create left panel with examination and charts."""
+        # Main scroll area for the entire left panel
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        
+        # Content widget inside scroll area
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
         left_layout.setContentsMargins(3, 3, 3, 3)  # Reduced margins
@@ -158,7 +165,10 @@ class AdvancedDentalChart(QWidget):
         self.visit_records_panel.setMinimumHeight(300)  # Set minimum height for visit history
         left_layout.addWidget(self.visit_records_panel)
         
-        return left_widget
+        # Set the content widget in the scroll area
+        scroll_area.setWidget(left_widget)
+        
+        return scroll_area
     
     def create_dual_charts(self) -> QWidget:
         """Create dual dental charts (Patient/Doctor) side by side."""

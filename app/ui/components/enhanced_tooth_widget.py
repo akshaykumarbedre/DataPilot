@@ -38,13 +38,14 @@ class EnhancedToothWidget(QWidget):
     def setup_ui(self):
         """Setup the tooth widget UI with button and dropdown."""
         layout = QVBoxLayout(self)
-        layout.setSpacing(1)
-        layout.setContentsMargins(1, 1, 1, 1)
+        layout.setSpacing(.5)
+        layout.setContentsMargins(0, 0, 0, 0)
         
         # Tooth button with (quadrant.position) display format
         self.tooth_button = QPushButton()
-        self.tooth_button.setFixedSize(65, 50)  # Increased size for better visibility
+        self.tooth_button.setFixedSize(50, 50)  # Increased size for better visibility
         self.tooth_button.setFont(QFont("Arial", 9, QFont.Bold))  # Slightly larger font
+        #self.tooth_button.setText(self.get_display_number(self.tooth_number))
         self.tooth_button.setText(self.get_display_number(self.tooth_number))
         self.tooth_button.clicked.connect(self.on_tooth_button_clicked)
         self.tooth_button.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -68,7 +69,7 @@ class EnhancedToothWidget(QWidget):
         # 11-18 → (1,1)-(1,8), 21-28 → (2,1)-(2,8), etc.
         quadrant = full_tooth_number // 10
         position = full_tooth_number % 10
-        return f"({quadrant},{position})"
+        return f"{position}"
 
     def update_tooltip(self):
         """Update tooltip with current status."""

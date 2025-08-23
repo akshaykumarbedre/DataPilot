@@ -46,19 +46,19 @@ QPushButton#delete_button:hover {
     background-color: #c0392b;
 }
 
-QPushButton#new_examination_button {
+QGroupBox#dentalExaminationPanel QPushButton#new_examination_button {
     background-color: #27ae60; /* A welcoming green */
 }
 
-QPushButton#new_examination_button:hover {
+QGroupBox#dentalExaminationPanel QPushButton#new_examination_button:hover {
     background-color: #229954;
 }
 
-QPushButton#save_examination_button {
+QGroupBox#dentalExaminationPanel QPushButton#save_examination_button {
     background-color: #27ae60; /* A welcoming green */
 }
 
-QPushButton#save_examination_button:hover {
+QGroupBox#dentalExaminationPanel QPushButton#save_examination_button:hover {
     background-color: #229954;
 }
 
@@ -364,7 +364,7 @@ QFrame#examinationForm, QFrame#examinationFindings {
     padding: 0px;
 }
 
-QPushButton#deleteExaminationButton {
+QGroupBox#dentalExaminationPanel QPushButton#deleteExaminationButton {
     background-color: #e74c3c;
     color: white;
     border: none;
@@ -373,6 +373,6 @@ QPushButton#deleteExaminationButton {
     font-weight: bold;
 }
 
-QPushButton#deleteExaminationButton:hover {
+QGroupBox#dentalExaminationPanel QPushButton#deleteExaminationButton:hover {
     background-color: #c0392b;
 }

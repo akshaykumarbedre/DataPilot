@@ -47,7 +47,7 @@ class DentalChartPanel(QGroupBox):
         """Setup the dental chart panel UI."""
         layout = QVBoxLayout(self)
         layout.setSpacing(5)
-        layout.setContentsMargins(5, 10, 5, 8)
+        layout.setContentsMargins(5, 20, 5, 8)
         
         # Set size constraints for better side-by-side display
         self.setMinimumWidth(400)
@@ -77,7 +77,7 @@ class DentalChartPanel(QGroupBox):
         upper_section.setFont(QFont("Arial", 10, QFont.Bold))
         upper_section.setObjectName("upperJaw")
         upper_layout = QHBoxLayout(upper_section)
-        upper_layout.setSpacing(1)  # Minimal spacing between teeth
+        upper_layout.setSpacing(2)  # Minimal spacing between teeth
         upper_layout.setContentsMargins(5, 10, 5, 5)
         
         # Upper right: 18-11 (reversed for visual layout)
@@ -113,7 +113,7 @@ class DentalChartPanel(QGroupBox):
         lower_section.setFont(QFont("Arial", 10, QFont.Bold))
         lower_section.setObjectName("lowerJaw")
         lower_layout = QHBoxLayout(lower_section)
-        lower_layout.setSpacing(1)  # Minimal spacing between teeth
+        lower_layout.setSpacing(2)  # Minimal spacing between teeth
         lower_layout.setContentsMargins(5, 10, 5, 5)
         
         # Lower right: 48-41 (reversed for visual layout)
