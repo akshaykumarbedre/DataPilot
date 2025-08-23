@@ -761,10 +761,8 @@ class DentalChartPanel(QGroupBox):
             current_status = 'normal'
             if self.selected_tooth in self.tooth_widgets:
                 tooth_widget = self.tooth_widgets[self.selected_tooth]
-                if hasattr(tooth_widget, 'current_status'):
-                    current_status = tooth_widget.current_status
-                elif hasattr(tooth_widget, 'get_status'):
-                    current_status = tooth_widget.get_status()
+                if hasattr(tooth_widget, 'get_current_status'):
+                    current_status = tooth_widget.get_current_status()
             
             # If no specific status is set, try to get from existing records
             if current_status == 'normal':

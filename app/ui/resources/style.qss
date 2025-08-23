@@ -167,19 +167,19 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
 
 /* Dental Chart */
 QFrame#chartsContainer {
-    border: 1px solid #d0d0d0;
+    border: 1px solid #e0e0e0; /* Softer border */
     border-radius: 4px;
     background-color: white;
 }
 
 QGroupBox#dentalChartPanel {
     border: none;
-    margin-top: 0px;
+    margin: 0px;
     padding: 0px;
 }
 
 QGroupBox#upperJaw, QGroupBox#lowerJaw {
-    border: 1px solid #d0d0d0;
+    border: 1px solid #e0e0e0; /* Softer border */
     border-radius: 4px;
     margin-top: 5px;
     padding: 5px;
@@ -187,7 +187,7 @@ QGroupBox#upperJaw, QGroupBox#lowerJaw {
 }
 
 QGroupBox#selectedToothGroup, QGroupBox#historyGroup {
-    border: 1px solid #d0d0d0;
+    border: 1px solid #e0e0e0; /* Softer border */
     border-radius: 4px;
     margin-top: 5px;
     padding: 5px;
@@ -199,7 +199,7 @@ QGroupBox#selectedToothGroup::title, QGroupBox#historyGroup::title {
     subcontrol-origin: margin;
     left: 10px;
     padding: 0 5px;
-    color: #2c3e50;
+    color: #34495e; /* Darker color for titles */
     font-weight: bold;
 }
 
@@ -288,4 +288,23 @@ QTextEdit#historyText {
 QLabel#chartSeparator {
     color: #2C3E50;
     margin: 0 2px;
+}
+
+/* Dialog Buttons */
+QDialog QPushButton {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-transform: none;
+}
+
+QDialog QPushButton:hover {
+    background-color: #e0e0e0;
+}
+
+QDialog QPushButton:pressed {
+    background-color: #d0d0d0;
 }
