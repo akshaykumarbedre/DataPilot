@@ -198,7 +198,7 @@ class DentalChartPanel(QGroupBox):
         info_layout.addWidget(self.description_label)
         
         self.description_input = QTextEdit()
-        self.description_input.setMaximumHeight(100)
+        self.description_input.setMaximumHeight(40)
         self.description_input.setPlaceholderText("Enter description for this tooth...")
         self.description_input.setStyleSheet("""
             QTextEdit {

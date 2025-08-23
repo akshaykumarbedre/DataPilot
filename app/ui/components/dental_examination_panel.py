@@ -45,25 +45,25 @@ class ExaminationFormWidget(QFrame):
         
         # Chief complaint
         self.chief_complaint_edit = QTextEdit()
-        self.chief_complaint_edit.setMaximumHeight(80)
+        self.chief_complaint_edit.setMaximumHeight(40)
         self.chief_complaint_edit.setPlaceholderText("Patient's main concern or reason for visit...")
         form_layout.addRow("Chief Complaint:", self.chief_complaint_edit)
         
         # Present illness
         self.present_illness_edit = QTextEdit()
-        self.present_illness_edit.setMaximumHeight(80)
+        self.present_illness_edit.setMaximumHeight(40)
         self.present_illness_edit.setPlaceholderText("History of present illness...")
         form_layout.addRow("Present Illness:", self.present_illness_edit)
         
         # Medical history
         self.medical_history_edit = QTextEdit()
-        self.medical_history_edit.setMaximumHeight(80)
+        self.medical_history_edit.setMaximumHeight(40)
         self.medical_history_edit.setPlaceholderText("Relevant medical history...")
         form_layout.addRow("Medical History:", self.medical_history_edit)
         
         # Dental history
         self.dental_history_edit = QTextEdit()
-        self.dental_history_edit.setMaximumHeight(80)
+        self.dental_history_edit.setMaximumHeight(40)
         self.dental_history_edit.setPlaceholderText("Previous dental treatments and history...")
         form_layout.addRow("Dental History:", self.dental_history_edit)
         
@@ -123,27 +123,27 @@ class ExaminationFindings(QFrame):
         form_layout.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
 
         self.extraoral_findings_edit = QTextEdit()
-        self.extraoral_findings_edit.setMaximumHeight(100)
+        self.extraoral_findings_edit.setMaximumHeight(40)
         self.extraoral_findings_edit.setPlaceholderText("Face, neck, lymph nodes, TMJ examination findings...")
         form_layout.addRow("Extra-oral Examination:", self.extraoral_findings_edit)
 
         self.intraoral_findings_edit = QTextEdit()
-        self.intraoral_findings_edit.setMaximumHeight(100)
+        self.intraoral_findings_edit.setMaximumHeight(40)
         self.intraoral_findings_edit.setPlaceholderText("Oral hygiene, gingiva, teeth, oral lesions, etc...")
         form_layout.addRow("Intra-oral Examination:", self.intraoral_findings_edit)
 
         self.periodontal_findings_edit = QTextEdit()
-        self.periodontal_findings_edit.setMaximumHeight(100)
+        self.periodontal_findings_edit.setMaximumHeight(40)
         self.periodontal_findings_edit.setPlaceholderText("Gingival condition, pocket depths, bleeding, mobility...")
         form_layout.addRow("Periodontal Examination:", self.periodontal_findings_edit)
 
         self.diagnosis_edit = QTextEdit()
-        self.diagnosis_edit.setMaximumHeight(100)
+        self.diagnosis_edit.setMaximumHeight(40)
         self.diagnosis_edit.setPlaceholderText("Primary and secondary diagnoses...")
         form_layout.addRow("Diagnosis:", self.diagnosis_edit)
 
         self.treatment_plan_edit = QTextEdit()
-        self.treatment_plan_edit.setMaximumHeight(100)
+        self.treatment_plan_edit.setMaximumHeight(40)
         self.treatment_plan_edit.setPlaceholderText("Proposed treatment plan and recommendations...")
         form_layout.addRow("Treatment Plan:", self.treatment_plan_edit)
         
