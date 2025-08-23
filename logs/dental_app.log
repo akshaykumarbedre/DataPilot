@@ -19212,3 +19212,12 @@ Supported signatures:
 2025-08-23 16:21:03,006 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 10, This month: 10, Examinations: 5
 2025-08-23 16:21:03,029 - app.services.patient_service - INFO - Found 10 patients for search: ''
 2025-08-23 16:21:03,064 - app.ui.patient_management - INFO - Loaded 10 patients
+2025-08-23 16:21:06,736 - app.services.patient_service - INFO - Found 10 patients for search: ''
+2025-08-23 16:21:06,815 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 16:21:08,950 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 16:21:10,143 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 16:21:15,172 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 16:21:15,254 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 16:21:15,304 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 2 teeth in doctor panel
+2025-08-23 16:21:15,327 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 2 teeth in doctor panel
+2025-08-23 16:21:32,987 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 10, This month: 10, Examinations: 5
