@@ -53,42 +53,13 @@ class ExportWorker(QThread):
             self.export_completed.emit(False, f"Export error: {str(e)}")
 
 
-class ImportWorker(QThread):
-    """Worker thread for import operations."""
-    
-    progress_updated = Signal(int)
-    status_updated = Signal(str)
-    import_completed = Signal(bool, dict)
-    
-    def __init__(self, file_path: str):
-        super().__init__()
-        self.file_path = file_path
-    
-    def run(self):
-        """Run the import operation."""
-        try:
-            self.status_updated.emit("Starting import...")
-            self.progress_updated.emit(10)
-            
-            self.status_updated.emit("Importing patients from CSV...")
-            self.progress_updated.emit(50)
-            
-            results = export_service.import_patients_from_csv(self.file_path)
-            
-            self.progress_updated.emit(100)
-            self.import_completed.emit(results['success'], results)
-            
-        except Exception as e:
-            self.import_completed.emit(False, {'errors': [str(e)]})
-
-
 class ExportDialog(QDialog):
     """Dialog for data export and backup operations."""
     
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Data Export & Backup")
-        self.setFixedSize(600, 700)
+        self.setFixedSize(600, 600)
         self.setModal(True)
         
         self.worker = None
@@ -117,9 +88,6 @@ class ExportDialog(QDialog):
         
         # Export section
         self._setup_export_section(main_layout)
-        
-        # Import section
-        self._setup_import_section(main_layout)
         
         # Progress section
         self._setup_progress_section(main_layout)
@@ -216,53 +184,6 @@ class ExportDialog(QDialog):
         export_layout.addLayout(export_buttons_layout)
         main_layout.addWidget(export_group)
     
-    def _setup_import_section(self, main_layout):
-        """Set up the import section."""
-        import_group = QGroupBox("Import Data")
-        import_group.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                border: 2px solid #E67E22;
-                border-radius: 8px;
-                margin-top: 10px;
-                padding-top: 10px;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 8px 0 8px;
-            }
-        """)
-        
-        import_layout = QVBoxLayout(import_group)
-        
-        import_info = QLabel("Import patients from CSV file. Required columns: Full Name, Phone Number\n" +
-                            "🦷 Dental Chart Restore: Quadrant, Tooth Number, Diagnosis, Treatment Performed, Tooth Status\n" +
-                            "📞 Duplicate Prevention: Existing patients with same phone number will be updated instead of duplicated.")
-        import_info.setStyleSheet("color: #7F8C8D; font-style: italic;")
-        import_layout.addWidget(import_info)
-        
-        self.import_button = QPushButton("Import Patients from CSV")
-        self.import_button.setStyleSheet("""
-            QPushButton {
-                background-color: #E67E22;
-                color: white;
-                border: none;
-                border-radius: 6px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #D35400;
-            }
-            QPushButton:pressed {
-                background-color: #BA4A00;
-            }
-        """)
-        import_layout.addWidget(self.import_button)
-        
-        main_layout.addWidget(import_group)
-    
     def _setup_progress_section(self, main_layout):
         """Set up the progress section."""
         progress_group = QGroupBox("Operation Progress")
@@ -351,7 +272,6 @@ class ExportDialog(QDialog):
     def _connect_signals(self):
         """Connect widget signals."""
         self.export_button.clicked.connect(self._export_data)
-        self.import_button.clicked.connect(self._import_data)
         self.refresh_button.clicked.connect(self._load_statistics)
         self.close_button.clicked.connect(self.close)
     
@@ -413,23 +333,6 @@ class ExportDialog(QDialog):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Export failed: {str(e)}")
     
-    def _import_data(self):
-        """Import data from CSV file."""
-        try:
-            file_dialog = QFileDialog()
-            file_path, _ = file_dialog.getOpenFileName(
-                self,
-                "Select CSV File to Import",
-                os.path.expanduser("~/Documents"),
-                "CSV Files (*.csv)"
-            )
-            
-            if file_path:
-                self._start_import(file_path)
-                
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"Import failed: {str(e)}")
-    
     def _start_export(self, export_type: str, file_path: str, options: dict):
         """Start export operation in background thread."""
         if self.worker and self.worker.isRunning():
@@ -441,7 +344,6 @@ class ExportDialog(QDialog):
         self.result_text.setVisible(False)
         
         self.export_button.setEnabled(False)
-        self.import_button.setEnabled(False)
         
         self.worker = ExportWorker(export_type, file_path, options)
         self.worker.progress_updated.connect(self.progress_bar.setValue)
@@ -449,29 +351,9 @@ class ExportDialog(QDialog):
         self.worker.export_completed.connect(self._on_export_completed)
         self.worker.start()
     
-    def _start_import(self, file_path: str):
-        """Start import operation in background thread."""
-        if self.worker and self.worker.isRunning():
-            QMessageBox.warning(self, "Warning", "An operation is already in progress")
-            return
-        
-        self.progress_bar.setVisible(True)
-        self.progress_bar.setValue(0)
-        self.result_text.setVisible(False)
-        
-        self.export_button.setEnabled(False)
-        self.import_button.setEnabled(False)
-        
-        self.worker = ImportWorker(file_path)
-        self.worker.progress_updated.connect(self.progress_bar.setValue)
-        self.worker.status_updated.connect(self.status_label.setText)
-        self.worker.import_completed.connect(self._on_import_completed)
-        self.worker.start()
-    
     def _on_export_completed(self, success: bool, message: str):
         """Handle export completion."""
         self.export_button.setEnabled(True)
-        self.import_button.setEnabled(True)
         
         self.progress_bar.setVisible(False)
         self.result_text.setVisible(True)
@@ -492,66 +374,6 @@ class ExportDialog(QDialog):
         else:
             self.status_label.setText("Export failed")
             self.result_text.setPlainText(f"Error: {message}")
-            self.result_text.setStyleSheet("""
-                QTextEdit {
-                    border: 1px solid #E74C3C;
-                    border-radius: 4px;
-                    padding: 5px;
-                    background-color: #FADBD8;
-                    color: #E74C3C;
-                }
-            """)
-    
-    def _on_import_completed(self, success: bool, results: dict):
-        """Handle import completion."""
-        self.export_button.setEnabled(True)
-        self.import_button.setEnabled(True)
-        
-        self.progress_bar.setVisible(False)
-        self.result_text.setVisible(True)
-        
-        if success:
-            self.status_label.setText("Import completed successfully")
-            
-            # Create detailed import message
-            message_parts = []
-            if results.get('imported_count', 0) > 0:
-                message_parts.append(f"✅ {results['imported_count']} new patients imported")
-            if results.get('updated_count', 0) > 0:
-                message_parts.append(f"🔄 {results['updated_count']} existing patients updated")
-            if results.get('dental_records_imported', 0) > 0:
-                message_parts.append(f"🦷 {results['dental_records_imported']} dental chart records restored")
-            if results.get('error_count', 0) > 0:
-                message_parts.append(f"⚠️ {results['error_count']} errors occurred")
-            
-            message = "\n".join(message_parts)
-            
-            # Add error details if any
-            if results.get('errors') and len(results['errors']) > 0:
-                message += f"\n\nFirst few errors:\n" + "\n".join(results['errors'][:5])
-            
-            # Add prevention info
-            if results.get('updated_count', 0) > 0:
-                message += f"\n\nℹ️ Duplicates prevented: Existing patients were updated based on phone number matching."
-            
-            self.result_text.setPlainText(message)
-            self.result_text.setStyleSheet("""
-                QTextEdit {
-                    border: 1px solid #27AE60;
-                    border-radius: 4px;
-                    padding: 5px;
-                    background-color: #D5F4E6;
-                    color: #27AE60;
-                }
-            """)
-            self._load_statistics()  # Refresh statistics
-        else:
-            self.status_label.setText("Import failed")
-            error_message = "Import failed"
-            if results.get('errors'):
-                error_message += ":\n" + "\n".join(results['errors'])
-            
-            self.result_text.setPlainText(error_message)
             self.result_text.setStyleSheet("""
                 QTextEdit {
                     border: 1px solid #E74C3C;

@@ -34,9 +34,9 @@ class DentalChartPanel(QGroupBox):
         
         # Set panel title with improved formatting
         if panel_type == 'patient':
-            title = "Patient Problems (Dental Chart)"
+            title = "Patient Problems"
         else:
-            title = "Doctor Findings (Dental Chart)"
+            title = "Doctor Findings"
         
         self.setTitle(title)
         self.setObjectName("dentalChartPanel")
@@ -752,9 +752,10 @@ class DentalChartPanel(QGroupBox):
         description = self.description_input.toPlainText().strip()
         
         if not description:
-            from PySide6.QtWidgets import QMessageBox
-            QMessageBox.warning(self, "Warning", "Please enter a description for this tooth record.")
-            return
+            description=""
+            # from PySide6.QtWidgets import QMessageBox
+            # QMessageBox.warning(self, "Warning", "Please enter a description for this tooth record.")
+            # return
         
         try:
             # Get current status from tooth widget (if available)

@@ -159,7 +159,7 @@ class VisitEntryPanel(QGroupBox):
         layout.addWidget(scroll_area)
         
         # Set minimum height for better visibility
-        self.setMinimumHeight(350)  # Increased height for visit entry
+        self.setMinimumHeight(1000)  # Increased height for visit entry
         
         # Basic visit information
         basic_group = QGroupBox("Visit Information")
@@ -181,7 +181,7 @@ class VisitEntryPanel(QGroupBox):
         basic_layout.addWidget(QLabel("Amount:"), 1, 0)
         self.amount_spin = QDoubleSpinBox()
         self.amount_spin.setRange(0.0, 99999.99)
-        self.amount_spin.setPrefix("$")
+        self.amount_spin.setPrefix("₹")
         self.amount_spin.setDecimals(2)
         basic_layout.addWidget(self.amount_spin, 1, 1)
         

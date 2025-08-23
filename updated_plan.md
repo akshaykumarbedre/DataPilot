@@ -573,7 +573,7 @@ def create_status_bar(self) -> QWidget:
     
     # Status labels
     self.exam_status_label = QLabel("Ready")
-    self.total_amount_label = QLabel("Total: $0.00") 
+    self.total_amount_label = QLabel("Total: ₹0.00") 
     self.last_saved_label = QLabel("Never saved")
     
     for label in [self.exam_status_label, self.total_amount_label, self.last_saved_label]:
@@ -740,7 +740,7 @@ def on_visit_added(self, visit_data):
         
         # Update status
         amount = visit_data.get('cost', 0)
-        self.exam_status_label.setText(f"Visit added - ${amount:.2f}")
+        self.exam_status_label.setText(f"Visit added - ₹{amount:.2f}")
         
         # Emit signal
         self.visit_added.emit(visit_data)

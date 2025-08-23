@@ -64,7 +64,7 @@ class VisitRecordWidget(QFrame):
         # Amount
         cost = self.visit_data.get('cost', 0)
         if cost and cost > 0:
-            amount_label = QLabel(f"${cost:.2f}")
+            amount_label = QLabel(f"₹{cost:.2f}")
             amount_label.setFont(QFont("Arial", 10, QFont.Bold))
             amount_label.setStyleSheet("color: #27ae60;")
             header_layout.addWidget(amount_label)
@@ -209,8 +209,8 @@ class VisitRecordsPanel(QGroupBox):
         header_layout.addStretch()
         
         # Total amount display
-        self.total_label = QLabel("Total: $0.00")
-        self.total_label.setFont(QFont("Arial", 12, QFont.Bold))
+        self.total_label = QLabel("Total: ₹0.00")
+        self.total_label.setFont(QFont("Arial", 20, QFont.Bold))
         self.total_label.setStyleSheet("color: #27ae60; padding: 5px;")
         header_layout.addWidget(self.total_label)
         
@@ -254,7 +254,7 @@ class VisitRecordsPanel(QGroupBox):
         
         # Load initial data
         self.update_panel_state()
-        self.setMinimumHeight(400)
+        self.setMinimumHeight(600)  # Increased from 400 to 600 for better visibility
     
     def set_patient(self, patient_id: int):
         """Set the current patient and load records."""

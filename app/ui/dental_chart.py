@@ -239,7 +239,7 @@ class AdvancedDentalChart(QWidget):
         
         # Status labels
         self.exam_status_label = QLabel("Ready")
-        self.total_amount_label = QLabel("Total: $0.00") 
+        self.total_amount_label = QLabel("Total: ₹0.00") 
         self.last_saved_label = QLabel("Never saved")
         
         for label in [self.exam_status_label, self.total_amount_label, self.last_saved_label]:
@@ -477,7 +477,7 @@ class AdvancedDentalChart(QWidget):
                 
                 # Update status
                 amount = visit_data.get('cost', 0) or 0
-                self.exam_status_label.setText(f"Visit added - ${amount:.2f}")
+                self.exam_status_label.setText(f"Visit added - ₹{amount:.2f}")
                 
                 # Emit signal
                 self.visit_added.emit(visit_data)
@@ -505,7 +505,7 @@ class AdvancedDentalChart(QWidget):
     
     def update_total_amount(self, total_amount):
         """Update total amount display."""
-        self.total_amount_label.setText(f"Total: ${total_amount:.2f}")
+        self.total_amount_label.setText(f"Total: ₹{total_amount:.2f}")
     
     # === DATA LOADING AND MANAGEMENT ===
     def load_initial_data(self):
@@ -722,7 +722,7 @@ class AdvancedDentalChart(QWidget):
         
         # Update status
         self.exam_status_label.setText("Ready - Select a patient to begin")
-        self.total_amount_label.setText("Total: $0.00")
+        self.total_amount_label.setText("Total: ₹0.00")
     
     def update_last_saved(self):
         """Update last saved timestamp."""

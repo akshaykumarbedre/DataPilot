@@ -473,6 +473,9 @@ class PatientManagement(QWidget):
         self.patients_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.patients_table.verticalHeader().setVisible(False)
         
+        # Set row height to accommodate the action buttons
+        self.patients_table.verticalHeader().setDefaultSectionSize(40)  # Set default row height
+        
         # Set column widths
         header = self.patients_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Fixed)  # Patient ID
@@ -484,7 +487,7 @@ class PatientManagement(QWidget):
         
         self.patients_table.setColumnWidth(0, 100)  # Patient ID
         self.patients_table.setColumnWidth(2, 120)  # Phone
-        self.patients_table.setColumnWidth(4, 140)  # Created/Updated
+        self.patients_table.setColumnWidth(4, 250)  # Created/Updated
         self.patients_table.setColumnWidth(5, 190)  # Actions (increased for Examine button)
         
         self.patients_table.setStyleSheet("""
@@ -543,9 +546,11 @@ class PatientManagement(QWidget):
         try:
             # Get patients from service
             self.patients_data = patient_service.search_patients(search_term)
+
             
             # Update table
             self.patients_table.setRowCount(len(self.patients_data))
+
             
             for row, patient in enumerate(self.patients_data):
                 # Patient ID
@@ -639,6 +644,7 @@ class PatientManagement(QWidget):
         # Examine button
         examine_btn = QPushButton("Examine")
         examine_btn.setMaximumWidth(70)
+        examine_btn.setMinimumHeight(15)  # Reduced from 80 to 30
         examine_btn.setStyleSheet("""
             QPushButton {
                 background-color: #9B59B6;
@@ -658,6 +664,8 @@ class PatientManagement(QWidget):
         # Edit button
         edit_btn = QPushButton("Edit")
         edit_btn.setMaximumWidth(50)
+        edit_btn.setMinimumHeight(15)  # Reduced from 80 to 30
+
         edit_btn.setStyleSheet("""
             QPushButton {
                 background-color: #3498DB;
@@ -677,6 +685,7 @@ class PatientManagement(QWidget):
         # Delete button
         delete_btn = QPushButton("Delete")
         delete_btn.setMaximumWidth(60)
+        delete_btn.setMinimumHeight(15)  # Reduced from 80 to 30
         delete_btn.setStyleSheet("""
             QPushButton {
                 background-color: #E74C3C;
