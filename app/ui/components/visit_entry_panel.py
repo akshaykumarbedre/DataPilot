@@ -41,6 +41,7 @@ class ToothSelectionWidget(QWidget):
         for i, tooth_num in enumerate(range(18, 10, -1)):
             checkbox = QCheckBox(f"{tooth_num}")
             checkbox.setMaximumWidth(50)
+            checkbox.setStyleSheet("margin-left: 5px;")
             checkbox.stateChanged.connect(self.on_selection_changed)
             self.tooth_checkboxes[tooth_num] = checkbox
             upper_layout.addWidget(checkbox, 0, i)
@@ -49,6 +50,7 @@ class ToothSelectionWidget(QWidget):
         for i, tooth_num in enumerate(range(21, 29)):
             checkbox = QCheckBox(f"{tooth_num}")
             checkbox.setMaximumWidth(50)
+            checkbox.setStyleSheet("margin-left: 5px;")
             checkbox.stateChanged.connect(self.on_selection_changed)
             self.tooth_checkboxes[tooth_num] = checkbox
             upper_layout.addWidget(checkbox, 0, 8 + i)
@@ -64,6 +66,7 @@ class ToothSelectionWidget(QWidget):
         for i, tooth_num in enumerate(range(48, 40, -1)):
             checkbox = QCheckBox(f"{tooth_num}")
             checkbox.setMaximumWidth(50)
+            checkbox.setStyleSheet("margin-left: 5px;")
             checkbox.stateChanged.connect(self.on_selection_changed)
             self.tooth_checkboxes[tooth_num] = checkbox
             lower_layout.addWidget(checkbox, 0, i)
@@ -72,6 +75,7 @@ class ToothSelectionWidget(QWidget):
         for i, tooth_num in enumerate(range(31, 39)):
             checkbox = QCheckBox(f"{tooth_num}")
             checkbox.setMaximumWidth(50)
+            checkbox.setStyleSheet("margin-left: 5px;")
             checkbox.stateChanged.connect(self.on_selection_changed)
             self.tooth_checkboxes[tooth_num] = checkbox
             lower_layout.addWidget(checkbox, 0, 8 + i)
