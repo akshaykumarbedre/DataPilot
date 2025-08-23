@@ -54,6 +54,14 @@ QPushButton#new_examination_button:hover {
     background-color: #229954;
 }
 
+QPushButton#save_examination_button {
+    background-color: #27ae60; /* A welcoming green */
+}
+
+QPushButton#save_examination_button:hover {
+    background-color: #229954;
+}
+
 
 /* Input Fields */
 QLineEdit, QTextEdit, QComboBox, QDateEdit {

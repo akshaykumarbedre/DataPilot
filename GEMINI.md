@@ -41,11 +41,11 @@ conda activate dental && python app.py
 
 ## Git Commit Guidelines
 
-When starting new major content or fine changes, commit your work using:
+When starting new major content or fine changes, commit your work using dont check git stats (git add .):
 
 ```bash
-git add .
-git commit -m "short descriptive comment"
+git add . && git commit -m "short descriptive comment"
 ```
+
 
 

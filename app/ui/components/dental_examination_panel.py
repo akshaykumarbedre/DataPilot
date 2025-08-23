@@ -216,10 +216,12 @@ class DentalExaminationPanel(QGroupBox):
         
         # Action buttons
         self.new_btn = QPushButton("New Examination")
+        self.new_btn.setObjectName("new_examination_button")
         self.new_btn.clicked.connect(self.create_new_examination)
         header_layout.addWidget(self.new_btn)
         
         self.save_btn = QPushButton("Save")
+        self.save_btn.setObjectName("save_examination_button")
         self.save_btn.clicked.connect(self.save_examination)
         header_layout.addWidget(self.save_btn)
         
