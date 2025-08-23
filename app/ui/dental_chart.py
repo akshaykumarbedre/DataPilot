@@ -94,20 +94,12 @@ class AdvancedDentalChart(QWidget):
         status_bar = self.create_status_bar()
         main_layout.addWidget(status_bar)
         
-        # Apply global styling
-        self.apply_global_styles()
+        
     
     def create_header_section(self) -> QWidget:
         """Create header with patient selection and quick actions."""
         header_widget = QFrame()
         header_widget.setFixedHeight(60)  # Slightly reduced
-        header_widget.setStyleSheet("""
-            QFrame {
-                background-color: #2C3E50;
-                border-radius: 4px;
-                padding: 6px;
-            }
-        """)
         
         header_layout = QHBoxLayout(header_widget)
         header_layout.setSpacing(10)
@@ -434,11 +426,16 @@ class AdvancedDentalChart(QWidget):
         # Clear selection from the other chart
         if chart_type == "patient" and self.doctor_chart_panel:
             self.doctor_chart_panel.clear_selection()
+            self.doctor_chart_panel.hide_all_dropdowns() 
         elif chart_type == "doctor" and self.patient_chart_panel:
             self.patient_chart_panel.clear_selection()
+            self.patient_chart_panel.hide_all_dropdowns()
         
         # Load tooth history for selected tooth and chart type
-        self.load_tooth_history(tooth_number, chart_type)
+        if chart_type == "patient" and self.patient_chart_panel:
+            self.patient_chart_panel.load_tooth_history(tooth_number)
+        elif chart_type == "doctor" and self.doctor_chart_panel:
+            self.doctor_chart_panel.load_tooth_history(tooth_number)
         
         # Update visit entry panel with selected tooth
         if self.visit_entry_panel:
@@ -649,30 +646,7 @@ class AdvancedDentalChart(QWidget):
         except Exception as e:
             logger.error(f"Error loading examination dental data: {str(e)}")
     
-    def load_tooth_history(self, tooth_number, chart_type):
-        """Load tooth history for selected tooth."""
-        if not self.current_patient_id or not self.current_examination_id:
-            return
-        
-        try:
-            record_type = f'{chart_type}_problem' if chart_type == 'patient' else f'{chart_type}_finding'
-            
-            # Get tooth history for this tooth and examination
-            history = tooth_history_service.get_tooth_history(
-                self.current_patient_id,
-                tooth_number,
-                record_type,
-                self.current_examination_id
-            )
-            
-            # Update the appropriate chart panel with history
-            if chart_type == "patient" and self.patient_chart_panel:
-                self.patient_chart_panel.display_tooth_history(tooth_number, history)
-            elif chart_type == "doctor" and self.doctor_chart_panel:
-                self.doctor_chart_panel.display_tooth_history(tooth_number, history)
-                
-        except Exception as e:
-            logger.error(f"Error loading tooth history: {str(e)}")
+    
     
     def add_tooth_history_from_visit(self, tooth_number, visit_data):
         """Add tooth history entries from visit data."""
@@ -801,88 +775,7 @@ class AdvancedDentalChart(QWidget):
         current_time = datetime.now().strftime('%H:%M:%S')
         self.last_saved_label.setText(f"Saved: {current_time}")
     
-    def apply_global_styles(self):
-        """Apply consistent styling across the widget."""
-        self.setStyleSheet("""
-            QWidget {
-                font-family: 'Segoe UI', Arial, sans-serif;
-                font-size: 12px;
-                color: #2C3E50;
-            }
-            
-            QGroupBox {
-                font-weight: bold;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                margin-top: 6px;
-                padding-top: 8px;
-                background-color: white;
-            }
-            
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                subcontrol-position: top left;
-                padding: 0 6px;
-                color: #2C3E50;
-                font-size: 12px;
-            }
-            
-            QPushButton {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 6px 12px;
-                font-weight: bold;
-                font-size: 11px;
-            }
-            
-            QPushButton:hover {
-                background-color: #45a049;
-            }
-            
-            QPushButton:disabled {
-                background-color: #BDC3C7;
-                color: #7F8C8D;
-            }
-            
-            QScrollArea {
-                border: none;
-                background-color: transparent;
-            }
-            
-            QScrollBar:vertical {
-                background: #ECF0F1;
-                width: 10px;
-                border-radius: 5px;
-            }
-            
-            QScrollBar::handle:vertical {
-                background: #BDC3C7;
-                border-radius: 5px;
-                min-height: 20px;
-            }
-            
-            QScrollBar::handle:vertical:hover {
-                background: #95A5A6;
-            }
-            
-            QScrollBar:horizontal {
-                background: #ECF0F1;
-                height: 10px;
-                border-radius: 5px;
-            }
-            
-            QScrollBar::handle:horizontal {
-                background: #BDC3C7;
-                border-radius: 5px;
-                min-width: 20px;
-            }
-            
-            QScrollBar::handle:horizontal:hover {
-                background: #95A5A6;
-            }
-        """)
+    
     
     # === PUBLIC INTERFACE ===
     def set_patient(self, patient: dict):

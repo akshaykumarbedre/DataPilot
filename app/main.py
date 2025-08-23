@@ -67,6 +67,15 @@ class DentalManagementApp:
             self.app = QApplication(sys.argv)
             self.app.setApplicationName(APP_NAME)
             self.app.setOrganizationName("Dental Solutions")
+
+            # Apply stylesheet
+            stylesheet_path = Path(__file__).parent / "ui" / "resources" / "style.qss"
+            if stylesheet_path.exists():
+                with open(stylesheet_path, "r") as f:
+                    self.app.setStyleSheet(f.read())
+                logger.info(f"Stylesheet applied: {stylesheet_path}")
+            else:
+                logger.warning(f"Stylesheet not found: {stylesheet_path}")
             
             # Set application icon
             icon_path = Path(__file__).parent / "icon" / "logo.png"

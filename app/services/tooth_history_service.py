@@ -533,6 +533,55 @@ class ToothHistoryService:
             logger.error(f"Error getting tooth timeline for tooth {tooth_number}: {str(e)}")
             return []
 
+    def delete_last_tooth_history_entry(self, patient_id: int, tooth_number: int, record_type: str) -> bool:
+        """Deletes the last entry from a tooth's history."""
+        try:
+            session = db_manager.get_session()
+            
+            record = session.query(ToothHistory).filter(
+                and_(
+                    ToothHistory.patient_id == patient_id,
+                    ToothHistory.tooth_number == tooth_number,
+                    ToothHistory.record_type == record_type
+                )
+            ).first()
+            
+            if record:
+                status_history = self._parse_history_field(record.status_history)
+                description_history = self._parse_history_field(record.description_history)
+                date_history = self._parse_history_field(record.date_history)
+                
+                if len(status_history) > 1:
+                    # More than one entry, so pop the last one
+                    status_history.pop()
+                    description_history.pop()
+                    date_history.pop()
+                    
+                    record.status_history = self._serialize_history_field(status_history)
+                    record.description_history = self._serialize_history_field(description_history)
+                    record.date_history = self._serialize_history_field(date_history)
+                    
+                    record.status = status_history[-1]
+                    record.description = description_history[-1]
+                    record.date_recorded = date.fromisoformat(date_history[-1])
+                else:
+                    # Only one entry, so delete the whole record
+                    session.delete(record)
+                
+                session.commit()
+                session.close()
+                return True
+            
+            session.close()
+            return False # No record found
+            
+        except Exception as e:
+            logger.error(f"Error deleting last tooth history entry: {str(e)}")
+            if session:
+                session.rollback()
+                session.close()
+            return False
+
 
 # Global service instance
 tooth_history_service = ToothHistoryService()

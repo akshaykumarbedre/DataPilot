@@ -15958,3 +15958,620 @@ WHERE tooth_history.patient_id = ? AND tooth_history.tooth_number = ? AND tooth_
 2025-08-22 21:04:59,629 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
 2025-08-22 21:04:59,647 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
 2025-08-22 21:04:59,652 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to normal in patient panel
+2025-08-22 21:05:13,400 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-22 21:05:13,708 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-22 21:05:13,726 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-22 21:05:13,731 - app.ui.components.dental_chart_panel - INFO - Updated tooth 45 status to normal in doctor panel
+2025-08-22 21:05:17,240 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-22 21:05:17,558 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-22 21:05:17,573 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-22 21:05:17,592 - app.ui.components.dental_chart_panel - INFO - Updated tooth 44 status to gum_recession in doctor panel
+2025-08-22 21:05:18,780 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-22 21:05:20,195 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-22 21:05:20,508 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-22 21:05:20,523 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-22 21:05:20,539 - app.ui.components.dental_chart_panel - INFO - Updated tooth 44 status to fracture in doctor panel
+2025-08-22 21:05:48,796 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-22 21:06:18,787 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:31:54,024 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 09:31:54,134 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 09:31:54,134 - app.main - INFO - Running startup optimizations...
+2025-08-23 09:31:54,134 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 09:31:54,149 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 09:31:54,149 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 09:31:54,149 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 09:31:54,149 - app.utils.performance - INFO - Memory usage: {'rss_mb': 67.921875, 'vms_mb': 44.6875, 'memory_percent': 0.8419026185747308}
+2025-08-23 09:31:54,149 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 09:31:54,149 - app.main - INFO - Initializing database...
+2025-08-23 09:31:54,428 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 09:31:54,428 - app.main - INFO - Showing login dialog...
+2025-08-23 09:31:56,522 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 09:31:56,522 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 09:31:56,538 - app.main - INFO - Login successful, showing main window...
+2025-08-23 09:31:56,647 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:31:56,694 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:31:56,694 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-23 09:32:01,245 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:32:01,325 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 09:32:03,942 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 09:32:05,360 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:32:07,273 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 09:32:08,523 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:32:08,804 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:09,069 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 09:32:09,132 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 12 teeth in doctor panel
+2025-08-23 09:32:09,194 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 12 teeth in doctor panel
+2025-08-23 09:32:09,194 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 09:32:11,541 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 09:32:11,729 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:11,745 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 09:32:11,745 - app.ui.components.dental_chart_panel - INFO - Updated tooth 44 status to gum_recession in patient panel
+2025-08-23 09:32:15,818 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:32:16,022 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:16,022 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:32:16,037 - app.ui.components.dental_chart_panel - INFO - Updated tooth 43 status to normal in patient panel
+2025-08-23 09:32:16,997 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:32:17,215 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:17,231 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:32:17,231 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to normal in patient panel
+2025-08-23 09:32:19,485 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:32:19,688 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:19,704 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:32:19,704 - app.ui.components.dental_chart_panel - INFO - Updated tooth 42 status to normal in patient panel
+2025-08-23 09:32:20,837 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 46
+2025-08-23 09:32:21,040 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:21,056 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 46
+2025-08-23 09:32:21,056 - app.ui.components.dental_chart_panel - INFO - Updated tooth 46 status to normal in patient panel
+2025-08-23 09:32:22,153 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 48
+2025-08-23 09:32:22,341 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:22,357 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 48
+2025-08-23 09:32:22,357 - app.ui.components.dental_chart_panel - INFO - Updated tooth 48 status to normal in patient panel
+2025-08-23 09:32:24,129 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 33
+2025-08-23 09:32:24,457 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:24,472 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 33
+2025-08-23 09:32:24,488 - app.ui.components.dental_chart_panel - INFO - Updated tooth 33 status to normal in patient panel
+2025-08-23 09:32:26,235 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 36
+2025-08-23 09:32:26,579 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:32:26,602 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 36
+2025-08-23 09:32:26,602 - app.ui.components.dental_chart_panel - INFO - Updated tooth 36 status to normal in patient panel
+2025-08-23 09:32:26,664 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:32:56,635 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:33:11,195 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-23 09:33:11,351 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:33:11,367 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-23 09:33:11,367 - app.ui.components.dental_chart_panel - INFO - Updated tooth 45 status to normal in patient panel
+2025-08-23 09:33:26,651 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:33:56,662 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:34:26,681 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:34:56,698 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:35:26,709 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:35:56,711 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:36:26,727 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:36:56,729 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:37:26,745 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:37:56,757 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:37:56,820 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 09:37:56,898 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 09:37:56,898 - app.main - INFO - Running startup optimizations...
+2025-08-23 09:37:56,898 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 09:37:56,898 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 09:37:56,898 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 09:37:56,898 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 09:37:56,898 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.203125, 'vms_mb': 45.22265625, 'memory_percent': 0.8453887577820794}
+2025-08-23 09:37:56,898 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 09:37:56,898 - app.main - INFO - Initializing database...
+2025-08-23 09:37:56,992 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 09:37:56,992 - app.main - INFO - Showing login dialog...
+2025-08-23 09:37:59,868 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 09:37:59,868 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 09:37:59,900 - app.main - INFO - Login successful, showing main window...
+2025-08-23 09:38:00,025 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:38:00,056 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:38:00,056 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-23 09:38:03,658 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:38:03,730 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 09:38:05,781 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 09:38:07,989 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:38:09,576 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 09:38:11,310 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:38:11,514 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:38:11,670 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 09:38:11,717 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 14 teeth in doctor panel
+2025-08-23 09:38:11,764 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 14 teeth in doctor panel
+2025-08-23 09:38:11,764 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 09:38:13,728 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 09:38:14,056 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:38:14,056 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 09:38:14,074 - app.ui.components.dental_chart_panel - INFO - Updated tooth 44 status to gum_recession in patient panel
+2025-08-23 09:38:26,773 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:38:26,976 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:38:27,148 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:38:27,148 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:38:27,163 - app.ui.components.dental_chart_panel - INFO - Updated tooth 43 status to normal in patient panel
+2025-08-23 09:38:29,995 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:38:34,027 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:38:34,199 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:38:34,214 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:38:34,214 - app.ui.components.dental_chart_panel - INFO - Updated tooth 42 status to normal in patient panel
+2025-08-23 09:38:37,994 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-23 09:38:38,166 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:38:38,182 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-23 09:38:38,182 - app.ui.components.dental_chart_panel - INFO - Updated tooth 45 status to normal in patient panel
+2025-08-23 09:38:46,258 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:38:46,449 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:38:46,449 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:38:46,449 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to normal in patient panel
+2025-08-23 09:38:51,324 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:38:51,511 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:38:51,511 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:38:51,527 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to rampant_caries in patient panel
+2025-08-23 09:38:56,792 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:39:00,028 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:39:01,356 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:39:01,543 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:39:01,559 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:39:26,808 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:39:56,841 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:40:26,839 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:40:41,375 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 47
+2025-08-23 09:40:41,738 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:40:41,754 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 47
+2025-08-23 09:40:41,770 - app.ui.components.dental_chart_panel - INFO - Updated tooth 47 status to normal in patient panel
+2025-08-23 09:40:44,558 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:40:44,911 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:40:44,927 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:40:44,943 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to rampant_caries in patient panel
+2025-08-23 09:40:46,722 - app.services.auth_service - INFO - User a logged out
+2025-08-23 09:40:46,799 - app.database.database - INFO - Database connections closed
+2025-08-23 09:40:46,831 - app.main - INFO - Application shutdown complete
+2025-08-23 09:42:51,801 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 09:42:51,848 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 09:42:51,848 - app.main - INFO - Running startup optimizations...
+2025-08-23 09:42:51,848 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 09:42:51,863 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 09:42:51,863 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 09:42:51,863 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 09:42:51,863 - app.utils.performance - INFO - Memory usage: {'rss_mb': 67.92578125, 'vms_mb': 44.69921875, 'memory_percent': 0.8419510371748328}
+2025-08-23 09:42:51,863 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 09:42:51,863 - app.main - INFO - Initializing database...
+2025-08-23 09:42:51,959 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 09:42:51,959 - app.main - INFO - Showing login dialog...
+2025-08-23 09:42:55,225 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 09:42:55,225 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 09:42:55,241 - app.main - INFO - Login successful, showing main window...
+2025-08-23 09:42:55,336 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:42:55,351 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:42:55,367 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-23 09:42:58,732 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:42:58,798 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 09:43:00,670 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 09:43:01,897 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:43:05,336 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:05,492 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 09:43:05,539 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 14 teeth in doctor panel
+2025-08-23 09:43:05,586 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 14 teeth in doctor panel
+2025-08-23 09:43:07,108 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:43:07,279 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:07,295 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:43:07,295 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to rampant_caries in patient panel
+2025-08-23 09:43:09,043 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:43:09,199 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:09,199 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:43:09,214 - app.ui.components.dental_chart_panel - INFO - Updated tooth 42 status to normal in patient panel
+2025-08-23 09:43:12,974 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-23 09:43:13,130 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:13,130 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 45
+2025-08-23 09:43:13,145 - app.ui.components.dental_chart_panel - INFO - Updated tooth 45 status to normal in patient panel
+2025-08-23 09:43:17,817 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 34
+2025-08-23 09:43:17,973 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:17,989 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 34
+2025-08-23 09:43:17,989 - app.ui.components.dental_chart_panel - INFO - Updated tooth 34 status to normal in patient panel
+2025-08-23 09:43:19,093 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 35
+2025-08-23 09:43:19,249 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:19,265 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 35
+2025-08-23 09:43:19,265 - app.ui.components.dental_chart_panel - INFO - Updated tooth 35 status to normal in patient panel
+2025-08-23 09:43:19,961 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 36
+2025-08-23 09:43:20,117 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:20,133 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 36
+2025-08-23 09:43:20,133 - app.ui.components.dental_chart_panel - INFO - Updated tooth 36 status to normal in patient panel
+2025-08-23 09:43:20,589 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 37
+2025-08-23 09:43:20,745 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:20,761 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 37
+2025-08-23 09:43:20,761 - app.ui.components.dental_chart_panel - INFO - Updated tooth 37 status to normal in patient panel
+2025-08-23 09:43:21,373 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:43:21,529 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:21,545 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:43:21,545 - app.ui.components.dental_chart_panel - INFO - Updated tooth 38 status to normal in patient panel
+2025-08-23 09:43:23,274 - app.ui.components.dental_chart_panel - WARNING - ToothDetailsDialog not available
+2025-08-23 09:43:23,274 - app.ui.components.dental_chart_panel - INFO - Tooth 44 details requested
+2025-08-23 09:43:23,430 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:24,147 - app.ui.components.dental_chart_panel - WARNING - ToothDetailsDialog not available
+2025-08-23 09:43:24,147 - app.ui.components.dental_chart_panel - INFO - Tooth 44 details requested
+2025-08-23 09:43:24,288 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:43:25,322 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:43:55,344 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:44:25,336 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:44:55,347 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:45:25,334 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:45:55,357 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:46:25,367 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:46:55,383 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:47:25,384 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:47:55,402 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:48:25,413 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:48:33,320 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 09:48:33,383 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 09:48:33,383 - app.main - INFO - Running startup optimizations...
+2025-08-23 09:48:33,383 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 09:48:33,383 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 09:48:33,383 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 09:48:33,383 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 09:48:33,383 - app.utils.performance - INFO - Memory usage: {'rss_mb': 67.81640625, 'vms_mb': 44.3046875, 'memory_percent': 0.8405953163719748}
+2025-08-23 09:48:33,383 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 09:48:33,383 - app.main - INFO - Initializing database...
+2025-08-23 09:48:33,476 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 09:48:33,476 - app.main - INFO - Showing login dialog...
+2025-08-23 09:48:35,982 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 09:48:35,982 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 09:48:35,998 - app.main - INFO - Login successful, showing main window...
+2025-08-23 09:48:36,107 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:48:36,123 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:48:36,138 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-23 09:48:39,979 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:48:40,058 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 09:48:42,240 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 09:48:43,688 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:48:45,400 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 09:48:47,208 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:48:47,411 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:48:47,599 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 09:48:47,661 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 16 teeth in doctor panel
+2025-08-23 09:48:47,708 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 16 teeth in doctor panel
+2025-08-23 09:48:47,708 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 09:48:49,870 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:48:50,105 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:48:50,105 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:48:50,120 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to rampant_caries in patient panel
+2025-08-23 09:48:53,384 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:48:53,665 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:48:53,665 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:48:53,681 - app.ui.components.dental_chart_panel - INFO - Updated tooth 43 status to normal in patient panel
+2025-08-23 09:48:55,412 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:48:58,444 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 46
+2025-08-23 09:48:58,679 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:48:58,679 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 46
+2025-08-23 09:48:58,694 - app.ui.components.dental_chart_panel - INFO - Updated tooth 46 status to normal in patient panel
+2025-08-23 09:49:01,696 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 09:49:01,914 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:49:01,930 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 09:49:01,930 - app.ui.components.dental_chart_panel - INFO - Updated tooth 44 status to gum_recession in patient panel
+2025-08-23 09:49:03,702 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 47
+2025-08-23 09:49:03,889 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:49:03,889 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 47
+2025-08-23 09:49:03,905 - app.ui.components.dental_chart_panel - INFO - Updated tooth 47 status to normal in patient panel
+2025-08-23 09:49:06,069 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:49:10,430 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 36
+2025-08-23 09:49:10,648 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:49:10,664 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 36
+2025-08-23 09:49:10,664 - app.ui.components.dental_chart_panel - INFO - Updated tooth 36 status to normal in patient panel
+2025-08-23 09:49:14,656 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:49:14,866 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:49:14,881 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:49:14,881 - app.ui.components.dental_chart_panel - INFO - Updated tooth 38 status to normal in patient panel
+2025-08-23 09:49:18,281 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:49:18,515 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:49:18,515 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:49:18,515 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to extensive_caries in patient panel
+2025-08-23 09:49:21,968 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:49:22,203 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:49:22,218 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:49:22,218 - app.ui.components.dental_chart_panel - INFO - Updated tooth 42 status to normal in patient panel
+2025-08-23 09:49:23,875 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:49:24,244 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:49:24,276 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 42
+2025-08-23 09:49:24,276 - app.ui.components.dental_chart_panel - INFO - Updated tooth 42 status to rampant_caries in patient panel
+2025-08-23 09:49:25,434 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:49:55,449 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:50:25,467 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:50:55,469 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:51:25,466 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:51:55,471 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:52:25,478 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:52:39,845 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 09:52:39,939 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 09:52:39,939 - app.main - INFO - Running startup optimizations...
+2025-08-23 09:52:39,939 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 09:52:39,939 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 09:52:39,939 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 09:52:39,939 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 09:52:39,955 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.2421875, 'vms_mb': 45.01171875, 'memory_percent': 0.8458729437831002}
+2025-08-23 09:52:39,955 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 09:52:39,955 - app.main - INFO - Initializing database...
+2025-08-23 09:52:40,133 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 09:52:40,133 - app.main - INFO - Showing login dialog...
+2025-08-23 09:52:41,139 - app.services.auth_service - INFO - User a logged out
+2025-08-23 09:52:41,184 - app.database.database - INFO - Database connections closed
+2025-08-23 09:52:41,185 - app.main - INFO - Application shutdown complete
+2025-08-23 09:52:43,808 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 09:52:43,808 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 09:52:43,823 - app.main - INFO - Login successful, showing main window...
+2025-08-23 09:52:43,995 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:52:44,027 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:52:44,027 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-23 09:52:48,689 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:52:48,761 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 09:52:50,994 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 09:52:54,387 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 09:52:55,966 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:52:56,169 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:52:56,341 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 09:52:56,403 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 16 teeth in doctor panel
+2025-08-23 09:52:56,450 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 16 teeth in doctor panel
+2025-08-23 09:52:56,450 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 09:52:58,419 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:52:58,653 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:52:58,653 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:52:58,669 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to extensive_caries in patient panel
+2025-08-23 09:53:02,021 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:53:02,256 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:02,256 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:53:02,271 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to congenitally_missing in patient panel
+2025-08-23 09:53:04,180 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:53:04,367 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:04,383 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 43
+2025-08-23 09:53:04,383 - app.ui.components.dental_chart_panel - INFO - Updated tooth 43 status to normal in patient panel
+2025-08-23 09:53:06,061 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 46
+2025-08-23 09:53:06,264 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:06,279 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 46
+2025-08-23 09:53:06,279 - app.ui.components.dental_chart_panel - INFO - Updated tooth 46 status to normal in patient panel
+2025-08-23 09:53:09,922 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:53:10,156 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:10,172 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:53:10,172 - app.ui.components.dental_chart_panel - INFO - Updated tooth 38 status to normal in patient panel
+2025-08-23 09:53:13,041 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:53:13,260 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:13,275 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:53:13,275 - app.ui.components.dental_chart_panel - INFO - Updated tooth 38 status to superficial_caries in patient panel
+2025-08-23 09:53:13,953 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:53:18,059 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:53:18,294 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:18,309 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 38
+2025-08-23 09:53:43,955 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:53:44,705 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 35
+2025-08-23 09:53:44,999 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:45,038 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 35
+2025-08-23 09:53:45,038 - app.ui.components.dental_chart_panel - INFO - Updated tooth 35 status to normal in patient panel
+2025-08-23 09:53:48,464 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 33
+2025-08-23 09:53:48,667 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:48,667 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 33
+2025-08-23 09:53:48,683 - app.ui.components.dental_chart_panel - INFO - Updated tooth 33 status to normal in patient panel
+2025-08-23 09:53:53,155 - app.ui.components.dental_chart_panel - WARNING - ToothDetailsDialog not available
+2025-08-23 09:53:53,155 - app.ui.components.dental_chart_panel - INFO - Tooth 36 details requested
+2025-08-23 09:53:53,342 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:53,639 - app.ui.components.dental_chart_panel - WARNING - ToothDetailsDialog not available
+2025-08-23 09:53:53,639 - app.ui.components.dental_chart_panel - INFO - Tooth 35 details requested
+2025-08-23 09:53:53,826 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:54,045 - app.ui.components.dental_chart_panel - WARNING - ToothDetailsDialog not available
+2025-08-23 09:53:54,045 - app.ui.components.dental_chart_panel - INFO - Tooth 35 details requested
+2025-08-23 09:53:54,217 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:56,030 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 35
+2025-08-23 09:53:56,233 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:56,249 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 35
+2025-08-23 09:53:56,249 - app.ui.components.dental_chart_panel - INFO - Updated tooth 35 status to superficial_caries in patient panel
+2025-08-23 09:53:58,688 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 24
+2025-08-23 09:53:58,906 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:53:58,922 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 24
+2025-08-23 09:53:58,922 - app.ui.components.dental_chart_panel - INFO - Updated tooth 24 status to normal in patient panel
+2025-08-23 09:54:07,105 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 11
+2025-08-23 09:54:07,340 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:54:07,340 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 11
+2025-08-23 09:54:07,355 - app.ui.components.dental_chart_panel - INFO - Updated tooth 11 status to normal in patient panel
+2025-08-23 09:54:10,892 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 11
+2025-08-23 09:54:11,127 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:54:11,142 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 11
+2025-08-23 09:54:11,142 - app.ui.components.dental_chart_panel - INFO - Updated tooth 11 status to treatment_planned in patient panel
+2025-08-23 09:54:13,960 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:54:21,785 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:54:22,004 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:54:22,020 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:54:22,020 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to extracted in patient panel
+2025-08-23 09:54:24,959 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 34
+2025-08-23 09:54:25,271 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:54:25,287 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 34
+2025-08-23 09:54:25,287 - app.ui.components.dental_chart_panel - INFO - Updated tooth 34 status to normal in patient panel
+2025-08-23 09:54:30,578 - app.services.auth_service - INFO - User a logged out
+2025-08-23 09:54:30,621 - app.database.database - INFO - Database connections closed
+2025-08-23 09:54:30,621 - app.main - INFO - Application shutdown complete
+2025-08-23 09:58:26,502 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 09:58:26,565 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 09:58:26,565 - app.main - INFO - Running startup optimizations...
+2025-08-23 09:58:26,565 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 09:58:26,565 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 09:58:26,565 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 09:58:26,565 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 09:58:26,565 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.05859375, 'vms_mb': 44.71875, 'memory_percent': 0.843597269578303}
+2025-08-23 09:58:26,565 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 09:58:26,565 - app.main - INFO - Initializing database...
+2025-08-23 09:58:26,659 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 09:58:26,659 - app.main - INFO - Showing login dialog...
+2025-08-23 09:58:29,731 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 09:58:29,731 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 09:58:29,731 - app.main - INFO - Login successful, showing main window...
+2025-08-23 09:58:29,840 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 09:58:29,871 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:58:29,871 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-23 09:58:33,733 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 09:58:33,802 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 09:58:35,980 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 09:58:37,642 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 09:58:38,986 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 09:58:39,221 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:58:39,408 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 09:58:39,486 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 17 teeth in doctor panel
+2025-08-23 09:58:39,533 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 17 teeth in doctor panel
+2025-08-23 09:58:39,533 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 09:58:41,591 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 32
+2025-08-23 09:58:41,794 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:58:41,794 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 32
+2025-08-23 09:58:41,810 - app.ui.components.dental_chart_panel - INFO - Updated tooth 32 status to normal in patient panel
+2025-08-23 09:58:43,323 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 31
+2025-08-23 09:58:43,541 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 09:58:43,541 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 31
+2025-08-23 09:58:43,557 - app.ui.components.dental_chart_panel - INFO - Updated tooth 31 status to normal in patient panel
+2025-08-23 09:58:59,457 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:58:59,692 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 09:58:59,692 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 09:58:59,707 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to extracted in doctor panel
+2025-08-23 09:58:59,820 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 10:01:31,544 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 10:01:31,591 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 10:01:31,591 - app.main - INFO - Running startup optimizations...
+2025-08-23 10:01:31,591 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 10:01:31,591 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 10:01:31,591 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 10:01:31,591 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 10:01:31,591 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.29296875, 'vms_mb': 45.0859375, 'memory_percent': 0.846502385584427}
+2025-08-23 10:01:31,591 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 10:01:31,591 - app.main - INFO - Initializing database...
+2025-08-23 10:01:31,685 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 10:01:31,685 - app.main - INFO - Showing login dialog...
+2025-08-23 10:01:34,046 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 10:01:34,046 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 10:01:34,062 - app.main - INFO - Login successful, showing main window...
+2025-08-23 10:01:34,165 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 10:01:34,196 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 10:01:34,196 - app.ui.patient_management - INFO - Loaded 1 patients
+2025-08-23 10:01:37,737 - app.services.patient_service - INFO - Found 1 patients for search: ''
+2025-08-23 10:01:37,811 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 10:01:39,914 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 10:01:41,207 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 10:01:42,238 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 10:01:42,394 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:01:42,519 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 10:01:42,550 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:01:42,582 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:01:42,582 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 10:01:44,407 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 32
+2025-08-23 10:01:44,547 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:01:44,563 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 32
+2025-08-23 10:01:44,563 - app.ui.components.dental_chart_panel - INFO - Updated tooth 32 status to normal in patient panel
+2025-08-23 10:01:47,362 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 32
+2025-08-23 10:01:47,487 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:01:47,502 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 32
+2025-08-23 10:01:47,502 - app.ui.components.dental_chart_panel - INFO - Updated tooth 32 status to supernumerary in patient panel
+2025-08-23 10:01:56,825 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 10:01:56,950 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:01:56,966 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 41
+2025-08-23 10:01:56,966 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to extracted in patient panel
+2025-08-23 10:01:59,988 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 10:02:00,160 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:02:00,240 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 10:02:00,240 - app.ui.components.dental_chart_panel - INFO - Updated tooth 44 status to gum_recession in patient panel
+2025-08-23 10:02:04,134 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 10:02:18,352 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 10:02:18,492 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:02:18,508 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 44
+2025-08-23 10:02:31,202 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:02:31,311 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 10:02:31,342 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:02:31,358 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:02:34,144 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 1, This month: 1, Examinations: 1
+2025-08-23 10:02:35,535 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 11
+2025-08-23 10:02:35,676 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:02:35,691 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 1, tooth 11
+2025-08-23 10:02:35,691 - app.ui.components.dental_chart_panel - INFO - Updated tooth 11 status to treatment_planned in patient panel
+2025-08-23 10:02:48,798 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 10:02:52,681 - app.services.patient_service - INFO - Created patient: P00002 - b
+2025-08-23 10:02:53,803 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 10:02:53,827 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 10:02:55,530 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 10:02:55,623 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:02:55,717 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 10:02:55,733 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-23 10:03:00,982 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:01,122 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 10:03:01,154 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:03:01,169 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:03:03,589 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:03,683 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 10:03:04,151 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:03:06,715 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 2, tooth 41
+2025-08-23 10:03:06,809 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:06,809 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to normal in patient panel
+2025-08-23 10:03:07,236 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 2, tooth 42
+2025-08-23 10:03:07,330 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:07,330 - app.ui.components.dental_chart_panel - INFO - Updated tooth 42 status to normal in patient panel
+2025-08-23 10:03:07,687 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 2, tooth 43
+2025-08-23 10:03:07,765 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:07,765 - app.ui.components.dental_chart_panel - INFO - Updated tooth 43 status to normal in patient panel
+2025-08-23 10:03:08,114 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 2, tooth 45
+2025-08-23 10:03:08,192 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:08,192 - app.ui.components.dental_chart_panel - INFO - Updated tooth 45 status to normal in patient panel
+2025-08-23 10:03:08,578 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 2, tooth 46
+2025-08-23 10:03:08,672 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:08,672 - app.ui.components.dental_chart_panel - INFO - Updated tooth 46 status to normal in patient panel
+2025-08-23 10:03:14,542 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 2, tooth 41
+2025-08-23 10:03:14,635 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:03:14,635 - app.ui.components.dental_chart_panel - INFO - Updated tooth 41 status to gingivitis in patient panel
+2025-08-23 10:10:54,383 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 10:10:54,430 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 10:10:54,430 - app.main - INFO - Running startup optimizations...
+2025-08-23 10:10:54,430 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 10:10:54,430 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 10:10:54,430 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 10:10:54,430 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 10:10:54,430 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.7265625, 'vms_mb': 45.54296875, 'memory_percent': 0.8518768501957563}
+2025-08-23 10:10:54,430 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 10:10:54,430 - app.main - INFO - Initializing database...
+2025-08-23 10:10:54,523 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 10:10:54,523 - app.main - INFO - Showing login dialog...
+2025-08-23 10:10:56,801 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 10:10:56,801 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 10:10:56,832 - app.main - INFO - Login successful, showing main window...
+2025-08-23 10:10:56,941 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:10:56,957 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 10:10:56,972 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 10:10:57,901 - app.main - ERROR - Application error: 'DentalChartPanel' object has no attribute 'add_record_btn'
+2025-08-23 10:10:59,370 - app.database.database - INFO - Database connections closed
+2025-08-23 10:10:59,371 - app.main - INFO - Application shutdown complete
+2025-08-23 10:13:57,821 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 10:13:57,867 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 10:13:57,867 - app.main - INFO - Running startup optimizations...
+2025-08-23 10:13:57,867 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 10:13:57,867 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 10:13:57,867 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 10:13:57,867 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 10:13:57,867 - app.utils.performance - INFO - Memory usage: {'rss_mb': 67.77734375, 'vms_mb': 44.46484375, 'memory_percent': 0.8401111303709543}
+2025-08-23 10:13:57,867 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 10:13:57,867 - app.main - INFO - Initializing database...
+2025-08-23 10:13:57,977 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 10:13:57,977 - app.main - INFO - Showing login dialog...
+2025-08-23 10:14:00,316 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 10:14:00,316 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 10:14:00,332 - app.main - INFO - Login successful, showing main window...
+2025-08-23 10:14:00,457 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:14:00,472 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 10:14:00,488 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 10:14:03,843 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 10:14:03,916 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 10:14:05,983 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 10:14:07,546 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 10:14:08,812 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 10:14:08,921 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:14:09,015 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 10:14:09,015 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-23 10:14:22,459 - app.services.tooth_history_service - INFO - Added tooth history entry for patient 2, tooth 41
+2025-08-23 10:14:22,537 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:14:30,441 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:14:37,406 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 10:14:37,531 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 10:14:37,562 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:14:37,578 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 18 teeth in doctor panel
+2025-08-23 10:15:00,441 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:15:30,487 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:16:00,462 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:16:30,479 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:17:00,484 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:17:30,472 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1
+2025-08-23 10:17:47,058 - app.services.visit_records_service - INFO - Created visit 1 for patient 1
+2025-08-23 10:18:00,502 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 1

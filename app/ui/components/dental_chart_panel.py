@@ -6,7 +6,7 @@ from typing import Dict, List, Optional, Any, Callable
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, 
     QLabel, QTextEdit, QScrollArea, QFrame, QPushButton, QSplitter,
-    QSizePolicy
+    QSizePolicy, QMessageBox
 )
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFont
@@ -29,6 +29,7 @@ class DentalChartPanel(QGroupBox):
         self.patient_id = patient_id
         self.examination_id = None
         self.selected_tooth = None
+        self.selected_tooth_widget = None
         self.tooth_widgets = {}
         
         # Set panel title with improved formatting
@@ -116,7 +117,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             upper_layout.addWidget(tooth_widget)
         
@@ -132,7 +132,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             upper_layout.addWidget(tooth_widget)
         
@@ -169,7 +168,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             lower_layout.addWidget(tooth_widget)
         
@@ -185,7 +183,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.status_changed.connect(self.on_tooth_status_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             lower_layout.addWidget(tooth_widget)
         
@@ -281,9 +278,12 @@ class DentalChartPanel(QGroupBox):
         """)
         info_layout.addWidget(self.description_input)
         
-        # Add record button
-        self.add_record_btn = QPushButton(f"Add Record")
-        self.add_record_btn.setStyleSheet("""
+        # Buttons layout
+        buttons_layout = QHBoxLayout()
+
+        # Update record button
+        self.update_record_btn = QPushButton("Update")
+        self.update_record_btn.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
                 color: white;
@@ -302,9 +302,31 @@ class DentalChartPanel(QGroupBox):
                 color: #7F8C8D;
             }
         """)
-        self.add_record_btn.setEnabled(False)
-        self.add_record_btn.clicked.connect(self.add_tooth_record)
-        info_layout.addWidget(self.add_record_btn)
+        self.update_record_btn.setEnabled(False)
+        self.update_record_btn.clicked.connect(self.update_tooth_record)
+        buttons_layout.addWidget(self.update_record_btn)
+
+        # Delete last record button
+        self.delete_last_btn = QPushButton("Delete Last")
+        self.delete_last_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #E74C3C;
+                color: white;
+                border: none;
+                padding: 6px 10px;
+                border-radius: 4px;
+                font-weight: bold;
+                font-size: 9pt;
+                min-height: 10px;
+            }
+            QPushButton:hover {
+                background-color: #C0392B;
+            }
+        """)
+        self.delete_last_btn.clicked.connect(self.delete_last_history_record)
+        buttons_layout.addWidget(self.delete_last_btn)
+
+        info_layout.addLayout(buttons_layout)
         
         layout.addWidget(self.tooth_info_group)
         
@@ -477,8 +499,8 @@ class DentalChartPanel(QGroupBox):
         history_layout.addWidget(self.history_text)
         
         # Add record button (compact)
-        self.add_record_btn = QPushButton(f"Add Record")
-        self.add_record_btn.setStyleSheet("""
+        self.update_record_btn = QPushButton("Update")
+        self.update_record_btn.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
                 color: white;
@@ -496,9 +518,9 @@ class DentalChartPanel(QGroupBox):
                 color: #7F8C8D;
             }
         """)
-        self.add_record_btn.setEnabled(False)
-        self.add_record_btn.clicked.connect(self.add_tooth_record)
-        history_layout.addWidget(self.add_record_btn)
+        self.update_record_btn.setEnabled(False)
+        self.update_record_btn.clicked.connect(self.update_tooth_record)
+        history_layout.addWidget(self.update_record_btn)
         
         layout.addWidget(self.history_group)
         
@@ -634,22 +656,31 @@ class DentalChartPanel(QGroupBox):
     
     def on_tooth_clicked(self, tooth_number: int, click_type: str = 'left'):
         """Handle tooth click events."""
-        self.selected_tooth = tooth_number  # Ensure selected tooth is updated
+        
+        # Get the clicked tooth widget
+        clicked_widget = self.tooth_widgets.get(tooth_number)
+        if not clicked_widget:
+            return
+
+        # Deselect the previously selected tooth if it's different from the current one
+        if self.selected_tooth_widget and self.selected_tooth_widget != clicked_widget:
+            self.selected_tooth_widget.force_hide_dropdown()
+
+        # Update the selected tooth and widget
+        self.selected_tooth = tooth_number
+        self.selected_tooth_widget = clicked_widget
 
         # Update selected tooth display
         quadrant = tooth_number // 10
         position = tooth_number % 10
         self.tooth_info_label.setText(f"Tooth {tooth_number} ({quadrant},{position})")
 
-        # Load tooth history
-        self.load_tooth_history(tooth_number)
-
         # Enable add record button only if there's text in description or no description field exists
         if hasattr(self, 'description_input'):
             has_description = bool(self.description_input.toPlainText().strip())
-            self.add_record_btn.setEnabled(has_description)
+            self.update_record_btn.setEnabled(has_description)
         else:
-            self.add_record_btn.setEnabled(True)
+            self.update_record_btn.setEnabled(True)
 
         # Emit signal with correct parameters
         self.tooth_selected.emit(tooth_number, self.panel_type)
@@ -659,133 +690,81 @@ class DentalChartPanel(QGroupBox):
             self.show_tooth_details(tooth_number)
     
     def load_tooth_history(self, tooth_number: int):
-        """Load and display tooth history using the new JSON-based system."""
+        """Load and display tooth history using a simplified, clear format."""
         if not self.patient_id:
             return
         
         try:
-            # Get complete tooth history for this panel type
             record_type = 'patient_problem' if self.panel_type == 'patient' else 'doctor_finding'
             
-            # Get the full history data including JSON arrays
             full_history = tooth_history_service.get_tooth_full_history(
                 self.patient_id, tooth_number, record_type
             )
-            
-            # Get current status
             current_status = tooth_history_service.get_tooth_current_status(
                 self.patient_id, tooth_number
             )
             
             # Update current status display
+            latest_record = None
             if self.panel_type == 'patient':
-                if current_status['latest_patient_problem']:
-                    latest = current_status['latest_patient_problem']
-                    status_text = f"Current Status: {latest['status']}"
-                    if latest['description']:
-                        status_text += f"\nDescription: {latest['description']}"
-                    status_text += f"\nDate: {latest['date_recorded']}"
-                    status_text += f"\nTotal Problems: {current_status['patient_problems_count']}"
+                if current_status.get('latest_patient_problem'):
+                    latest_record = current_status['latest_patient_problem']
+                    count = current_status.get('patient_problems_count', 0)
+                    status_text = f"<b>Current Status:</b> {latest_record['status']}<br>"
+                    if latest_record['description']:
+                        status_text += f"<b>Description:</b> {latest_record['description']}<br>"
+                    status_text += f"<b>Date:</b> {latest_record['date_recorded']}<br>"
+                    status_text += f"<b>Total Problems:</b> {count}"
                 else:
-                    status_text = "Current Status: Normal\nNo patient problems recorded"
-            else:
-                if current_status['latest_doctor_finding']:
-                    latest = current_status['latest_doctor_finding']
-                    status_text = f"Current Status: {latest['status']}"
-                    if latest['description']:
-                        status_text += f"\nDescription: {latest['description']}"
-                    status_text += f"\nDate: {latest['date_recorded']}"
-                    status_text += f"\nTotal Findings: {current_status['doctor_findings_count']}"
+                    status_text = "<b>Current Status:</b> Normal<br>No patient problems recorded."
+            else: # Doctor findings
+                if current_status.get('latest_doctor_finding'):
+                    latest_record = current_status['latest_doctor_finding']
+                    count = current_status.get('doctor_findings_count', 0)
+                    status_text = f"<b>Current Status:</b> {latest_record['status']}<br>"
+                    if latest_record['description']:
+                        status_text += f"<b>Description:</b> {latest_record['description']}<br>"
+                    status_text += f"<b>Date:</b> {latest_record['date_recorded']}<br>"
+                    status_text += f"<b>Total Findings:</b> {count}"
                 else:
-                    status_text = "Current Status: Normal\nNo doctor findings recorded"
+                    status_text = "<b>Current Status:</b> Normal<br>No doctor findings recorded."
             
             self.current_status_label.setText(status_text)
             
-            # Format history text using the JSON history data
-            history_text = f"{self.panel_type.title()} History for Tooth {tooth_number}:\n\n"
+            # Format history text
+            history_text = f"<h3>Tooth {tooth_number} History ({self.panel_type.title()})</h3>"
             
-            # Get the relevant records based on panel type
-            if self.panel_type == 'patient':
-                records = full_history.get('patient_problems', [])
-            else:
-                records = full_history.get('doctor_findings', [])
+            records = full_history.get('patient_problems' if self.panel_type == 'patient' else 'doctor_findings', [])
             
             if records:
-                for record in records:
-                    # Display current/latest info
-                    history_text += f"CURRENT STATUS:\n"
-                    history_text += f"Status: {record.get('current_status', 'N/A')}\n"
-                    if record.get('current_description'):
-                        history_text += f"Description: {record['current_description']}\n"
-                    history_text += f"Date: {record.get('current_date', 'N/A')}\n"
-                    
-                    # Display history timeline
-                    status_history = record.get('status_history', [])
-                    description_history = record.get('description_history', [])
-                    date_history = record.get('date_history', [])
-                    
-                    if status_history and len(status_history) > 1:
-                        history_text += f"\nHISTORY TIMELINE ({len(status_history)} entries):\n"
-                        # Show history in reverse order (newest first)
-                        for i in reversed(range(len(status_history))):
-                            history_text += f"  {i+1}. "
-                            if i < len(date_history):
-                                history_text += f"{date_history[i]} - "
-                            if i < len(status_history):
-                                history_text += f"Status: {status_history[i]}"
-                            if i < len(description_history) and description_history[i]:
-                                history_text += f" - {description_history[i]}"
-                            history_text += "\n"
-                    elif len(status_history) == 1:
-                        history_text += f"\nSingle entry recorded.\n"
-                    
-                    history_text += "\n" + "="*50 + "\n\n"
+                history_text += "<b>Timeline:</b><ul>"
+                # Assuming the first record contains the full history
+                first_record = records[0]
+                status_history = first_record.get('status_history', [])
+                desc_history = first_record.get('description_history', [])
+                date_history = first_record.get('date_history', [])
+
+                if status_history:
+                    # Iterate in reverse for newest first
+                    for i in reversed(range(len(status_history))):
+                        date = date_history[i] if i < len(date_history) else "N/A"
+                        status = status_history[i] if i < len(status_history) else "N/A"
+                        desc = desc_history[i] if i < len(desc_history) and desc_history[i] else ""
+                        
+                        history_text += f"<li><b>{date}:</b> {status}"
+                        if desc:
+                            history_text += f" - <i>{desc}</i>"
+                        history_text += "</li>"
+                history_text += "</ul>"
             else:
-                history_text += f"No {self.panel_type.replace('_', ' ')} history recorded for this tooth.\n"
-                history_text += "Click 'Add Record' to add the first entry."
+                history_text += f"<p>No {self.panel_type.replace('_', ' ')} history recorded for this tooth.</p>"
+
+            self.history_text.setHtml(history_text)
             
-            self.history_text.setPlainText(history_text)
-                
         except Exception as e:
-            logger.error(f"Error loading tooth history: {str(e)}")
-            self.history_text.setPlainText("Error loading tooth history.")
-            self.current_status_label.setText("Error loading status")
-    
-    def display_tooth_history(self, tooth_number: int, history: List[Dict[str, Any]]):
-        """Display tooth history data in the panel."""
-        try:
-            # Update current status and history display
-            self.selected_tooth = tooth_number
-            self.tooth_info_label.setText(f"Tooth #{tooth_number}")
-            self.add_record_btn.setEnabled(True)
-            
-            # Format and display history
-            if history:
-                history_text = f"{self.panel_type.title()} History for Tooth {tooth_number}:\n\n"
-                
-                for record in history:
-                    history_text += f"Date: {record.get('date_recorded', 'Unknown')}\n"
-                    history_text += f"Status: {record.get('status', 'Unknown')}\n"
-                    if record.get('description'):
-                        history_text += f"Description: {record['description']}\n"
-                    if record.get('examination_date'):
-                        history_text += f"Examination: {record['examination_date']}\n"
-                    history_text += "-" * 40 + "\n\n"
-                
-                self.history_text.setPlainText(history_text)
-            else:
-                self.history_text.setPlainText(f"No {self.panel_type} history recorded for this tooth.")
-            
-            # Update tooth widget visual status if available
-            if tooth_number in self.tooth_widgets and history:
-                latest_record = history[0]  # Assuming history is sorted by date descending
-                latest_status = latest_record.get('status', 'normal')
-                self.tooth_widgets[tooth_number].update_status(latest_status)
-                
-        except Exception as e:
-            logger.error(f"Error displaying tooth history: {str(e)}")
-            if hasattr(self, 'history_text'):
-                self.history_text.setPlainText("Error displaying tooth history.")
+            logger.error(f"Error loading tooth history for tooth {tooth_number}: {str(e)}")
+            self.history_text.setHtml(f"<p>Error loading history for tooth {tooth_number}.</p>")
+            self.current_status_label.setText("Error loading status.")
     
     def on_tooth_status_changed(self, tooth_number: int, status: str, record_type: str):
         """Handle tooth status change from tooth widget interactions."""
@@ -841,7 +820,7 @@ class DentalChartPanel(QGroupBox):
         if tooth_number == self.selected_tooth:
             self.load_tooth_history(tooth_number)
     
-    def add_tooth_record(self):
+    def update_tooth_record(self):
         """Add new tooth record for selected tooth."""
         if self.selected_tooth is None or not self.patient_id:
             from PySide6.QtWidgets import QMessageBox
@@ -913,7 +892,7 @@ class DentalChartPanel(QGroupBox):
                     f"Description: {description[:50]}{'...' if len(description) > 50 else ''}")
                 
                 # Disable button until new description is entered
-                self.add_record_btn.setEnabled(False)
+                self.update_record_btn.setEnabled(False)
                 
             else:
                 from PySide6.QtWidgets import QMessageBox
@@ -924,6 +903,28 @@ class DentalChartPanel(QGroupBox):
             from PySide6.QtWidgets import QMessageBox
             QMessageBox.critical(self, "Error", f"Error saving record: {str(e)}")
     
+    def delete_last_history_record(self):
+        if self.selected_tooth is None or not self.patient_id:
+            QMessageBox.warning(self, "Warning", "Please select a tooth first.")
+            return
+            
+        record_type = 'patient_problem' if self.panel_type == 'patient' else 'doctor_finding'
+        
+        reply = QMessageBox.question(self, 'Confirm Deletion', 
+            f"Are you sure you want to delete the last history record for tooth {self.selected_tooth}?",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            
+        if reply == QMessageBox.Yes:
+            success = tooth_history_service.delete_last_tooth_history_entry(
+                self.patient_id, self.selected_tooth, record_type
+            )
+            
+            if success:
+                self.load_tooth_history(self.selected_tooth)
+                QMessageBox.information(self, "Success", "Last history record deleted.")
+            else:
+                QMessageBox.warning(self, "Error", "Failed to delete last history record.")
+
     def refresh_data(self):
         """Refresh all tooth data."""
         self.load_patient_data()
@@ -938,7 +939,7 @@ class DentalChartPanel(QGroupBox):
         self.history_text.clear()
         if hasattr(self, 'description_input'):
             self.description_input.clear()  # Clear description input
-        self.add_record_btn.setEnabled(False)
+        self.update_record_btn.setEnabled(False)
     
     def hide_all_dropdowns(self):
         """Hide all tooth status dropdowns."""
@@ -950,4 +951,4 @@ class DentalChartPanel(QGroupBox):
         if self.selected_tooth and hasattr(self, 'description_input'):
             has_description = bool(self.description_input.toPlainText().strip())
             # Enable button if tooth is selected and has description
-            self.add_record_btn.setEnabled(has_description)
+            self.update_record_btn.setEnabled(has_description)

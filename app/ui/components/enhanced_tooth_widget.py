@@ -33,6 +33,7 @@ class EnhancedToothWidget(QWidget):
         self.setup_ui()
         self.load_status_options()
         self.adjust_dropdown_width()
+        self.update_tooltip()
     
     def setup_ui(self):
         """Setup the tooth widget UI with button and dropdown."""
@@ -68,6 +69,14 @@ class EnhancedToothWidget(QWidget):
         quadrant = full_tooth_number // 10
         position = full_tooth_number % 10
         return f"({quadrant},{position})"
+
+    def update_tooltip(self):
+        """Update tooltip with current status."""
+        if self.current_mode == 'patient':
+            status_text = f"Patient: {self.patient_status}"
+        else: # doctor
+            status_text = f"Doctor: {self.doctor_status}"
+        self.tooth_button.setToolTip(status_text)
     
     def setup_status_dropdown(self):
         """Setup comprehensive status dropdown with colors"""
@@ -118,11 +127,13 @@ class EnhancedToothWidget(QWidget):
         """Set patient-reported status."""
         self.patient_status = status
         self.update_tooth_appearance()
+        self.update_tooltip()
     
     def set_doctor_status(self, status: str):
         """Set doctor-diagnosed status."""
         self.doctor_status = status
         self.update_tooth_appearance()
+        self.update_tooltip()
 
     def update_status(self, status: str):
         """Update the status based on the current mode."""
@@ -138,6 +149,9 @@ class EnhancedToothWidget(QWidget):
     
     def get_status_color(self, status: str) -> str:
         """Get color for dental status."""
+        if status == 'normal':
+            return '#FFFFFF'
+
         try:
             # Get color from custom status service
             custom_status = custom_status_service.get_custom_status_by_name(status)
@@ -148,7 +162,7 @@ class EnhancedToothWidget(QWidget):
         
         # Fallback color mapping
         color_map = {
-            'normal': '#2ecc71',
+            'normal': '#FFFFFF',
             'caries_incipient': '#f1c40f',
             'caries_moderate': '#f39c12',
             'caries_deep': '#e74c3c',
@@ -170,6 +184,8 @@ class EnhancedToothWidget(QWidget):
             primary_color = self.get_status_color(self.patient_status)
             secondary_color = self.get_status_color(self.doctor_status)
         
+        text_color = self.get_text_color_for_background(primary_color)
+
         # Create style based on whether there are different statuses
         if (self.patient_status != 'normal' and self.doctor_status != 'normal' and 
             self.patient_status != self.doctor_status):
@@ -181,7 +197,7 @@ class EnhancedToothWidget(QWidget):
                         stop:0.5 {secondary_color}, stop:1 {secondary_color});
                     border: 2px solid #BDC3C7;
                     border-radius: 6px;
-                    color: white;
+                    color: {text_color};
                     font-weight: bold;
                 }}
                 QPushButton:hover {{
@@ -202,7 +218,7 @@ class EnhancedToothWidget(QWidget):
                     background-color: {primary_color};
                     border: 2px solid #BDC3C7;
                     border-radius: 6px;
-                    color: white;
+                    color: {text_color};
                     font-weight: bold;
                 }}
                 QPushButton:hover {{
@@ -226,6 +242,16 @@ class EnhancedToothWidget(QWidget):
             return color.name()
         except:
             return hex_color
+
+    def get_text_color_for_background(self, hex_color: str) -> str:
+        """Determines if text should be black or white based on background color."""
+        try:
+            color = QColor(hex_color)
+            r, g, b, _ = color.getRgb()
+            luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+            return '#000000' if luminance > 0.5 else '#FFFFFF'
+        except:
+            return '#000000'
     
     def on_tooth_button_clicked(self):
         """Handle tooth button click."""
