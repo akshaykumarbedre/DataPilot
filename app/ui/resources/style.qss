@@ -308,3 +308,63 @@ QDialog QPushButton:hover {
 QDialog QPushButton:pressed {
     background-color: #d0d0d0;
 }
+
+/* Dental Examination Panel */
+QGroupBox#dentalExaminationPanel {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: white;
+}
+
+QGroupBox#dentalExaminationPanel::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 5px;
+    color: #34495e;
+    font-weight: bold;
+}
+
+QTabWidget#examinationTabWidget::pane {
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    padding: 10px;
+}
+
+QTabWidget#examinationTabWidget::tab-bar {
+    alignment: left;
+}
+
+QTabWidget#examinationTabWidget QTabBar::tab {
+    background: #e0e0e0; /* Darker gray for unselected tabs */
+    color: #555;
+    border: 1px solid #d0d0d0;
+    border-bottom: none;
+    padding: 8px 15px;
+    margin-right: 2px;
+}
+
+QTabWidget#examinationTabWidget QTabBar::tab:selected {
+    background: white; /* White background for selected tab */
+    color: #3498db; /* Blue text for selected tab */
+    border-bottom: 1px solid white;
+}
+
+QFrame#examinationForm, QFrame#examinationFindings {
+    border: none;
+    padding: 0px;
+}
+
+QPushButton#deleteExaminationButton {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+QPushButton#deleteExaminationButton:hover {
+    background-color: #c0392b;
+}

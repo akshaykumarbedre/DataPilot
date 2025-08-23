@@ -29,14 +29,7 @@ class ExaminationFormWidget(QFrame):
     def setup_ui(self):
         """Setup the examination form UI."""
         self.setFrameStyle(QFrame.Box)
-        self.setStyleSheet("""
-            QFrame {
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 8px;
-                background-color: white;
-            }
-        """)
+        self.setObjectName("examinationForm")
         
         layout = QVBoxLayout(self)
         
@@ -122,71 +115,39 @@ class ExaminationFindings(QFrame):
     def setup_ui(self):
         """Setup the examination findings UI."""
         self.setFrameStyle(QFrame.Box)
-        self.setStyleSheet("""
-            QFrame {
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 8px;
-                background-color: white;
-            }
-        """)
+        self.setObjectName("examinationFindings")
         
         layout = QVBoxLayout(self)
         
-        # Extra-oral examination
-        extraoral_group = QGroupBox("Extra-oral Examination")
-        extraoral_layout = QVBoxLayout(extraoral_group)
-        
+        form_layout = QFormLayout()
+        form_layout.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
+
         self.extraoral_findings_edit = QTextEdit()
         self.extraoral_findings_edit.setMaximumHeight(100)
         self.extraoral_findings_edit.setPlaceholderText("Face, neck, lymph nodes, TMJ examination findings...")
-        extraoral_layout.addWidget(self.extraoral_findings_edit)
-        
-        layout.addWidget(extraoral_group)
-        
-        # Intra-oral examination
-        intraoral_group = QGroupBox("Intra-oral Examination")
-        intraoral_layout = QVBoxLayout(intraoral_group)
-        
+        form_layout.addRow("Extra-oral Examination:", self.extraoral_findings_edit)
+
         self.intraoral_findings_edit = QTextEdit()
         self.intraoral_findings_edit.setMaximumHeight(100)
         self.intraoral_findings_edit.setPlaceholderText("Oral hygiene, gingiva, teeth, oral lesions, etc...")
-        intraoral_layout.addWidget(self.intraoral_findings_edit)
-        
-        layout.addWidget(intraoral_group)
-        
-        # Periodontal examination
-        perio_group = QGroupBox("Periodontal Examination")
-        perio_layout = QVBoxLayout(perio_group)
-        
+        form_layout.addRow("Intra-oral Examination:", self.intraoral_findings_edit)
+
         self.periodontal_findings_edit = QTextEdit()
         self.periodontal_findings_edit.setMaximumHeight(100)
         self.periodontal_findings_edit.setPlaceholderText("Gingival condition, pocket depths, bleeding, mobility...")
-        perio_layout.addWidget(self.periodontal_findings_edit)
-        
-        layout.addWidget(perio_group)
-        
-        # Diagnosis
-        diagnosis_group = QGroupBox("Diagnosis")
-        diagnosis_layout = QVBoxLayout(diagnosis_group)
-        
+        form_layout.addRow("Periodontal Examination:", self.periodontal_findings_edit)
+
         self.diagnosis_edit = QTextEdit()
         self.diagnosis_edit.setMaximumHeight(100)
         self.diagnosis_edit.setPlaceholderText("Primary and secondary diagnoses...")
-        diagnosis_layout.addWidget(self.diagnosis_edit)
-        
-        layout.addWidget(diagnosis_group)
-        
-        # Treatment plan
-        treatment_group = QGroupBox("Treatment Plan")
-        treatment_layout = QVBoxLayout(treatment_group)
-        
+        form_layout.addRow("Diagnosis:", self.diagnosis_edit)
+
         self.treatment_plan_edit = QTextEdit()
         self.treatment_plan_edit.setMaximumHeight(100)
         self.treatment_plan_edit.setPlaceholderText("Proposed treatment plan and recommendations...")
-        treatment_layout.addWidget(self.treatment_plan_edit)
+        form_layout.addRow("Treatment Plan:", self.treatment_plan_edit)
         
-        layout.addWidget(treatment_group)
+        layout.addLayout(form_layout)
     
     def load_findings(self, examination_data: Dict):
         """Load examination findings data."""
@@ -228,6 +189,7 @@ class DentalExaminationPanel(QGroupBox):
     
     def __init__(self, patient_id: Optional[int] = None, parent=None):
         super().__init__("Dental Examination", parent)
+        self.setObjectName("dentalExaminationPanel")
         self.patient_id = patient_id
         self.current_examination_id = None
         self.examinations_list = []
@@ -262,26 +224,14 @@ class DentalExaminationPanel(QGroupBox):
         header_layout.addWidget(self.save_btn)
         
         self.delete_btn = QPushButton("Delete")
-        self.delete_btn.clicked.connect(self.delete_examination)
-        self.delete_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #dc3545; 
-                color: white;
-                border: none;
-                padding: 6px 12px;
-                border-radius: 4px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #c82333;
-            }
-        """)
+        self.delete_btn.setObjectName("deleteExaminationButton")
         header_layout.addWidget(self.delete_btn)
         
         layout.addLayout(header_layout)
         
         # Main content in tabs
         self.tab_widget = QTabWidget()
+        self.tab_widget.setObjectName("examinationTabWidget")
         
         # Basic Information Tab
         basic_scroll = QScrollArea()
@@ -307,8 +257,7 @@ class DentalExaminationPanel(QGroupBox):
         self.status_label.setStyleSheet("color: #7F8C8D; font-style: italic; padding: 4px;")
         layout.addWidget(self.status_label)
         
-        # Apply styles
-        self.apply_styles()
+        
         
         # Connect form change signals to update button states
         self.connect_form_signals()
@@ -316,36 +265,7 @@ class DentalExaminationPanel(QGroupBox):
         # Initial state
         self.update_panel_state()
     
-    def apply_styles(self):
-        """Apply consistent styling to the panel."""
-        self.setStyleSheet("""
-            QPushButton {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 6px 12px;
-                border-radius: 4px;
-                font-weight: bold;
-                font-size: 11px;
-            }
-            QPushButton:hover {
-                background-color: #45a049;
-            }
-            QPushButton:disabled {
-                background-color: #BDC3C7;
-                color: #7F8C8D;
-            }
-            QComboBox {
-                padding: 4px;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                background-color: white;
-                color: #2C3E50;
-            }
-            QComboBox:focus {
-                border-color: #3498DB;
-            }
-        """)
+    
     
     def connect_form_signals(self):
         """Connect form field signals to update button states."""
