@@ -387,3 +387,46 @@ class VisitEntryPanel(QGroupBox):
     def set_affected_teeth(self, tooth_numbers: List[int]):
         """Set the affected teeth selection."""
         self.tooth_selection_widget.set_selected_teeth(tooth_numbers)
+
+    def get_visit_data(self) -> Dict:
+        """Get the visit data from the form fields."""
+        visit_data = {
+            'visit_date': self.date_edit.date().toPython(),
+            'visit_time': self.time_edit.time().toPython(),
+            'visit_type': self.visit_type_combo.currentText(),
+            'status': 'completed',
+            'cost': self.amount_spin.value() if self.amount_spin.value() > 0 else None,
+            'payment_status': 'paid' if self.amount_spin.value() > 0 else 'pending',
+            'examination_id': self.examination_id,
+            'notes': self.chief_complaint_edit.toPlainText().strip(),
+            'treatment_performed': self.treatment_edit.toPlainText().strip(),
+            'doctor_name': 'Dr. Default',
+            'chief_complaint': self.chief_complaint_edit.toPlainText().strip(),
+            'diagnosis': self.diagnosis_edit.toPlainText().strip(),
+            'advice': self.advice_edit.toPlainText().strip(),
+            'affected_teeth': self.selected_teeth
+        }
+        return visit_data
+
+    def load_visit_data(self, visit_data: Dict):
+        """Load visit data into the form fields."""
+        visit_date = visit_data.get('visit_date')
+        if isinstance(visit_date, str):
+            self.date_edit.setDate(QDate.fromString(visit_date, 'yyyy-MM-dd'))
+        elif isinstance(visit_date, date):
+            self.date_edit.setDate(QDate(visit_date))
+
+        visit_time = visit_data.get('visit_time')
+        if isinstance(visit_time, str):
+            self.time_edit.setTime(QTime.fromString(visit_time, 'HH:mm:ss'))
+        elif isinstance(visit_time, time):
+            self.time_edit.setTime(QTime(visit_time))
+
+        cost = visit_data.get('cost')
+        self.amount_spin.setValue(cost if cost is not None else 0.0)
+        self.visit_type_combo.setCurrentText(visit_data.get('visit_type', ''))
+        self.chief_complaint_edit.setPlainText(visit_data.get('chief_complaint', ''))
+        self.diagnosis_edit.setPlainText(visit_data.get('diagnosis', ''))
+        self.treatment_edit.setPlainText(visit_data.get('treatment_performed', ''))
+        self.advice_edit.setPlainText(visit_data.get('advice', ''))
+        self.tooth_selection_widget.set_selected_teeth(visit_data.get('affected_teeth', []))

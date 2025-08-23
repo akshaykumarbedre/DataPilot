@@ -17532,3 +17532,443 @@ Supported signatures:
 2025-08-23 12:38:23,477 - app.services.auth_service - INFO - User a logged out
 2025-08-23 12:38:23,509 - app.database.database - INFO - Database connections closed
 2025-08-23 12:38:23,509 - app.main - INFO - Application shutdown complete
+2025-08-23 12:38:51,422 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:39:21,425 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:39:51,423 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:40:21,439 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:40:51,440 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:41:21,446 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:41:51,470 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:41:52,049 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 12:41:52,080 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 12:41:52,095 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 12:41:52,095 - app.main - INFO - Running startup optimizations...
+2025-08-23 12:41:52,095 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 12:41:52,095 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 12:41:52,095 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 12:41:52,095 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 12:41:52,111 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.45703125, 'vms_mb': 45.34765625, 'memory_percent': 0.8485359667887138}
+2025-08-23 12:41:52,111 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 12:41:52,111 - app.main - INFO - Initializing database...
+2025-08-23 12:41:52,189 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 12:41:52,189 - app.main - INFO - Showing login dialog...
+2025-08-23 12:41:59,774 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 12:41:59,774 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 12:41:59,789 - app.main - INFO - Login successful, showing main window...
+2025-08-23 12:41:59,883 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:41:59,899 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:41:59,914 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 12:42:03,097 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:42:03,165 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 12:42:05,453 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 12:42:07,162 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:42:17,261 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 12:42:17,355 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 12:42:17,355 - app.ui.components.visit_records_panel - ERROR - Error loading visit records: 'VisitRecordsPanel' object has no attribute 'filter_combo'
+2025-08-23 12:42:17,370 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:42:17,370 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:42:21,464 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:42:24,849 - app.services.visit_records_service - INFO - Created visit 5 for patient 2
+2025-08-23 12:42:24,865 - app.ui.components.visit_records_panel - ERROR - Error loading visit records: 'VisitRecordsPanel' object has no attribute 'filter_combo'
+2025-08-23 12:42:29,865 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:42:41,432 - app.services.visit_records_service - INFO - Created visit 6 for patient 2
+2025-08-23 12:42:41,432 - app.ui.components.visit_records_panel - ERROR - Error loading visit records: 'VisitRecordsPanel' object has no attribute 'filter_combo'
+2025-08-23 12:42:50,127 - app.services.auth_service - INFO - User a logged out
+2025-08-23 12:42:50,158 - app.database.database - INFO - Database connections closed
+2025-08-23 12:42:50,158 - app.main - INFO - Application shutdown complete
+2025-08-23 12:42:51,485 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:43:21,499 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:43:47,813 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 12:43:47,844 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 12:43:47,859 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 12:43:47,859 - app.main - INFO - Running startup optimizations...
+2025-08-23 12:43:47,859 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 12:43:47,859 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 12:43:47,859 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 12:43:47,859 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 12:43:47,859 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.18359375, 'vms_mb': 44.8515625, 'memory_percent': 0.8451466647815691}
+2025-08-23 12:43:47,859 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 12:43:47,859 - app.main - INFO - Initializing database...
+2025-08-23 12:43:47,953 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 12:43:47,953 - app.main - INFO - Showing login dialog...
+2025-08-23 12:43:51,250 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 12:43:51,250 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 12:43:51,266 - app.main - INFO - Login successful, showing main window...
+2025-08-23 12:43:51,344 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:43:51,359 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:43:51,375 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 12:43:51,522 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:43:54,462 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:43:54,583 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 12:43:56,865 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 12:43:57,990 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:44:05,944 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 12:44:06,038 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 12:44:06,100 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:44:06,116 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:44:13,140 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 389, in edit_visit_record
+    QMessageBox.information(self, "Edit Visit", f"Editing visit record: {visit_data.get('id')}")
+    ^^^^^^^^^^^
+NameError: name 'QMessageBox' is not defined
+2025-08-23 12:44:13,656 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 389, in edit_visit_record
+    QMessageBox.information(self, "Edit Visit", f"Editing visit record: {visit_data.get('id')}")
+    ^^^^^^^^^^^
+NameError: name 'QMessageBox' is not defined
+2025-08-23 12:44:13,859 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 389, in edit_visit_record
+    QMessageBox.information(self, "Edit Visit", f"Editing visit record: {visit_data.get('id')}")
+    ^^^^^^^^^^^
+NameError: name 'QMessageBox' is not defined
+2025-08-23 12:44:21,325 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:44:21,512 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:44:23,872 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 389, in edit_visit_record
+    QMessageBox.information(self, "Edit Visit", f"Editing visit record: {visit_data.get('id')}")
+    ^^^^^^^^^^^
+NameError: name 'QMessageBox' is not defined
+2025-08-23 12:44:24,044 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 389, in edit_visit_record
+    QMessageBox.information(self, "Edit Visit", f"Editing visit record: {visit_data.get('id')}")
+    ^^^^^^^^^^^
+NameError: name 'QMessageBox' is not defined
+2025-08-23 12:44:24,200 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 389, in edit_visit_record
+    QMessageBox.information(self, "Edit Visit", f"Editing visit record: {visit_data.get('id')}")
+    ^^^^^^^^^^^
+NameError: name 'QMessageBox' is not defined
+2025-08-23 12:44:24,387 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 389, in edit_visit_record
+    QMessageBox.information(self, "Edit Visit", f"Editing visit record: {visit_data.get('id')}")
+    ^^^^^^^^^^^
+NameError: name 'QMessageBox' is not defined
+2025-08-23 12:44:32,612 - app.services.auth_service - INFO - User a logged out
+2025-08-23 12:44:32,628 - app.database.database - INFO - Database connections closed
+2025-08-23 12:44:32,628 - app.main - INFO - Application shutdown complete
+2025-08-23 12:44:51,519 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:44:56,835 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 12:44:56,882 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 12:44:56,898 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 12:44:56,898 - app.main - INFO - Running startup optimizations...
+2025-08-23 12:44:56,898 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 12:44:56,898 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 12:44:56,898 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 12:44:56,898 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 12:44:56,898 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.2265625, 'vms_mb': 44.83203125, 'memory_percent': 0.8456792693826919}
+2025-08-23 12:44:56,898 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 12:44:56,898 - app.main - INFO - Initializing database...
+2025-08-23 12:44:56,991 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 12:44:56,991 - app.main - INFO - Showing login dialog...
+2025-08-23 12:44:58,882 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 12:44:58,898 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 12:44:58,913 - app.main - INFO - Login successful, showing main window...
+2025-08-23 12:44:58,991 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:44:59,007 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:44:59,023 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 12:45:02,086 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:45:02,156 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 12:45:04,376 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 12:45:05,619 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:45:19,549 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 12:45:19,658 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 12:45:19,736 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 19 teeth in doctor panel
+2025-08-23 12:45:19,768 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 19 teeth in doctor panel
+2025-08-23 12:45:21,518 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:45:28,954 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:45:41,996 - app.services.auth_service - INFO - User a logged out
+2025-08-23 12:45:42,028 - app.database.database - INFO - Database connections closed
+2025-08-23 12:45:42,028 - app.main - INFO - Application shutdown complete
+2025-08-23 12:45:51,515 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:46:21,511 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:46:51,536 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:47:21,534 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:47:51,552 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:48:21,552 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:48:36,588 - app.services.auth_service - INFO - User a logged out
+2025-08-23 12:48:36,619 - app.database.database - INFO - Database connections closed
+2025-08-23 12:48:36,619 - app.main - INFO - Application shutdown complete
+2025-08-23 12:48:58,924 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 12:48:58,955 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 12:48:58,970 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 12:48:58,970 - app.main - INFO - Running startup optimizations...
+2025-08-23 12:48:58,970 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 12:48:58,970 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 12:48:58,970 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 12:48:58,970 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 12:48:58,970 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.72265625, 'vms_mb': 45.46484375, 'memory_percent': 0.8518284315956544}
+2025-08-23 12:48:58,970 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 12:48:58,970 - app.main - INFO - Initializing database...
+2025-08-23 12:48:59,080 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 12:48:59,080 - app.main - INFO - Showing login dialog...
+2025-08-23 12:49:02,940 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 12:49:02,940 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 12:49:02,955 - app.main - INFO - Login successful, showing main window...
+2025-08-23 12:49:03,033 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:49:03,065 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:49:03,080 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 12:49:06,419 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:49:06,498 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 12:49:09,022 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 12:49:11,023 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 12:49:12,007 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:49:12,101 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 12:49:12,195 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 12:49:12,257 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:49:12,273 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:49:12,273 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-23 12:49:18,106 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 390, in edit_visit_record
+    dialog = EditVisitDialog(visit_data, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 24, in __init__
+    self.load_visit_data()
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 41, in load_visit_data
+    self.visit_entry_panel.load_visit_data(self.visit_data)
+  File "D:\freelancer\app\ui\components\visit_entry_panel.py", line 393, in load_visit_data
+    self.date_edit.setDate(QDate.fromString(visit_data.get('visit_date', ''), 'yyyy-MM-dd'))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'PySide6.QtCore.QDate.fromString' called with wrong argument types:
+  PySide6.QtCore.QDate.fromString(date, str)
+Supported signatures:
+  PySide6.QtCore.QDate.fromString(string: str, /, format: PySide6.QtCore.Qt.DateFormat = Instance(Qt.TextDate))
+  PySide6.QtCore.QDate.fromString(string: str, format: str, cal: PySide6.QtCore.QCalendar, /)
+  PySide6.QtCore.QDate.fromString(string: str, format: str, /, baseYear: int = 1900)
+  PySide6.QtCore.QDate.fromString(string: str, format: str, baseYear: int, cal: PySide6.QtCore.QCalendar, /)
+2025-08-23 12:49:19,168 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 390, in edit_visit_record
+    dialog = EditVisitDialog(visit_data, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 24, in __init__
+    self.load_visit_data()
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 41, in load_visit_data
+    self.visit_entry_panel.load_visit_data(self.visit_data)
+  File "D:\freelancer\app\ui\components\visit_entry_panel.py", line 393, in load_visit_data
+    self.date_edit.setDate(QDate.fromString(visit_data.get('visit_date', ''), 'yyyy-MM-dd'))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'PySide6.QtCore.QDate.fromString' called with wrong argument types:
+  PySide6.QtCore.QDate.fromString(date, str)
+Supported signatures:
+  PySide6.QtCore.QDate.fromString(string: str, /, format: PySide6.QtCore.Qt.DateFormat = Instance(Qt.TextDate))
+  PySide6.QtCore.QDate.fromString(string: str, format: str, cal: PySide6.QtCore.QCalendar, /)
+  PySide6.QtCore.QDate.fromString(string: str, format: str, /, baseYear: int = 1900)
+  PySide6.QtCore.QDate.fromString(string: str, format: str, baseYear: int, cal: PySide6.QtCore.QCalendar, /)
+2025-08-23 12:49:27,306 - app.services.auth_service - INFO - User a logged out
+2025-08-23 12:49:27,337 - app.database.database - INFO - Database connections closed
+2025-08-23 12:49:27,337 - app.main - INFO - Application shutdown complete
+2025-08-23 12:49:55,709 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 12:49:55,740 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 12:49:55,756 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 12:49:55,756 - app.main - INFO - Running startup optimizations...
+2025-08-23 12:49:55,756 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 12:49:55,756 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 12:49:55,756 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 12:49:55,756 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 12:49:55,756 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.015625, 'vms_mb': 44.47265625, 'memory_percent': 0.8430646649771802}
+2025-08-23 12:49:55,756 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 12:49:55,756 - app.main - INFO - Initializing database...
+2025-08-23 12:49:55,849 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 12:49:55,849 - app.main - INFO - Showing login dialog...
+2025-08-23 12:50:00,865 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 12:50:00,865 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 12:50:00,865 - app.main - INFO - Login successful, showing main window...
+2025-08-23 12:50:00,959 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:50:00,974 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:50:00,990 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 12:50:04,111 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 12:50:04,180 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 12:50:06,473 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 12:50:08,102 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 12:50:09,304 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:50:09,461 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 12:50:09,601 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 12:50:09,679 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 19 teeth in doctor panel
+2025-08-23 12:50:09,711 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 19 teeth in doctor panel
+2025-08-23 12:50:09,711 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 12:50:25,483 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 392, in edit_visit_record
+    updated_data = dialog.get_visit_data()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 45, in get_visit_data
+    return self.visit_entry_panel.get_visit_data()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'VisitEntryPanel' object has no attribute 'get_visit_data'. Did you mean: 'load_visit_data'?
+2025-08-23 12:50:30,920 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:51:00,917 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:51:03,387 - app.ui.main_window - INFO - Navigated to settings
+2025-08-23 12:51:03,889 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:51:30,924 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:52:00,677 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 12:52:00,927 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:52:02,271 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:52:02,380 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 12:52:02,474 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 12:52:02,520 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:52:02,552 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 12:52:02,552 - app.ui.main_window - INFO - Navigated to examination for patient: P00002
+2025-08-23 12:52:30,914 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:53:00,921 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:53:30,922 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:54:00,939 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:54:30,918 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:55:00,918 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:55:30,924 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:56:00,924 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:56:20,741 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 12:56:22,054 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 12:56:30,927 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:57:00,934 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:57:30,915 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:58:00,916 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:58:30,926 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:59:00,919 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:59:30,922 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 12:59:56,366 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 12:59:58,007 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 13:00:00,925 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 13:00:01,419 - app.ui.main_window - INFO - Navigated to dashboard
+2025-08-23 13:00:09,558 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 13:00:18,176 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 390, in edit_visit_record
+    dialog = EditVisitDialog(visit_data, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 24, in __init__
+    self.load_visit_data()
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 41, in load_visit_data
+    self.visit_entry_panel.load_visit_data(self.visit_data)
+  File "D:\freelancer\app\ui\components\visit_entry_panel.py", line 405, in load_visit_data
+    self.amount_spin.setValue(visit_data.get('cost', 0.0))
+TypeError: 'PySide6.QtWidgets.QDoubleSpinBox.setValue' called with wrong argument types:
+  PySide6.QtWidgets.QDoubleSpinBox.setValue(NoneType)
+Supported signatures:
+  PySide6.QtWidgets.QDoubleSpinBox.setValue(val: float, /)
+2025-08-23 13:00:19,504 - root - CRITICAL - Uncaught exception:
+Traceback (most recent call last):
+  File "D:\freelancer\app\ui\components\visit_records_panel.py", line 390, in edit_visit_record
+    dialog = EditVisitDialog(visit_data, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 24, in __init__
+    self.load_visit_data()
+  File "D:\freelancer\app\ui\dialogs\edit_visit_dialog.py", line 41, in load_visit_data
+    self.visit_entry_panel.load_visit_data(self.visit_data)
+  File "D:\freelancer\app\ui\components\visit_entry_panel.py", line 405, in load_visit_data
+    self.amount_spin.setValue(visit_data.get('cost', 0.0))
+TypeError: 'PySide6.QtWidgets.QDoubleSpinBox.setValue' called with wrong argument types:
+  PySide6.QtWidgets.QDoubleSpinBox.setValue(NoneType)
+Supported signatures:
+  PySide6.QtWidgets.QDoubleSpinBox.setValue(val: float, /)
+2025-08-23 13:00:22,192 - app.services.auth_service - INFO - User a logged out
+2025-08-23 13:00:22,236 - app.database.database - INFO - Database connections closed
+2025-08-23 13:00:22,236 - app.main - INFO - Application shutdown complete
+2025-08-23 13:01:02,374 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 13:01:02,421 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 13:01:02,437 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 13:01:02,437 - app.main - INFO - Running startup optimizations...
+2025-08-23 13:01:02,437 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 13:01:02,437 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 13:01:02,437 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 13:01:02,437 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 13:01:02,452 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.140625, 'vms_mb': 44.875, 'memory_percent': 0.8446140601804465}
+2025-08-23 13:01:02,452 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 13:01:02,452 - app.main - INFO - Initializing database...
+2025-08-23 13:01:02,580 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 13:01:02,580 - app.main - INFO - Showing login dialog...
+2025-08-23 13:01:07,212 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 13:01:07,212 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 13:01:07,227 - app.main - INFO - Login successful, showing main window...
+2025-08-23 13:01:07,337 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 13:01:07,352 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 13:01:07,368 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 13:01:10,506 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 13:01:10,587 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 13:01:12,832 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 13:01:14,407 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 13:01:16,440 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 13:01:16,550 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 13:01:16,628 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 13:01:16,659 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 13:01:29,143 - app.services.visit_records_service - ERROR - Error updating visit 5: (sqlite3.ProgrammingError) Error binding parameter 1: type 'datetime.time' is not supported
+[SQL: UPDATE visit_records SET visit_time=?, cost=?, payment_status=?, affected_teeth=?, updated_at=? WHERE visit_records.id = ?]
+[parameters: (datetime.time(12, 42, 2), 4.0, 'paid', '[18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28, 48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38]', '2025-08-23 13:01:29.143215', 5)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-08-23 13:01:37,349 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 13:01:48,397 - app.services.auth_service - INFO - User a logged out
+2025-08-23 13:01:48,413 - app.database.database - INFO - Database connections closed
+2025-08-23 13:01:48,413 - app.main - INFO - Application shutdown complete
+2025-08-23 13:02:18,255 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 13:02:18,286 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 13:02:18,302 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 13:02:18,302 - app.main - INFO - Running startup optimizations...
+2025-08-23 13:02:18,302 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 13:02:18,302 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 13:02:18,318 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 13:02:18,318 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 13:02:18,318 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.359375, 'vms_mb': 45.03125, 'memory_percent': 0.8473255017861621}
+2025-08-23 13:02:18,318 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 13:02:18,318 - app.main - INFO - Initializing database...
+2025-08-23 13:02:18,411 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 13:02:18,411 - app.main - INFO - Showing login dialog...
+2025-08-23 13:02:21,052 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 13:02:21,052 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 13:02:21,052 - app.main - INFO - Login successful, showing main window...
+2025-08-23 13:02:21,162 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 13:02:21,177 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 13:02:21,177 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 13:02:24,235 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 13:02:24,305 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 13:02:26,607 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 13:02:28,786 - app.ui.main_window - INFO - Navigated to patients
+2025-08-23 13:02:30,023 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 13:02:30,132 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 13:02:30,242 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 13:02:30,320 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 19 teeth in doctor panel
+2025-08-23 13:02:30,382 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 19 teeth in doctor panel
+2025-08-23 13:02:30,382 - app.ui.main_window - INFO - Navigated to examination for patient: P00001
+2025-08-23 13:02:51,127 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 13:02:57,308 - app.services.auth_service - INFO - User a logged out
+2025-08-23 13:02:57,339 - app.database.database - INFO - Database connections closed
+2025-08-23 13:02:57,339 - app.main - INFO - Application shutdown complete
+2025-08-23 13:05:09,533 - app.main - INFO - Starting Yashoda Dental Clinic...
+2025-08-23 13:05:09,580 - app.main - INFO - Stylesheet applied: D:\freelancer\app\ui\resources\style.qss
+2025-08-23 13:05:09,596 - app.main - INFO - Application icon set: D:\freelancer\app\icon\logo.png
+2025-08-23 13:05:09,596 - app.main - INFO - Running startup optimizations...
+2025-08-23 13:05:09,596 - app.utils.performance - INFO - Starting application performance optimization...
+2025-08-23 13:05:09,596 - app.utils.performance - INFO - Database statistics: {'patients_count': 0, 'dental_records_count': 0, 'index_usage': {}, 'slow_queries': []}
+2025-08-23 13:05:09,596 - app.utils.performance - INFO - UI cache cleaned up
+2025-08-23 13:05:09,596 - app.utils.performance - INFO - Database sessions optimized
+2025-08-23 13:05:09,596 - app.utils.performance - INFO - Memory usage: {'rss_mb': 68.19921875, 'vms_mb': 44.9765625, 'memory_percent': 0.8453403391819775}
+2025-08-23 13:05:09,596 - app.utils.performance - INFO - Performance optimization completed
+2025-08-23 13:05:09,596 - app.main - INFO - Initializing database...
+2025-08-23 13:05:09,689 - app.database.database - INFO - Database initialized successfully at D:\freelancer\data\dental_practice.db
+2025-08-23 13:05:09,689 - app.main - INFO - Showing login dialog...
+2025-08-23 13:05:11,815 - app.services.auth_service - INFO - User a authenticated successfully
+2025-08-23 13:05:11,815 - app.ui.login_dialog - INFO - Login successful for user: a
+2025-08-23 13:05:11,815 - app.main - INFO - Login successful, showing main window...
+2025-08-23 13:05:11,924 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 13:05:11,940 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 13:05:11,955 - app.ui.patient_management - INFO - Loaded 2 patients
+2025-08-23 13:05:15,032 - app.services.patient_service - INFO - Found 2 patients for search: ''
+2025-08-23 13:05:15,117 - app.services.custom_status_service - INFO - Initialized 0 predefined statuses
+2025-08-23 13:05:17,293 - app.ui.main_window - INFO - Main window initialized
+2025-08-23 13:05:18,522 - app.ui.main_window - INFO - Navigated to examination
+2025-08-23 13:05:20,590 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in patient panel
+2025-08-23 13:05:20,684 - app.ui.components.dental_chart_panel - INFO - Loaded patient data for 32 teeth in doctor panel
+2025-08-23 13:05:20,731 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 13:05:20,762 - app.ui.components.dental_chart_panel - INFO - Loaded tooth data for 1 teeth in doctor panel
+2025-08-23 13:05:27,794 - app.services.visit_records_service - INFO - Created visit 7 for patient 2
+2025-08-23 13:05:30,486 - app.services.visit_records_service - INFO - Updated visit 2
+2025-08-23 13:05:41,884 - app.ui.dashboard - INFO - Dashboard refreshed - Total: 2, This month: 2, Examinations: 4
+2025-08-23 13:05:52,501 - app.services.auth_service - INFO - User a logged out
+2025-08-23 13:05:52,517 - app.database.database - INFO - Database connections closed
+2025-08-23 13:05:52,517 - app.main - INFO - Application shutdown complete

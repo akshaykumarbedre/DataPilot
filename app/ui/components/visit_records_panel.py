@@ -7,12 +7,13 @@ from typing import Dict, List, Optional, Any
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, 
     QScrollArea, QFrame, QPushButton, QTextEdit, QComboBox,
-    QListWidget, QListWidgetItem, QSizePolicy
+    QListWidget, QListWidgetItem, QSizePolicy, QMessageBox
 )
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFont, QColor
 
 from ...services.visit_records_service import visit_records_service
+from ..dialogs.edit_visit_dialog import EditVisitDialog
 
 logger = logging.getLogger(__name__)
 
@@ -30,20 +31,8 @@ class VisitRecordWidget(QFrame):
     
     def setup_ui(self):
         """Setup the visit record widget UI."""
-        self.setFrameStyle(QFrame.Box)
-        self.setStyleSheet("""
-            QFrame {
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                margin: 2px;
-                padding: 6px;
-                background-color: white;
-            }
-            QFrame:hover {
-                background-color: #ECF0F1;
-                border: 1px solid #95A5A6;
-            }
-        """)
+        self.setFrameStyle(QFrame.NoFrame)
+        self.setStyleSheet("background-color: transparent;")
         
         layout = QVBoxLayout(self)
         layout.setSpacing(3)
@@ -217,15 +206,6 @@ class VisitRecordsPanel(QGroupBox):
         # Header with controls
         header_layout = QHBoxLayout()
         
-        # Filter options
-        filter_label = QLabel("Filter:")
-        header_layout.addWidget(filter_label)
-        
-        self.filter_combo = QComboBox()
-        self.filter_combo.addItems(["All Visits", "Current Examination", "Last 30 Days", "Last 6 Months"])
-        self.filter_combo.currentTextChanged.connect(self.apply_filter)
-        header_layout.addWidget(self.filter_combo)
-        
         header_layout.addStretch()
         
         # Total amount display
@@ -274,6 +254,7 @@ class VisitRecordsPanel(QGroupBox):
         
         # Load initial data
         self.update_panel_state()
+        self.setMinimumHeight(400)
     
     def set_patient(self, patient_id: int):
         """Set the current patient and load records."""
@@ -315,37 +296,7 @@ class VisitRecordsPanel(QGroupBox):
     
     def apply_filter(self):
         """Apply the selected filter to visit records."""
-        if not self.visit_records:
-            self.display_records([])
-            return
-        
-        filter_type = self.filter_combo.currentText()
-        filtered_records = self.visit_records.copy()
-        
-        if filter_type == "Current Examination" and self.examination_id:
-            # Filter by current examination
-            filtered_records = [
-                record for record in filtered_records 
-                if record.get('examination_id') == self.examination_id
-            ]
-        elif filter_type == "Last 30 Days":
-            # Filter by last 30 days
-            from datetime import timedelta
-            thirty_days_ago = date.today() - timedelta(days=30)
-            filtered_records = [
-                record for record in filtered_records
-                if self.parse_visit_date(record.get('visit_date')) >= thirty_days_ago
-            ]
-        elif filter_type == "Last 6 Months":
-            # Filter by last 6 months
-            from datetime import timedelta
-            six_months_ago = date.today() - timedelta(days=180)
-            filtered_records = [
-                record for record in filtered_records
-                if self.parse_visit_date(record.get('visit_date')) >= six_months_ago
-            ]
-        
-        self.display_records(filtered_records)
+        self.display_records(self.visit_records)
     
     def parse_visit_date(self, visit_date) -> date:
         """Parse visit date to date object."""
@@ -382,7 +333,7 @@ class VisitRecordsPanel(QGroupBox):
         for record in sorted_records:
             record_widget = VisitRecordWidget(record)
             record_widget.visit_selected.connect(self.visit_selected)
-            record_widget.visit_edit_requested.connect(self.visit_edit_requested)
+            record_widget.visit_edit_requested.connect(self.edit_visit_record)
             self.records_layout.addWidget(record_widget)
             
             # Add to total
@@ -432,17 +383,18 @@ class VisitRecordsPanel(QGroupBox):
     
     def is_record_visible(self, record: Dict) -> bool:
         """Check if a record is visible based on current filter."""
-        filter_type = self.filter_combo.currentText()
-        
-        if filter_type == "Current Examination" and self.examination_id:
-            return record.get('examination_id') == self.examination_id
-        elif filter_type == "Last 30 Days":
-            from datetime import timedelta
-            thirty_days_ago = date.today() - timedelta(days=30)
-            return self.parse_visit_date(record.get('visit_date')) >= thirty_days_ago
-        elif filter_type == "Last 6 Months":
-            from datetime import timedelta
-            six_months_ago = date.today() - timedelta(days=180)
-            return self.parse_visit_date(record.get('visit_date')) >= six_months_ago
-        
-        return True  # "All Visits"
+        return True
+
+    def edit_visit_record(self, visit_data: Dict):
+        """Handle the edit visit record request."""
+        dialog = EditVisitDialog(visit_data, self.patient_id, self)
+        if dialog.exec():
+            updated_data = dialog.get_visit_data()
+            visit_id = visit_data.get('id')
+            if visit_id:
+                success = visit_records_service.update_visit_record(visit_id, updated_data)
+                if success:
+                    self.refresh_records()
+                    QMessageBox.information(self, "Success", "Visit record updated successfully!")
+                else:
+                    QMessageBox.warning(self, "Error", "Failed to update visit record.")

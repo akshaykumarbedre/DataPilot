@@ -316,7 +316,7 @@ class VisitRecordsService:
         end_date = start_date + timedelta(days=days_ahead)
         return self.get_visits_by_date_range(start_date, end_date, status='scheduled')
     
-    def update_visit(self, visit_id: int, update_data: Dict[str, Any]) -> bool:
+    def update_visit_record(self, visit_id: int, update_data: Dict[str, Any]) -> bool:
         """
         Update a visit record.
         
@@ -340,12 +340,18 @@ class VisitRecordsService:
             allowed_fields = [
                 'visit_date', 'visit_time', 'visit_type', 'status', 'notes',
                 'duration_minutes', 'treatment_performed', 'next_visit_date',
-                'doctor_name', 'cost', 'payment_status'
+                'doctor_name', 'cost', 'payment_status', 'chief_complaint',
+                'diagnosis', 'advice', 'affected_teeth'
             ]
             
             for field in allowed_fields:
                 if field in update_data:
-                    setattr(visit, field, update_data[field])
+                    if field == 'visit_time' and isinstance(update_data[field], time):
+                        setattr(visit, field, update_data[field].strftime('%H:%M:%S'))
+                    elif field == 'affected_teeth' and isinstance(update_data[field], list):
+                        setattr(visit, field, json.dumps(update_data[field]))
+                    else:
+                        setattr(visit, field, update_data[field])
             
             visit.updated_at = datetime.now()
             session.commit()
