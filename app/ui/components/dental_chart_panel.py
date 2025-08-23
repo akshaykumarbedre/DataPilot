@@ -39,24 +39,7 @@ class DentalChartPanel(QGroupBox):
             title = "Doctor Findings (Dental Chart)"
         
         self.setTitle(title)
-        self.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                font-size: 12pt;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                margin-top: 10px;
-                padding-top: 10px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 10px 0 10px;
-                color: #2C3E50;
-                font-weight: bold;
-            }
-        """)
+        self.setObjectName("dentalChartPanel")
         
         self.setup_ui()
     
@@ -92,22 +75,7 @@ class DentalChartPanel(QGroupBox):
         # Upper teeth section
         upper_section = QGroupBox("Upper Jaw (Right 8-1 | Left 1-8)")
         upper_section.setFont(QFont("Arial", 10, QFont.Bold))
-        upper_section.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                margin-top: 5px;
-                padding-top: 5px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 5px;
-                padding: 0 5px 0 5px;
-                color: #2C3E50;
-            }
-        """)
+        upper_section.setObjectName("upperJaw")
         upper_layout = QHBoxLayout(upper_section)
         upper_layout.setSpacing(1)  # Minimal spacing between teeth
         upper_layout.setContentsMargins(5, 10, 5, 5)
@@ -143,22 +111,7 @@ class DentalChartPanel(QGroupBox):
         # Lower teeth section
         lower_section = QGroupBox("Lower Jaw (Right 8-1 | Left 1-8)")
         lower_section.setFont(QFont("Arial", 10, QFont.Bold))
-        lower_section.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                margin-top: 5px;
-                padding-top: 5px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 5px;
-                padding: 0 5px 0 5px;
-                color: #2C3E50;
-            }
-        """)
+        lower_section.setObjectName("lowerJaw")
         lower_layout = QHBoxLayout(lower_section)
         lower_layout.setSpacing(1)  # Minimal spacing between teeth
         lower_layout.setContentsMargins(5, 10, 5, 5)
@@ -201,23 +154,7 @@ class DentalChartPanel(QGroupBox):
         
         # Selected tooth info (left side of bottom panel)
         self.tooth_info_group = QGroupBox("Selected Tooth")
-        self.tooth_info_group.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                font-size: 10pt;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                margin-top: 5px;
-                padding-top: 5px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 5px;
-                padding: 0 5px 0 5px;
-                color: #2C3E50;
-            }
-        """)
+        self.tooth_info_group.setObjectName("selectedToothGroup")
         self.tooth_info_group.setMinimumWidth(160)
         self.tooth_info_group.setMaximumWidth(180)
         self.tooth_info_group.setMaximumWidth(240)
@@ -332,23 +269,7 @@ class DentalChartPanel(QGroupBox):
         
         # History text area (right side of bottom panel)
         self.history_group = QGroupBox(f"Tooth History - {self.panel_type.title()}")
-        self.history_group.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold;
-                font-size: 10pt;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                margin-top: 5px;
-                padding-top: 5px;
-                background-color: white;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 5px;
-                padding: 0 5px 0 5px;
-                color: #2C3E50;
-            }
-        """)
+        self.history_group.setObjectName("historyGroup")
         self.history_group.setMinimumHeight(110)
         history_layout = QVBoxLayout(self.history_group)
         history_layout.setSpacing(4)

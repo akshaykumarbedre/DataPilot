@@ -38,3 +38,14 @@ Use the following command to run the application:
 ```bash
 conda activate dental && python app.py
 ```
+
+## Git Commit Guidelines
+
+When starting new major content or fine changes, commit your work using:
+
+```bash
+git add .
+git commit -m "short descriptive comment"
+```
+
+

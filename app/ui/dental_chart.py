@@ -107,47 +107,21 @@ class AdvancedDentalChart(QWidget):
         
         # Title
         title_label = QLabel("Advanced Dental Chart System")
-        title_label.setStyleSheet("""
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        """)
+        title_label.setObjectName("header_label")
         header_layout.addWidget(title_label)
         
         header_layout.addStretch()
         
         # Patient selector
         patient_label = QLabel("Patient:")
-        patient_label.setStyleSheet("color: white; font-weight: bold;")
         header_layout.addWidget(patient_label)
         
         self.patient_combo = QComboBox()
         self.patient_combo.setMinimumWidth(230)
-        self.patient_combo.setStyleSheet("""
-            QComboBox {
-                background-color: white;
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                padding: 6px;
-                font-size: 12px;
-                color: #2C3E50;
-            }
-            QComboBox:focus {
-                border-color: #3498DB;
-            }
-        """)
         header_layout.addWidget(self.patient_combo)
         
         # Current examination display
         self.current_exam_label = QLabel("No examination selected")
-        self.current_exam_label.setStyleSheet("""
-            color: white;
-            font-weight: bold;
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 6px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-        """)
         header_layout.addWidget(self.current_exam_label)
         
         # Quick action buttons
@@ -156,20 +130,6 @@ class AdvancedDentalChart(QWidget):
         self.export_btn = QPushButton("Export")
         
         for btn in [self.new_exam_btn, self.save_all_btn, self.export_btn]:
-            btn.setStyleSheet("""
-                QPushButton {
-                    background-color: white;
-                    color: #2C3E50;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 6px 12px;
-                    font-weight: bold;
-                    font-size: 11px;
-                }
-                QPushButton:hover {
-                    background-color: #ECF0F1;
-                }
-            """)
             header_layout.addWidget(btn)
         
         return header_widget
@@ -213,13 +173,7 @@ class AdvancedDentalChart(QWidget):
     def create_dual_charts(self) -> QWidget:
         """Create dual dental charts (Patient/Doctor) side by side."""
         charts_widget = QFrame()
-        charts_widget.setStyleSheet("""
-            QFrame {
-                border: 1px solid #BDC3C7;
-                border-radius: 4px;
-                background-color: white;
-            }
-        """)
+        charts_widget.setObjectName("chartsContainer")
         charts_widget.setMinimumHeight(580)  # Slightly adjusted
         
         # Use HORIZONTAL layout for side-by-side charts
