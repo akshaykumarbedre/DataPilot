@@ -45,25 +45,25 @@ class ExaminationFormWidget(QFrame):
         
         # Chief complaint
         self.chief_complaint_edit = QTextEdit()
-        self.chief_complaint_edit.setMaximumHeight(40)
+        self.chief_complaint_edit.setMaximumHeight(80)
         self.chief_complaint_edit.setPlaceholderText("Patient's main concern or reason for visit...")
         form_layout.addRow("Chief Complaint:", self.chief_complaint_edit)
         
         # Present illness
         self.present_illness_edit = QTextEdit()
-        self.present_illness_edit.setMaximumHeight(40)
+        self.present_illness_edit.setMaximumHeight(80)
         self.present_illness_edit.setPlaceholderText("History of present illness...")
         form_layout.addRow("Present Illness:", self.present_illness_edit)
         
         # Medical history
         self.medical_history_edit = QTextEdit()
-        self.medical_history_edit.setMaximumHeight(40)
+        self.medical_history_edit.setMaximumHeight(80)
         self.medical_history_edit.setPlaceholderText("Relevant medical history...")
         form_layout.addRow("Medical History:", self.medical_history_edit)
         
         # Dental history
         self.dental_history_edit = QTextEdit()
-        self.dental_history_edit.setMaximumHeight(40)
+        self.dental_history_edit.setMaximumHeight(80)
         self.dental_history_edit.setPlaceholderText("Previous dental treatments and history...")
         form_layout.addRow("Dental History:", self.dental_history_edit)
         

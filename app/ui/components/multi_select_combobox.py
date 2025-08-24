@@ -10,6 +10,7 @@ class MultiSelectComboBox(QComboBox):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setObjectName("multiSelectComboBox")
         self._list_widget = QListWidget(self)
         self._list_widget.setStyleSheet("QListWidget::item { padding: 5px; }")
         self.setModel(self._list_widget.model())

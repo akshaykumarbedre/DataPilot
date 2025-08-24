@@ -174,7 +174,7 @@ class AdvancedDentalChart(QWidget):
         """Create dual dental charts (Patient/Doctor) side by side."""
         charts_widget = QFrame()
         charts_widget.setObjectName("chartsContainer")
-        charts_widget.setMinimumHeight(580)  # Slightly adjusted
+        charts_widget.setMinimumHeight(500)  # Slightly adjusted
         
         # Use HORIZONTAL layout for side-by-side charts
         charts_layout = QHBoxLayout(charts_widget)

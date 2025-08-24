@@ -6,7 +6,7 @@ from datetime import datetime, date
 from typing import List, Optional, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
-from ..database.models import Patient, DentalChartRecord
+from ..database.models import Patient, DentalChartRecord, DentalExamination
 from ..database.database import db_manager
 
 logger = logging.getLogger(__name__)
@@ -17,107 +17,115 @@ class DentalService:
     
     def __init__(self):
         pass
-    
-    def update_patient_examination(self, patient_id: str, examination_data: Dict[str, Any]) -> bool:
-        """
-        Update patient examination data.
-        
-        Args:
-            patient_id: Patient ID
-            examination_data: Dictionary containing examination information
-            
-        Returns:
-            True if successful, False otherwise
-        """
+
+    def create_examination(self, patient_id: str, examination_data: Dict[str, Any]) -> Optional[Dict]:
+        """Create a new dental examination for a patient."""
         try:
             session = db_manager.get_session()
             
-            # Get patient by patient_id
             patient = session.query(Patient).filter(Patient.patient_id == patient_id).first()
             if not patient:
                 logger.warning(f"Patient not found: {patient_id}")
                 session.close()
-                return False
+                return None
+
+            new_exam = DentalExamination(
+                patient_id=patient.id,
+                examination_date=examination_data.get('examination_date', date.today()),
+                chief_complaint=examination_data.get('chief_complaint', ''),
+                history_of_presenting_illness=examination_data.get('history_of_presenting_illness'),
+                medical_history=examination_data.get('medical_history'),
+                dental_history=examination_data.get('dental_history'),
+                examination_findings=examination_data.get('examination_findings'),
+                diagnosis=examination_data.get('diagnosis'),
+                treatment_plan=examination_data.get('treatment_plan'),
+                notes=examination_data.get('notes'),
+                examiner_id=examination_data.get('examiner_id')
+            )
             
-            # Update examination fields
-            if 'examination_date' in examination_data:
-                patient.examination_date = examination_data['examination_date']
-            if 'chief_complaint' in examination_data:
-                patient.chief_complaint = examination_data['chief_complaint']
-            
-            patient.updated_at = datetime.utcnow()
-            
-            # Initialize empty dental chart if not exists
-            if not patient.chart_records:
-                self._initialize_dental_chart(session, patient.id)
+            session.add(new_exam)
+            session.commit()
+
+            # Initialize a dental chart for this new examination
+            self._initialize_dental_chart(session, patient.id, new_exam.id)
             
             session.commit()
-            session.close()
             
-            logger.info(f"Updated examination for patient: {patient_id}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error updating examination: {str(e)}")
-            if session:
-                session.rollback()
-                session.close()
-            return False
-    
-    def get_patient_examination(self, patient_id: str) -> Optional[Dict]:
-        """Get patient examination data."""
-        try:
-            session = db_manager.get_session()
-            
-            # Get patient by patient_id
-            patient = session.query(Patient).filter(Patient.patient_id == patient_id).first()
-            if not patient:
-                session.close()
-                return None
-            
-            examination_dict = {
-                'id': patient.id,
+            exam_dict = {
+                'id': new_exam.id,
                 'patient_id': patient.patient_id,
-                'full_name': patient.full_name,
-                'examination_date': patient.examination_date,
-                'chief_complaint': patient.chief_complaint,
-                'created_at': patient.created_at,
-                'updated_at': patient.updated_at
+                'examination_date': new_exam.examination_date,
+                'chief_complaint': new_exam.chief_complaint
             }
             
             session.close()
-            return examination_dict
-            
+            logger.info(f"Created new examination {new_exam.id} for patient {patient_id}")
+            return exam_dict
+
         except Exception as e:
-            logger.error(f"Error getting examination for patient {patient_id}: {str(e)}")
+            logger.error(f"Error creating examination for patient {patient_id}: {str(e)}")
+            if session:
+                session.rollback()
+                session.close()
             return None
-    
-    def get_dental_chart(self, patient_id: str) -> Dict[str, List[Dict]]:
-        """Get dental chart records for a patient."""
+
+    def get_all_patient_examinations(self, patient_id: str) -> List[Dict]:
+        """Get all examination data for a patient."""
         try:
             session = db_manager.get_session()
             
-            # Get patient by patient_id
             patient = session.query(Patient).filter(Patient.patient_id == patient_id).first()
             if not patient:
                 session.close()
-                return {
-                    'upper_right': [],
-                    'upper_left': [],
-                    'lower_right': [],
-                    'lower_left': []
-                }
+                return []
+
+            examinations = session.query(DentalExamination).filter(DentalExamination.patient_id == patient.id).all()
             
-            chart_records = session.query(DentalChartRecord).filter(
-                DentalChartRecord.patient_id == patient.id
-            ).all()
+            examination_list = []
+            for exam in examinations:
+                examination_list.append({
+                    'id': exam.id,
+                    'patient_id': patient.patient_id,
+                    'examination_date': exam.examination_date,
+                    'chief_complaint': exam.chief_complaint,
+                    'history_of_presenting_illness': exam.history_of_presenting_illness,
+                    'medical_history': exam.medical_history,
+                    'dental_history': exam.dental_history,
+                    'examination_findings': exam.examination_findings,
+                    'diagnosis': exam.diagnosis,
+                    'treatment_plan': exam.treatment_plan,
+                    'notes': exam.notes
+                })
             
-            # Organize by quadrants
+            session.close()
+            return examination_list
+            
+        except Exception as e:
+            logger.error(f"Error getting all examinations for patient {patient_id}: {str(e)}")
+            return []
+
+    def get_dental_chart(self, patient_id: str, examination_id: int = None) -> Dict[str, List[Dict]]:
+        """Get dental chart records for a patient, optionally filtered by examination."""
+        try:
+            session = db_manager.get_session()
+            
+            patient = session.query(Patient).filter(Patient.patient_id == patient_id).first()
+            if not patient:
+                session.close()
+                return {}
+
+            query = session.query(DentalChartRecord).filter(DentalChartRecord.patient_id == patient.id)
+            
+            if examination_id:
+                logger.info(f"Filtering chart by examination_id: {examination_id}")
+                query = query.filter(DentalChartRecord.examination_id == examination_id)
+            
+            chart_records = query.all()
+            logger.info(f"Found {len(chart_records)} chart records for patient {patient_id}, exam {examination_id}")
+            
             chart_data = {
-                'upper_right': [],
-                'upper_left': [],
-                'lower_right': [],
-                'lower_left': []
+                'upper_right': [], 'upper_left': [],
+                'lower_right': [], 'lower_left': []
             }
             
             for record in chart_records:
@@ -125,54 +133,48 @@ class DentalService:
                 if quadrant in chart_data:
                     chart_data[quadrant].append(self._chart_record_to_dict(record))
             
-            # Sort teeth by tooth number within each quadrant
             for quadrant in chart_data:
                 chart_data[quadrant].sort(key=lambda x: x['tooth_number'])
             
+            logger.info(f"Returning chart data: {chart_data}")
             session.close()
             return chart_data
             
         except Exception as e:
             logger.error(f"Error getting dental chart for patient {patient_id}: {str(e)}")
-            return {
-                'upper_right': [],
-                'upper_left': [],
-                'lower_right': [],
-                'lower_left': []
-            }
-    
-    def update_tooth_record(self, patient_id: str, quadrant: str, tooth_number: int, 
+            return {}
+
+    def update_tooth_record(self, patient_id: str, examination_id: int, quadrant: str, tooth_number: int, 
                            tooth_data: Dict[str, Any]) -> bool:
-        """Update a specific tooth record."""
+        """Update a specific tooth record for a given examination."""
         try:
             session = db_manager.get_session()
             
-            # Get patient by patient_id
             patient = session.query(Patient).filter(Patient.patient_id == patient_id).first()
             if not patient:
                 logger.warning(f"Patient not found: {patient_id}")
                 session.close()
                 return False
             
-            # Find existing record or create new one
             record = session.query(DentalChartRecord).filter(
                 and_(
                     DentalChartRecord.patient_id == patient.id,
+                    DentalChartRecord.examination_id == examination_id,
                     DentalChartRecord.quadrant == quadrant,
                     DentalChartRecord.tooth_number == tooth_number
                 )
             ).first()
             
             if record:
-                # Update existing record
                 record.diagnosis = tooth_data.get('diagnosis', record.diagnosis)
                 record.treatment_performed = tooth_data.get('treatment_performed', record.treatment_performed)
                 record.status = tooth_data.get('status', record.status)
                 record.updated_at = datetime.utcnow()
             else:
-                # Create new record
+                # This case should ideally not be hit if chart is initialized with examination
                 record = DentalChartRecord(
                     patient_id=patient.id,
+                    examination_id=examination_id,
                     quadrant=quadrant,
                     tooth_number=tooth_number,
                     diagnosis=tooth_data.get('diagnosis', ''),
@@ -184,7 +186,7 @@ class DentalService:
             session.commit()
             session.close()
             
-            logger.info(f"Updated tooth record: {quadrant} #{tooth_number} for patient {patient_id}")
+            logger.info(f"Updated tooth record: {quadrant} #{tooth_number} for patient {patient_id}, exam {examination_id}")
             return True
             
         except Exception as e:
@@ -193,46 +195,16 @@ class DentalService:
                 session.rollback()
                 session.close()
             return False
-    
-    def get_tooth_record(self, patient_id: str, quadrant: str, tooth_number: int) -> Optional[Dict]:
-        """Get specific tooth record."""
-        try:
-            session = db_manager.get_session()
-            
-            # Get patient by patient_id
-            patient = session.query(Patient).filter(Patient.patient_id == patient_id).first()
-            if not patient:
-                session.close()
-                return None
-            
-            record = session.query(DentalChartRecord).filter(
-                and_(
-                    DentalChartRecord.patient_id == patient.id,
-                    DentalChartRecord.quadrant == quadrant,
-                    DentalChartRecord.tooth_number == tooth_number
-                )
-            ).first()
-            
-            if record:
-                record_dict = self._chart_record_to_dict(record)
-                session.close()
-                return record_dict
-            
-            session.close()
-            return None
-            
-        except Exception as e:
-            logger.error(f"Error getting tooth record: {str(e)}")
-            return None
-    
-    def _initialize_dental_chart(self, session: Session, patient_id: int):
-        """Initialize empty dental chart with all 32 teeth."""
+
+    def _initialize_dental_chart(self, session: Session, patient_id: int, examination_id: int):
+        """Initialize empty dental chart for a specific examination."""
         quadrants = ['upper_right', 'upper_left', 'lower_right', 'lower_left']
         
         for quadrant in quadrants:
-            for tooth_number in range(1, 8):  # 7 teeth per quadrant
+            for tooth_number in range(1, 9):  # 8 teeth per quadrant
                 record = DentalChartRecord(
                     patient_id=patient_id,
+                    examination_id=examination_id,
                     quadrant=quadrant,
                     tooth_number=tooth_number,
                     diagnosis='',
@@ -240,12 +212,13 @@ class DentalService:
                     status='normal'
                 )
                 session.add(record)
-    
+
     def _chart_record_to_dict(self, record: DentalChartRecord) -> Dict:
         """Convert DentalChartRecord object to dictionary."""
         return {
             'id': record.id,
             'patient_id': record.patient_id,
+            'examination_id': record.examination_id,
             'quadrant': record.quadrant,
             'tooth_number': record.tooth_number,
             'diagnosis': record.diagnosis or '',

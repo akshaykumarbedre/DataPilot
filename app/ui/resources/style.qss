@@ -82,6 +82,10 @@ QLineEdit, QTextEdit, QComboBox, QDateEdit {
     color: #2c3e50;
 }
 
+MultiSelectComboBox, MultiSelectComboBox QLineEdit {
+    padding: 1px;
+}
+
 QLineEdit:focus, QTextEdit:focus, QComboBox:focus, QDateEdit:focus {
     border-color: #3498db; /* Highlight focus */
 }
