@@ -24,6 +24,28 @@ class ExportService:
     def __init__(self):
         pass
     
+    def _flatten_data(self, patient: Dict, chart_data: Dict) -> str:
+        """Flatten patient and chart data into a single string."""
+        flat_data = []
+        flat_data.append(f"Patient ID: {patient.get('patient_id', '')}")
+        flat_data.append(f"Full Name: {patient.get('full_name', '')}")
+        flat_data.append(f"Phone Number: {patient.get('phone_number', '')}")
+        flat_data.append(f"Email: {patient.get('email', '')}")
+        flat_data.append(f"Date of Birth: {patient.get('date_of_birth', '')}")
+        flat_data.append(f"Address: {patient.get('address', '')}")
+        flat_data.append(f"Examination Date: {patient.get('examination_date', '')}")
+        flat_data.append(f"Chief Complaint: {patient.get('chief_complaint', '')}")
+
+        for quadrant, teeth in chart_data.items():
+            for tooth in teeth:
+                flat_data.append(f"Quadrant: {quadrant}")
+                flat_data.append(f"Tooth Number: {tooth.get('tooth_number', '')}")
+                flat_data.append(f"Diagnosis: {tooth.get('diagnosis', '')}")
+                flat_data.append(f"Treatment Performed: {tooth.get('treatment_performed', '')}")
+                flat_data.append(f"Tooth Status: {tooth.get('status', '')}")
+
+        return "; ".join(flat_data)
+
     def export_complete_data_to_csv(self, file_path: str) -> bool:
         """
         Export complete patient and dental chart data to a single CSV file.
@@ -46,25 +68,7 @@ class ExportService:
                 return False
             
             # Define comprehensive CSV headers
-            headers = [
-                'Patient ID',
-                'Full Name', 
-                'Phone Number',
-                'Email',
-                'Date of Birth',
-                'Address',
-                'Examination Date',
-                'Chief Complaint',
-                'Quadrant',
-                'Tooth Number',
-                'Diagnosis',
-                'Treatment Performed',
-                'Tooth Status',
-                'Patient Created',
-                'Patient Updated',
-                'Chart Record Created',
-                'Chart Record Updated'
-            ]
+            headers = ['Patient Data']
             
             # Write to CSV
             with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
@@ -75,49 +79,9 @@ class ExportService:
                     # Get dental chart for this patient
                     chart_data = dental_service.get_dental_chart(patient['patient_id'])
                     
-                    # If patient has dental records, write one row per dental record
-                    has_dental_records = False
-                    for quadrant, teeth in chart_data.items():
-                        for tooth in teeth:
-                            has_dental_records = True
-                            row = [
-                                patient.get('patient_id', ''),
-                                patient.get('full_name', ''),
-                                patient.get('phone_number', ''),
-                                patient.get('email', ''),
-                                patient.get('date_of_birth', ''),
-                                patient.get('address', ''),
-                                patient.get('examination_date', ''),
-                                patient.get('chief_complaint', ''),
-                                quadrant,
-                                tooth.get('tooth_number', ''),
-                                tooth.get('diagnosis', ''),
-                                tooth.get('treatment_performed', ''),
-                                tooth.get('status', ''),
-                                patient.get('created_at', ''),
-                                patient.get('updated_at', ''),
-                                tooth.get('created_at', ''),
-                                tooth.get('updated_at', '')
-                            ]
-                            writer.writerow(row)
-                    
-                    # If patient has no dental records, write patient data only
-                    if not has_dental_records:
-                        row = [
-                            patient.get('patient_id', ''),
-                            patient.get('full_name', ''),
-                            patient.get('phone_number', ''),
-                            patient.get('email', ''),
-                            patient.get('date_of_birth', ''),
-                            patient.get('address', ''),
-                            patient.get('examination_date', ''),
-                            patient.get('chief_complaint', ''),
-                            '', '', '', '', '',  # Empty dental fields
-                            patient.get('created_at', ''),
-                            patient.get('updated_at', ''),
-                            '', ''  # Empty chart record dates
-                        ]
-                        writer.writerow(row)
+                    # Flatten data and write to a single column
+                    flat_data = self._flatten_data(patient, chart_data)
+                    writer.writerow([flat_data])
             
             session.close()
             logger.info(f"Successfully exported complete data for {len(patients)} patients to {file_path}")

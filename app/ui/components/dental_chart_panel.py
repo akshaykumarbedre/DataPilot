@@ -514,7 +514,7 @@ class DentalChartPanel(QGroupBox):
         try:
             # Get tooth summary for patient
             tooth_summary = tooth_history_service.get_patient_tooth_summary(
-                self.patient_id, self.examination_id
+                self.patient_id
             )
             
             # Update tooth widgets based on panel type
@@ -596,12 +596,8 @@ class DentalChartPanel(QGroupBox):
         position = tooth_number % 10
         self.tooth_info_label.setText(f"Tooth {tooth_number} ({quadrant},{position})")
 
-        # Enable add record button only if there's text in description or no description field exists
-        if hasattr(self, 'description_input'):
-            has_description = bool(self.description_input.toPlainText().strip())
-            self.update_record_btn.setEnabled(has_description)
-        else:
-            self.update_record_btn.setEnabled(True)
+        # Enable add record button
+        self.update_record_btn.setEnabled(True)
 
         # Emit signal with correct parameters
         self.tooth_selected.emit(tooth_number, self.panel_type)
@@ -636,8 +632,10 @@ class DentalChartPanel(QGroupBox):
                         status_text += f"<b>Description:</b> {latest_record['description']}<br>"
                     status_text += f"<b>Date:</b> {latest_record['date_recorded']}<br>"
                     status_text += f"<b>Total Problems:</b> {count}"
+                    self.tooth_widgets[tooth_number].set_patient_status(latest_record['status'])
                 else:
                     status_text = "<b>Current Status:</b> Normal<br>No patient problems recorded."
+                    self.tooth_widgets[tooth_number].set_patient_status('normal')
             else: # Doctor findings
                 if current_status.get('latest_doctor_finding'):
                     latest_record = current_status['latest_doctor_finding']
@@ -647,8 +645,10 @@ class DentalChartPanel(QGroupBox):
                         status_text += f"<b>Description:</b> {latest_record['description']}<br>"
                     status_text += f"<b>Date:</b> {latest_record['date_recorded']}<br>"
                     status_text += f"<b>Total Findings:</b> {count}"
+                    self.tooth_widgets[tooth_number].set_doctor_status(latest_record['status'])
                 else:
                     status_text = "<b>Current Status:</b> Normal<br>No doctor findings recorded."
+                    self.tooth_widgets[tooth_number].set_doctor_status('normal')
             
             self.current_status_label.setText(status_text)
             
@@ -868,7 +868,4 @@ class DentalChartPanel(QGroupBox):
     
     def on_description_changed(self):
         """Handle description input change to update button state."""
-        if self.selected_tooth and hasattr(self, 'description_input'):
-            has_description = bool(self.description_input.toPlainText().strip())
-            # Enable button if tooth is selected and has description
-            self.update_record_btn.setEnabled(has_description)
+        pass

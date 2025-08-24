@@ -266,7 +266,7 @@ class VisitRecordsPanel(QGroupBox):
         """Set the current examination context."""
         self.examination_id = examination_id
         self.update_panel_state()
-        self.apply_filter()
+        self.load_visit_records()
     
     def update_panel_state(self):
         """Update panel title and state."""
@@ -285,7 +285,10 @@ class VisitRecordsPanel(QGroupBox):
         
         try:
             # Get all visits for patient
-            self.visit_records = visit_records_service.get_patient_visits(self.patient_id)
+            self.visit_records = visit_records_service.get_visit_records(
+                patient_id=self.patient_id, 
+                examination_id=self.examination_id
+            )
             
             # Apply current filter
             self.apply_filter()
