@@ -1,3 +1,1 @@
-improve the ui of dental chat 
-text should be visible on dropdown of the , i even i click on dropname dropdeo should be opem 
-export of data in csv of tooth is not visible fix the bug 
+When using the dropdown in the toolbar, currently the dropdown only opens when clicking the icon. I want it to also open when clicking the dropdown name. Additionally, the checkbox in the dropdown works when clicking the name, but not when clicking the checkbox itself for items inside the dropdown. Also, the text inside the dropdown is not fully visible due to padding issues—please fix this as well.

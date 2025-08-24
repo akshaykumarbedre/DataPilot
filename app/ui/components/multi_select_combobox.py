@@ -1,8 +1,8 @@
 """
 Custom multi-select combo box widget.
 """
-from PySide6.QtWidgets import QComboBox, QListWidget, QListWidgetItem, QLineEdit
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtWidgets import QComboBox, QListWidget, QListWidgetItem
+from PySide6.QtCore import Signal, Qt, QEvent
 
 class MultiSelectComboBox(QComboBox):
     """A combo box that allows multiple selections."""
@@ -11,12 +11,23 @@ class MultiSelectComboBox(QComboBox):
     def __init__(self, parent=None):
         super().__init__(parent)
         self._list_widget = QListWidget(self)
+        self._list_widget.setStyleSheet("QListWidget::item { padding: 5px; }")
         self.setModel(self._list_widget.model())
         self.setView(self._list_widget)
-        self.setLineEdit(QLineEdit(self))
+        self.setEditable(True)
         self.lineEdit().setReadOnly(True)
+        self.lineEdit().installEventFilter(self)
         self._list_widget.itemChanged.connect(self._on_item_selection_changed)
         self._list_widget.itemClicked.connect(self._on_item_clicked)
+
+    def eventFilter(self, obj, event):
+        if obj == self.lineEdit() and event.type() == QEvent.MouseButtonRelease:
+            self.showPopup()
+            return True
+        return super().eventFilter(obj, event)
+
+    def _on_item_clicked(self, item):
+        item.setCheckState(Qt.Checked if item.checkState() == Qt.Unchecked else Qt.Unchecked)
 
     def addItem(self, text, data=None):
         item = QListWidgetItem(text)
@@ -38,9 +49,6 @@ class MultiSelectComboBox(QComboBox):
             if item.checkState() == Qt.Checked:
                 selected.append(item.data(Qt.UserRole))
         return selected
-
-    def _on_item_clicked(self, item):
-        item.setCheckState(Qt.Checked if item.checkState() == Qt.Unchecked else Qt.Unchecked)
 
     def _on_item_selection_changed(self, item):
         self._update_line_edit()
