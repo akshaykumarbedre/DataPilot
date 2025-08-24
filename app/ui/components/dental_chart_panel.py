@@ -87,7 +87,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             upper_layout.addWidget(tooth_widget)
         
@@ -103,7 +102,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             upper_layout.addWidget(tooth_widget)
         
@@ -126,7 +124,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             lower_layout.addWidget(tooth_widget)
         
@@ -142,7 +139,6 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
-            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             lower_layout.addWidget(tooth_widget)
         
@@ -694,47 +690,7 @@ class DentalChartPanel(QGroupBox):
             self.history_text.setHtml(f"<p>Error loading history for tooth {tooth_number}.</p>")
             self.current_status_label.setText("Error loading status.")
     
-    def on_tooth_statuses_changed(self, tooth_number: int, statuses: list, record_type: str):
-        """Handle tooth status change from tooth widget interactions."""
-        if not self.patient_id:
-            return
-        
-        try:
-            # Convert panel type to database record type
-            db_record_type = 'patient_problem' if record_type == 'patient' else 'doctor_finding'
-            
-            # Get description from input field
-            description = self.description_input.toPlainText().strip()
-            if not description:
-                description = f"Status changed to {', '.join(statuses)}"
-
-            # Add new history entry for the status change
-            success = tooth_history_service.add_tooth_history_entry(
-                patient_id=self.patient_id,
-                tooth_number=tooth_number,
-                record_type=db_record_type,
-                statuses=statuses,
-                description=description,
-                examination_id=self.examination_id
-            )
-            
-            if success:
-                # Refresh tooth history if this tooth is selected
-                if tooth_number == self.selected_tooth:
-                    self.load_tooth_history(tooth_number)
-                
-                # Refresh patient data to update tooth widget appearance
-                self.load_patient_data()
-                
-                # Emit signal for parent components
-                self.tooth_statuses_changed.emit(tooth_number, statuses, db_record_type)
-                
-                logger.info(f"Updated tooth {tooth_number} status to {', '.join(statuses)} in {self.panel_type} panel")
-            else:
-                logger.error(f"Failed to update tooth {tooth_number} status")
-            
-        except Exception as e:
-            logger.error(f"Error updating tooth status: {str(e)}")
+    
     
     def show_tooth_details(self, tooth_number: int):
         """Show detailed tooth information dialog."""
@@ -817,7 +773,7 @@ class DentalChartPanel(QGroupBox):
                 
                 # Show success message
                 from PySide6.QtWidgets import QMessageBox
-                QMessageBox.information(self, "Success", 
+                QMessageBox.information(self, "Success",
                     f"Tooth {self.selected_tooth} record added successfully!\n"
                     f"Type: {record_type.replace('_', ' ').title()}\n"
                     f"Status: {', '.join(current_statuses)}\n"

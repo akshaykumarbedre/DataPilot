@@ -15,7 +15,8 @@ class MultiSelectComboBox(QComboBox):
         self.setView(self._list_widget)
         self.setLineEdit(QLineEdit(self))
         self.lineEdit().setReadOnly(True)
-        self._list_widget.itemChanged.connect(self._on_item_changed)
+        self._list_widget.itemChanged.connect(self._on_item_selection_changed)
+        self._list_widget.itemClicked.connect(self._on_item_clicked)
 
     def addItem(self, text, data=None):
         item = QListWidgetItem(text)
@@ -38,7 +39,10 @@ class MultiSelectComboBox(QComboBox):
                 selected.append(item.data(Qt.UserRole))
         return selected
 
-    def _on_item_changed(self, item):
+    def _on_item_clicked(self, item):
+        item.setCheckState(Qt.Checked if item.checkState() == Qt.Unchecked else Qt.Unchecked)
+
+    def _on_item_selection_changed(self, item):
         self._update_line_edit()
         self.itemsSelected.emit(self.selected_items())
 

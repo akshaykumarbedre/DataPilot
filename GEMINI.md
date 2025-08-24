@@ -46,3 +46,6 @@ When starting new major content or fine changes, commit your work using dont che
 ```bash
 git add . && git commit -m "short descriptive comment"
 ```
+## Change Management Guideline
+
+Before making any changes to the codebase, ensure you fully understand the problem. Plan your solution carefully before proceeding with implementation. This approach helps maintain code quality and project consistency.

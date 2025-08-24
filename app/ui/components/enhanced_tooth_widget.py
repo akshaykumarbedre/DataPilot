@@ -277,9 +277,6 @@ class EnhancedToothWidget(QWidget):
             
             # Emit status change signal
             self.statuses_selected.emit(self.tooth_number, statuses, self.current_mode)
-            
-            # Hide dropdown after selection
-            self.status_dropdown.hide()
     
     def create_custom_status(self):
         """Open dialog to create custom status."""

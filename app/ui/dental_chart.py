@@ -269,13 +269,11 @@ class AdvancedDentalChart(QWidget):
             self.patient_chart_panel.tooth_selected.connect(
                 lambda tooth_num, panel_type="patient": self.on_tooth_selected(tooth_num, panel_type)
             )
-            self.patient_chart_panel.tooth_statuses_changed.connect(self.on_tooth_statuses_changed)
         
         if self.doctor_chart_panel:
             self.doctor_chart_panel.tooth_selected.connect(
                 lambda tooth_num, panel_type="doctor": self.on_tooth_selected(tooth_num, panel_type)
             )
-            self.doctor_chart_panel.tooth_statuses_changed.connect(self.on_tooth_statuses_changed)
         
         # === VISIT MANAGEMENT ===
         if self.visit_entry_panel:
@@ -402,48 +400,7 @@ class AdvancedDentalChart(QWidget):
         # Emit signal
         self.tooth_selected.emit(tooth_number, chart_type)
     
-    def on_tooth_statuses_changed(self, tooth_number, new_statuses, record_type):
-        """Handle tooth status change."""
-        if not self.current_patient_id or not self.current_examination_id:
-            return
-        
-        try:
-            # Get description from the correct panel
-            if record_type == 'patient_problem':
-                description = self.patient_chart_panel.get_description()
-            else:
-                description = self.doctor_chart_panel.get_description()
-
-            if not description:
-                description = f"Status changed to {", ".join(new_statuses)}"
-
-            # Save tooth history record
-            history_data = {
-                'examination_id': self.current_examination_id,
-                'tooth_number': tooth_number,
-                'record_type': record_type,
-                'statuses': new_statuses,
-                'description': description,
-                'date_recorded': date.today()
-            }
-            
-            # Save using tooth history service
-            tooth_history_service.add_tooth_history(self.current_patient_id, history_data)
-            
-            # Update tooth history display for the specific panel that triggered the change
-            if record_type == 'patient_problem':
-                if self.patient_chart_panel:
-                    self.patient_chart_panel.load_tooth_history(tooth_number)
-            else:
-                if self.doctor_chart_panel:
-                    self.doctor_chart_panel.load_tooth_history(tooth_number)
-            
-            # Update status
-            self.exam_status_label.setText(f"Tooth #{tooth_number} status updated")
-            
-        except Exception as e:
-            logger.error(f"Error saving tooth status change: {str(e)}")
-            QMessageBox.warning(self, "Warning", f"Failed to save tooth status: {str(e)}")
+    
     
     def on_visit_added(self, visit_data):
         """Handle new visit addition."""
