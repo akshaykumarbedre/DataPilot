@@ -159,7 +159,7 @@ class VisitEntryPanel(QGroupBox):
         layout.addWidget(scroll_area)
         
         # Set minimum height for better visibility
-        self.setMinimumHeight(1000)  # Increased height for visit entry
+        self.setMinimumHeight(900)  # Increased height for visit entry
         
         # Basic visit information
         basic_group = QGroupBox("Visit Information")
@@ -203,28 +203,28 @@ class VisitEntryPanel(QGroupBox):
         # Chief complaint input
         clinical_layout.addWidget(QLabel("Chief Complaint:"))
         self.chief_complaint_edit = QTextEdit()
-        self.chief_complaint_edit.setMaximumHeight(40)  # Increased height
+        self.chief_complaint_edit.setMaximumHeight(40)
         self.chief_complaint_edit.setPlaceholderText("Patient's main concern or reason for visit...")
         clinical_layout.addWidget(self.chief_complaint_edit)
         
         # Diagnosis input
         clinical_layout.addWidget(QLabel("Diagnosis:"))
         self.diagnosis_edit = QTextEdit()
-        self.diagnosis_edit.setMaximumHeight(40)  # Increased height
+        self.diagnosis_edit.setMaximumHeight(40)
         self.diagnosis_edit.setPlaceholderText("Clinical diagnosis...")
         clinical_layout.addWidget(self.diagnosis_edit)
         
         # Treatment input
         clinical_layout.addWidget(QLabel("Treatment Performed:"))
         self.treatment_edit = QTextEdit()
-        self.treatment_edit.setMaximumHeight(40)  # Increased height
+        self.treatment_edit.setMaximumHeight(40)
         self.treatment_edit.setPlaceholderText("Treatment performed during this visit...")
         clinical_layout.addWidget(self.treatment_edit)
         
         # Advice input
         clinical_layout.addWidget(QLabel("Doctor's Advice:"))
         self.advice_edit = QTextEdit()
-        self.advice_edit.setMaximumHeight(40)  # Increased height
+        self.advice_edit.setMaximumHeight(40  )
         self.advice_edit.setPlaceholderText("Instructions and advice given to patient...")
         clinical_layout.addWidget(self.advice_edit)
         

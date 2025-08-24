@@ -643,7 +643,7 @@ class PatientManagement(QWidget):
         
         # Examine button
         examine_btn = QPushButton("Examine")
-        examine_btn.setMaximumWidth(70)
+        examine_btn.setMinimumWidth(60)
         examine_btn.setMinimumHeight(15)  # Reduced from 80 to 30
         examine_btn.setStyleSheet("""
             QPushButton {
@@ -651,7 +651,7 @@ class PatientManagement(QWidget):
                 color: white;
                 border: none;
                 border-radius: 3px;
-                padding: 4px 8px;
+                padding: 2px 4px;
                 font-size: 11px;
             }
             QPushButton:hover {

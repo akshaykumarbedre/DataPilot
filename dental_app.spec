@@ -18,6 +18,7 @@ a = Analysis(
         # Include any resource files
         ('app/resources', 'app/resources'),
         ('app/icon/*.png', 'app/icon'),
+        ('app/ui/resources/style.qss', 'app/ui/resources'),
 
     ],
     hiddenimports=[

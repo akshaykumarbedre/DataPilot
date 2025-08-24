@@ -1,13 +1,13 @@
-"""
-Dashboard interface with statistics and quick actions.
-"""
+"Dashboard interface with statistics and quick actions."
 import logging
 import os
 import shutil
 from datetime import datetime
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
-                               QPushButton, QFrame, QGridLayout, QScrollArea,
-                               QGroupBox, QMessageBox, QFileDialog)
+from PySide6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QLabel,
+    QPushButton, QFrame, QGridLayout, QScrollArea,
+    QGroupBox, QMessageBox, QFileDialog
+)
 from PySide6.QtCore import Qt, Signal, QTimer
 from PySide6.QtGui import QFont, QPalette
 from ..services.patient_service import patient_service
@@ -38,20 +38,14 @@ class StatCard(QFrame):
         
         # Value label
         self.value_label = QLabel(value)
-        value_font = QFont()
-        value_font.setPointSize(24)
-        value_font.setBold(True)
-        self.value_label.setFont(value_font)
+        self.value_label.setObjectName("statCardValue")
         self.value_label.setStyleSheet(f"color: {color};")
         self.value_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.value_label)
         
         # Title label
         title_label = QLabel(title)
-        title_font = QFont()
-        title_font.setPointSize(12)
-        title_label.setFont(title_font)
-        title_label.setStyleSheet("color: #7F8C8D;")
+        title_label.setObjectName("statCardTitle")
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
     

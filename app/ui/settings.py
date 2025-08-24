@@ -29,10 +29,49 @@ class SettingsWidget(QWidget):
         self._setup_ui()
         self._load_settings()
     
+
     def _setup_ui(self):
         """Set up the settings UI."""
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(5, 5, 5, 5)
+
+        self.setStyleSheet("""
+            SettingsWidget {
+                background-color: #F8F9FA;
+            }
+            QGroupBox {
+                font-weight: bold;
+                border: 1px solid #E5E5E5;
+                border-radius: 8px;
+                padding: 5px; /* Increased padding */
+                background-color: white;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 15px;
+                color: #007BFF;
+                font-weight: bold;
+                font-size: 14px;
+            }
+            QLabel {
+                font-size: 14px;
+                color: #495057;
+            }
+            QLineEdit, QTextEdit, QComboBox {
+                padding: 5px; /* Increased padding */
+                border: 1px solid #CED4DA;
+                border-radius: 4px;
+                font-size: 14px;
+                color: #2c3e50;
+                min-height: 20px;
+            }
+            QComboBox {
+                padding: 5x; /* Increased padding */
+            }
+            QLineEdit:focus, QTextEdit:focus, QComboBox:focus {
+                border-color: #007BFF;
+            }
+        """)
         
         # Title
         title_label = QLabel("Settings")
@@ -45,30 +84,6 @@ class SettingsWidget(QWidget):
         
         # Tab widget for organizing settings
         self.tab_widget = QTabWidget()
-        self.tab_widget.setStyleSheet("""
-            QTabWidget::pane {
-                border: 1px solid #E5E5E5;
-                background-color: white;
-                border-radius: 8px;
-            }
-            QTabBar::tab {
-                background-color: #F8F9FA;
-                color: #495057;
-                border: 1px solid #E5E5E5;
-                padding: 10px 20px;
-                margin-right: 2px;
-                border-top-left-radius: 8px;
-                border-top-right-radius: 8px;
-            }
-            QTabBar::tab:selected {
-                background-color: white;
-                color: #007BFF;
-                border-bottom: 1px solid white;
-            }
-            QTabBar::tab:hover {
-                background-color: #E9ECEF;
-            }
-        """)
         
         # Create tabs
         self._create_clinic_tab()
@@ -130,25 +145,20 @@ class SettingsWidget(QWidget):
         clinic_layout = QFormLayout(clinic_group)
         
         self.clinic_name_edit = QLineEdit("Yashoda Dental Clinic")
-        self.clinic_name_edit.setStyleSheet("padding: 8px; border: 1px solid #CED4DA; border-radius: 4px;")
         clinic_layout.addRow("Clinic Name:", self.clinic_name_edit)
         
         self.doctor_name_edit = QLineEdit("Dr Yashoda")
-        self.doctor_name_edit.setStyleSheet("padding: 8px; border: 1px solid #CED4DA; border-radius: 4px;")
         clinic_layout.addRow("Doctor Name:", self.doctor_name_edit)
         
         self.clinic_address_edit = QTextEdit()
-        self.clinic_address_edit.setFixedHeight(80)
-        self.clinic_address_edit.setStyleSheet("padding: 8px; border: 1px solid #CED4DA; border-radius: 4px;")
-        self.clinic_address_edit.setPlainText("123 Medical Center Drive\\nCity, State 12345")
+        self.clinic_address_edit.setFixedHeight(100)
+        self.clinic_address_edit.setPlainText("123 Medical Center Drive\nCity, State 12345")
         clinic_layout.addRow("Address:", self.clinic_address_edit)
         
         self.clinic_phone_edit = QLineEdit("+1 (555) 123-4567")
-        self.clinic_phone_edit.setStyleSheet("padding: 8px; border: 1px solid #CED4DA; border-radius: 4px;")
         clinic_layout.addRow("Phone:", self.clinic_phone_edit)
         
         self.clinic_email_edit = QLineEdit("info@yashodadental.com")
-        self.clinic_email_edit.setStyleSheet("padding: 8px; border: 1px solid #CED4DA; border-radius: 4px;")
         clinic_layout.addRow("Email:", self.clinic_email_edit)
         
         layout.addWidget(clinic_group)
@@ -156,6 +166,8 @@ class SettingsWidget(QWidget):
         # Business Hours Group
         hours_group = QGroupBox("Business Hours")
         hours_layout = QGridLayout(hours_group)
+        hours_layout.setHorizontalSpacing(15)
+        hours_layout.setVerticalSpacing(10)
         
         days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         self.hours_widgets = {}
@@ -167,7 +179,6 @@ class SettingsWidget(QWidget):
             open_combo = QComboBox()
             open_combo.addItems([f"{h:02d}:00" for h in range(6, 24)])
             open_combo.setCurrentText("09:00")
-            open_combo.setStyleSheet("padding: 5px;")
             hours_layout.addWidget(open_combo, i, 1)
             
             to_label = QLabel("to")
@@ -176,7 +187,6 @@ class SettingsWidget(QWidget):
             close_combo = QComboBox()
             close_combo.addItems([f"{h:02d}:00" for h in range(6, 24)])
             close_combo.setCurrentText("17:00")
-            close_combo.setStyleSheet("padding: 5px;")
             hours_layout.addWidget(close_combo, i, 3)
             
             closed_check = QCheckBox("Closed")

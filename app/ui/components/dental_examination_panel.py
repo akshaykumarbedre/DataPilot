@@ -217,13 +217,13 @@ class DentalExaminationPanel(QGroupBox):
         # Action buttons
         self.new_btn = QPushButton("New Examination")
         self.new_btn.setObjectName("new_examination_button")
-        self.new_btn.setStyleSheet("background-color: #27ae60; color: white; border: none; border-radius: 4px; padding: 10px 20px; font-weight: bold; text-transform: uppercase;")
+        self.new_btn.setStyleSheet("background-color: #27ae60; color: white; border: none; border-radius: 4px; padding: 6px 12px; font-weight: bold;")
         self.new_btn.clicked.connect(self.create_new_examination)
         header_layout.addWidget(self.new_btn)
         
         self.save_btn = QPushButton("Save")
         self.save_btn.setObjectName("save_examination_button")
-        self.save_btn.setStyleSheet("background-color: #27ae60; color: white; border: none; border-radius: 4px; padding: 10px 20px; font-weight: bold; text-transform: uppercase;")
+        self.save_btn.setStyleSheet("background-color: #27ae60; color: white; border: none; border-radius: 4px; padding: 6px 12px; font-weight: bold;")
         self.save_btn.clicked.connect(self.save_examination)
         header_layout.addWidget(self.save_btn)
         

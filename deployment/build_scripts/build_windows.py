@@ -22,7 +22,7 @@ class WindowsAppBuilder:
         
     def clean_build(self):
         """Clean previous build artifacts."""
-        print("🧹 Cleaning previous build artifacts...")
+        print("Cleaning previous build artifacts...")
         
         dirs_to_clean = [self.build_dir, self.dist_dir]
         files_to_clean = [self.spec_file]
@@ -39,7 +39,7 @@ class WindowsAppBuilder:
     
     def create_spec_file(self):
         """Create optimized PyInstaller spec file."""
-        print("📝 Creating PyInstaller spec file...")
+        print("Creating PyInstaller spec file...")
         
         spec_content = '''# -*- mode: python ; coding: utf-8 -*-
 
@@ -61,6 +61,7 @@ a = Analysis(
         # Include any resource files
         ('app/resources', 'app/resources'),
         ('app/icon/*.png', 'app/icon'),
+        ('app/ui/resources/style.qss', 'app/ui/resources'),
 
     ],
     hiddenimports=[
@@ -261,7 +262,7 @@ coll = COLLECT(
     
     def create_version_info(self):
         """Create version information file for Windows executable."""
-        print("📋 Creating version information...")
+        print("Creating version information...")
         
         version_content = '''# UTF-8
 #
@@ -316,7 +317,7 @@ VSVersionInfo(
     
     def build_executable(self):
         """Build the Windows executable."""
-        print("🔨 Building Windows executable...")
+        print("Building Windows Application for Dental Practice Manager")
         
         # Run PyInstaller with the spec file
         cmd = [
@@ -348,7 +349,7 @@ VSVersionInfo(
     
     def create_launcher_script(self):
         """Create optimized launcher script."""
-        print("🚀 Creating launcher script...")
+        print("Creating launcher script...")
         
         launcher_content = '''@echo off
 REM Dental Practice Manager Launcher
@@ -381,7 +382,7 @@ exit
     
     def post_build_optimization(self):
         """Perform post-build optimizations."""
-        print("⚙️ Performing post-build optimizations...")
+        print("Performing post-build optimizations...")
         
         exe_path = self.dist_dir / "DentalPracticeManager" / "DentalPracticeManager.exe"
         
@@ -430,7 +431,7 @@ exit
     
     def copy_to_deployment(self):
         """Copy built application to deployment folder."""
-        print("📁 Copying to deployment folder...")
+        print("Copying to deployment folder...")
         
         if (self.dist_dir / "DentalPracticeManager").exists():
             deployment_app_dir = self.deployment_root / "ready_to_deploy" / "DentalPracticeManager"
@@ -455,7 +456,7 @@ exit
     
     def build(self):
         """Main build process."""
-        print("🏗️ Building Windows Application for Dental Practice Manager")
+        print("Building Windows Application for Dental Practice Manager")
         print("=" * 60)
         
         try:
@@ -469,23 +470,23 @@ exit
                 self.copy_to_deployment()
                 
                 print("=" * 60)
-                print("✅ Build completed successfully!")
-                print(f"📁 Application folder: {self.dist_dir / 'DentalPracticeManager'}")
-                print(f"🚀 Executable: {self.dist_dir / 'DentalPracticeManager' / 'DentalPracticeManager.exe'}")
-                print(f"📦 Deployment ready: {self.deployment_root / 'ready_to_deploy'}")
-                print("\n🎯 Features included:")
-                print("   ✓ Windows 8+ compatibility")
-                print("   ✓ Fast startup optimization")
-                print("   ✓ High DPI awareness")
-                print("   ✓ Launcher script for optimal performance")
+                print("Build completed successfully!")
+                print(f"Application folder: {self.dist_dir / 'DentalPracticeManager'}")
+                print(f"Executable: {self.dist_dir / 'DentalPracticeManager' / 'DentalPracticeManager.exe'}")
+                print(f"Deployment ready: {self.deployment_root / 'ready_to_deploy'}")
+                print("Features included:")
+                print("   - Windows 8+ compatibility")
+                print("   - Fast startup optimization")
+                print("   - High DPI awareness")
+                print("   - Launcher script for optimal performance")
                 
                 return True
             else:
-                print("❌ Build failed!")
+                print("Build failed!")
                 return False
                 
         except Exception as e:
-            print(f"❌ Build error: {e}")
+            print(f"Build error: {e}")
             return False
 
 
