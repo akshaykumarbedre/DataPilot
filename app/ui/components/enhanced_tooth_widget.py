@@ -4,7 +4,7 @@ Enhanced Tooth Widget with comprehensive status tracking and (quadrant.position)
 import logging
 from typing import Dict, List, Optional, Any, Callable
 from PySide6.QtWidgets import (
-    QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QComboBox, 
+    QWidget, QPushButton, QVBoxLayout, QHBoxLayout, 
     QLabel, QDialog, QDialogButtonBox, QFormLayout, QLineEdit,
     QColorDialog, QMessageBox, QFrame, QListView
 )
@@ -12,6 +12,7 @@ from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QFontMetrics
 
 from ...services.custom_status_service import custom_status_service
+from .multi_select_combobox import MultiSelectComboBox
 
 logger = logging.getLogger(__name__)
 
@@ -20,13 +21,13 @@ class EnhancedToothWidget(QWidget):
     """Enhanced tooth widget with comprehensive status tracking"""
     
     tooth_clicked = Signal(int, str)  # tooth_number, click_type
-    status_changed = Signal(int, str, str)  # tooth_number, new_status, record_type
+    statuses_selected = Signal(int, list, str)  # tooth_number, new_statuses, record_type
     
     def __init__(self, tooth_number: int, parent=None):
         super().__init__(parent)
         self.tooth_number = tooth_number
-        self.patient_status = 'normal'
-        self.doctor_status = 'normal'
+        self.patient_statuses = ['normal']
+        self.doctor_statuses = ['normal']
         self.current_mode = 'doctor'  # 'patient' or 'doctor'
         self.on_status_change_callback = None
         
@@ -52,12 +53,10 @@ class EnhancedToothWidget(QWidget):
         layout.addWidget(self.tooth_button)
         
         # Status dropdown (initially hidden)
-        self.status_dropdown = QComboBox()
-        self.status_dropdown.setView(QListView())
-        self.status_dropdown.setSizeAdjustPolicy(QComboBox.AdjustToContents)
+        self.status_dropdown = MultiSelectComboBox()
         self.status_dropdown.setMaximumHeight(25)
         self.status_dropdown.hide()
-        self.status_dropdown.currentTextChanged.connect(self.on_status_dropdown_changed)
+        self.status_dropdown.itemsSelected.connect(self.on_statuses_selected)
         layout.addWidget(self.status_dropdown)
         
         # Update appearance
@@ -73,9 +72,9 @@ class EnhancedToothWidget(QWidget):
     def update_tooltip(self):
         """Update tooltip with current status."""
         if self.current_mode == 'patient':
-            status_text = f"Patient: {self.patient_status}"
+            status_text = f"Patient: {', '.join(self.patient_statuses)}"
         else: # doctor
-            status_text = f"Doctor: {self.doctor_status}"
+            status_text = f"Doctor: {', '.join(self.doctor_statuses)}"
         self.tooth_button.setToolTip(status_text)
     
     def setup_status_dropdown(self):
@@ -105,42 +104,40 @@ class EnhancedToothWidget(QWidget):
             logger.error(f"Error setting up status dropdown: {str(e)}")
             # Fallback to basic statuses
             basic_statuses = [
-                ("normal", "Normal"),
-                ("caries_incipient", "Caries (Incipient)"),
-                ("caries_deep", "Caries (Deep)"),
-                ("filling", "Filling"),
-                ("crown", "Crown"),
-                ("root_canal", "Root Canal"),
-                ("extracted", "Extracted"),
-                ("missing", "Missing"),
-                ("add_custom", "+ Add Custom Status")
+                ("Normal", "normal"),
+                ("Caries (Incipient)", "caries_incipient"),
+                ("Caries (Deep)", "caries_deep"),
+                ("Filling", "filling"),
+                ("Crown", "crown"),
+                ("Root Canal", "root_canal"),
+                ("Extracted", "extracted"),
+                ("Missing", "missing"),
             ]
             
-            for status_code, display_name in basic_statuses:
-                self.status_dropdown.addItem(display_name, status_code)
+            self.status_dropdown.addItems(basic_statuses)
     
     def load_status_options(self):
         """Load status options into dropdown"""
         self.setup_status_dropdown()
     
-    def set_patient_status(self, status: str):
+    def set_patient_status(self, statuses: List[str]):
         """Set patient-reported status."""
-        self.patient_status = status
+        self.patient_statuses = statuses if statuses else ['normal']
         self.update_tooth_appearance()
         self.update_tooltip()
     
-    def set_doctor_status(self, status: str):
+    def set_doctor_status(self, statuses: List[str]):
         """Set doctor-diagnosed status."""
-        self.doctor_status = status
+        self.doctor_statuses = statuses if statuses else ['normal']
         self.update_tooth_appearance()
         self.update_tooltip()
 
-    def update_status(self, status: str):
+    def update_status(self, statuses: List[str]):
         """Update the status based on the current mode."""
         if self.current_mode == 'doctor':
-            self.set_doctor_status(status)
+            self.set_doctor_status(statuses)
         else:
-            self.set_patient_status(status)
+            self.set_patient_status(statuses)
     
     def set_mode(self, mode: str):
         """Set display mode (patient or doctor)."""
@@ -178,59 +175,45 @@ class EnhancedToothWidget(QWidget):
     def update_tooth_appearance(self):
         """Update tooth button appearance based on current status and mode."""
         if self.current_mode == 'doctor':
-            primary_color = self.get_status_color(self.doctor_status)
-            secondary_color = self.get_status_color(self.patient_status)
+            primary_statuses = self.doctor_statuses
+            secondary_statuses = self.patient_statuses
         else:
-            primary_color = self.get_status_color(self.patient_status)
-            secondary_color = self.get_status_color(self.doctor_status)
-        
+            primary_statuses = self.patient_statuses
+            secondary_statuses = self.doctor_statuses
+
+        primary_color = self.get_status_color(primary_statuses[0])
         text_color = self.get_text_color_for_background(primary_color)
 
-        # Create style based on whether there are different statuses
-        if (self.patient_status != 'normal' and self.doctor_status != 'normal' and 
-            self.patient_status != self.doctor_status):
-            # Split gradient for dual status
+        if len(primary_statuses) > 1:
+            # Gradient for multiple statuses
+            style = "QPushButton { background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 %s, stop:1 %s); " % (self.get_status_color(primary_statuses[0]), self.get_status_color(primary_statuses[1]))
+        elif primary_statuses != ['normal'] and secondary_statuses != ['normal'] and primary_statuses != secondary_statuses:
+            # Split gradient for dual status (patient vs doctor)
+            secondary_color = self.get_status_color(secondary_statuses[0])
             style = f"""
                 QPushButton {{
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                         stop:0 {primary_color}, stop:0.5 {primary_color},
                         stop:0.5 {secondary_color}, stop:1 {secondary_color});
-                    border: 2px solid #BDC3C7;
-                    border-radius: 6px;
-                    color: {text_color};
-                    font-weight: bold;
-                    padding: 0px;
-                }}
-                QPushButton:hover {{
-                    border: 2px solid #95A5A6;
-                }}
-                QPushButton:pressed {{
-                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                        stop:0 {self.adjust_color(primary_color, -30)}, 
-                        stop:0.5 {self.adjust_color(primary_color, -30)},
-                        stop:0.5 {self.adjust_color(secondary_color, -30)}, 
-                        stop:1 {self.adjust_color(secondary_color, -30)});
-                }}
             """
         else:
             # Single color
-            style = f"""
-                QPushButton {{
-                    background-color: {primary_color};
-                    border: 2px solid #BDC3C7;
-                    border-radius: 6px;
-                    color: {text_color};
-                    font-weight: bold;
-                    padding: 0px;
-                }}
-                QPushButton:hover {{
-                    border: 2px solid #95A5A6;
-                    background-color: {self.adjust_color(primary_color, 20)};
-                }}
-                QPushButton:pressed {{
-                    background-color: {self.adjust_color(primary_color, -30)};
-                }}
-            """
+            style = f"QPushButton {{ background-color: {primary_color}; "
+
+        style += f"""
+                border: 2px solid #BDC3C7;
+                border-radius: 6px;
+                color: {text_color};
+                font-weight: bold;
+                padding: 0px;
+            }}
+            QPushButton:hover {{
+                border: 2px solid #95A5A6;
+            }}
+            QPushButton:pressed {{
+                background-color: {self.adjust_color(primary_color, -30)};
+            }}
+        """
         
         self.tooth_button.setStyleSheet(style)
     
@@ -264,39 +247,36 @@ class EnhancedToothWidget(QWidget):
         else:
             self.status_dropdown.show()
             # Set current status in dropdown
-            current_status = self.doctor_status if self.current_mode == 'doctor' else self.patient_status
-            self.set_dropdown_status(current_status)
+            current_statuses = self.doctor_statuses if self.current_mode == 'doctor' else self.patient_statuses
+            self.set_dropdown_status(current_statuses)
     
     def on_right_click(self):
         """Handle right click for detailed view."""
         self.tooth_clicked.emit(self.tooth_number, 'right')
     
-    def set_dropdown_status(self, status: str):
-        """Set the dropdown to show the specified status."""
-        for i in range(self.status_dropdown.count()):
-            if self.status_dropdown.itemData(i) == status:
-                self.status_dropdown.setCurrentIndex(i)
-                break
-    
-    def on_status_dropdown_changed(self, text: str):
+    def set_dropdown_status(self, statuses: List[str]):
+        """Set the dropdown to show the specified statuses."""
+        self.status_dropdown.blockSignals(True)
+        for i in range(self.status_dropdown._list_widget.count()):
+            item = self.status_dropdown._list_widget.item(i)
+            item.setCheckState(Qt.Checked if item.data(Qt.UserRole) in statuses else Qt.Unchecked)
+        self.status_dropdown.blockSignals(False)
+        self.status_dropdown._update_line_edit()
+
+    def on_statuses_selected(self, statuses: List[str]):
         """Handle status dropdown change."""
-        status_code = self.status_dropdown.currentData()
-        
-        if status_code == "add_custom":
+        if "add_custom" in statuses:
             # Open custom status dialog
             self.create_custom_status()
-        elif status_code and status_code.startswith("---"):
-            # Ignore category separators
-            return
-        elif status_code:
+        else:
             # Update tooth status
             if self.current_mode == 'doctor':
-                self.set_doctor_status(status_code)
+                self.set_doctor_status(statuses)
             else:
-                self.set_patient_status(status_code)
+                self.set_patient_status(statuses)
             
             # Emit status change signal
-            self.status_changed.emit(self.tooth_number, status_code, self.current_mode)
+            self.statuses_selected.emit(self.tooth_number, statuses, self.current_mode)
             
             # Hide dropdown after selection
             self.status_dropdown.hide()
@@ -315,9 +295,9 @@ class EnhancedToothWidget(QWidget):
         """Set callback function for status changes."""
         self.on_status_change_callback = callback
     
-    def get_current_status(self) -> str:
+    def get_current_status(self) -> List[str]:
         """Get current status based on mode."""
-        return self.doctor_status if self.current_mode == 'doctor' else self.patient_status
+        return self.doctor_statuses if self.current_mode == 'doctor' else self.patient_statuses
 
     def adjust_dropdown_width(self):
         """Adjust dropdown width to fit the longest item."""
@@ -325,8 +305,8 @@ class EnhancedToothWidget(QWidget):
         metrics = QFontMetrics(font)
         
         max_width = 0
-        for i in range(self.status_dropdown.count()):
-            item_text = self.status_dropdown.itemText(i)
+        for i in range(self.status_dropdown._list_widget.count()):
+            item_text = self.status_dropdown._list_widget.item(i).text()
             width = metrics.horizontalAdvance(item_text)
             if width > max_width:
                 max_width = width

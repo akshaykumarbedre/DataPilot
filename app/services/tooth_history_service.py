@@ -34,7 +34,7 @@ class ToothHistoryService:
             return "[]"
     
     def add_tooth_history_entry(self, patient_id: int, tooth_number: int, record_type: str, 
-                               status: str, description: str = "", examination_id: Optional[int] = None) -> bool:
+                               statuses: List[str], description: str = "", examination_id: Optional[int] = None) -> bool:
         """
         Add a new entry to existing tooth history or create new record.
         
@@ -42,7 +42,7 @@ class ToothHistoryService:
             patient_id: ID of the patient
             tooth_number: Tooth number
             record_type: 'patient_problem' or 'doctor_finding'
-            status: Status value
+            statuses: List of status values
             description: Description text
             examination_id: Optional examination ID
             
@@ -69,7 +69,7 @@ class ToothHistoryService:
                 date_history = self._parse_history_field(existing_record.date_history)
                 
                 # Add new entries
-                status_history.append(status)
+                status_history.append(statuses)
                 description_history.append(description)
                 date_history.append(current_date)
                 
@@ -79,7 +79,7 @@ class ToothHistoryService:
                 existing_record.date_history = self._serialize_history_field(date_history)
                 
                 # Update latest/current fields
-                existing_record.status = status
+                existing_record.status = ",".join(statuses)
                 existing_record.description = description
                 existing_record.date_recorded = date.today()
                 
@@ -90,10 +90,10 @@ class ToothHistoryService:
                     examination_id=examination_id,
                     tooth_number=tooth_number,
                     record_type=record_type,
-                    status_history=self._serialize_history_field([status]),
+                    status_history=self._serialize_history_field([statuses]),
                     description_history=self._serialize_history_field([description]),
                     date_history=self._serialize_history_field([current_date]),
-                    status=status,
+                    status=",".join(statuses),
                     description=description,
                     date_recorded=date.today()
                 )
@@ -139,7 +139,7 @@ class ToothHistoryService:
                 'examination_id': history.examination_id,
                 'tooth_number': history.tooth_number,
                 'record_type': history.record_type,
-                'current_status': history.status,
+                'current_status': history.status.split(',') if history.status else [],
                 'current_description': history.description,
                 'current_date': history.date_recorded,
                 'status_history': self._parse_history_field(history.status_history),
@@ -197,7 +197,7 @@ class ToothHistoryService:
                 history_data = {
                     'id': record.id,
                     'examination_id': record.examination_id,
-                    'current_status': record.status,
+                    'current_status': record.status.split(',') if record.status else [],
                     'current_description': record.description,
                     'current_date': record.date_recorded,
                     'status_history': self._parse_history_field(record.status_history),
@@ -263,7 +263,7 @@ class ToothHistoryService:
                     'examination_id': history.examination_id,
                     'tooth_number': history.tooth_number,
                     'record_type': history.record_type,
-                    'status': history.status,
+                    'status': history.status.split(',') if history.status else [],
                     'description': history.description,
                     'date_recorded': history.date_recorded,
                     'status_history': self._parse_history_field(history.status_history),
@@ -307,15 +307,15 @@ class ToothHistoryService:
             latest_doctor_finding = doctor_findings[0] if doctor_findings else None
             
             # Determine current status (doctor finding takes precedence)
-            current_status = 'normal'
+            current_statuses = ['normal']
             if latest_doctor_finding and latest_doctor_finding['status']:
-                current_status = latest_doctor_finding['status']
+                current_statuses = latest_doctor_finding['status']
             elif latest_patient_problem and latest_patient_problem['status']:
-                current_status = latest_patient_problem['status']
+                current_statuses = latest_patient_problem['status']
             
             return {
                 'tooth_number': tooth_number,
-                'current_status': current_status,
+                'current_status': current_statuses,
                 'latest_patient_problem': latest_patient_problem,
                 'latest_doctor_finding': latest_doctor_finding,
                 'patient_problems_count': len(patient_problems),
@@ -326,7 +326,7 @@ class ToothHistoryService:
             logger.error(f"Error getting current status for tooth {tooth_number}: {str(e)}")
             return {
                 'tooth_number': tooth_number,
-                'current_status': 'normal',
+                'current_status': ['normal'],
                 'latest_patient_problem': None,
                 'latest_doctor_finding': None,
                 'patient_problems_count': 0,
@@ -367,7 +367,7 @@ class ToothHistoryService:
             logger.error(f"Error getting tooth summary for patient {patient_id}: {str(e)}")
             return {}
     
-    def update_tooth_status(self, patient_id: int, tooth_number: int, new_status: str, 
+    def update_tooth_status(self, patient_id: int, tooth_number: int, new_statuses: List[str], 
                            record_type: str, description: str = '', examination_id: Optional[int] = None) -> bool:
         """
         Update tooth status by adding a new history entry.
@@ -375,7 +375,7 @@ class ToothHistoryService:
         Args:
             patient_id: ID of the patient
             tooth_number: Tooth number
-            new_status: New status value
+            new_statuses: New status values
             record_type: Type of record ('patient_problem' or 'doctor_finding')
             description: Optional description
             examination_id: Optional examination ID
@@ -388,7 +388,7 @@ class ToothHistoryService:
                 patient_id=patient_id,
                 tooth_number=tooth_number,
                 record_type=record_type,
-                status=new_status,
+                statuses=new_statuses,
                 description=description,
                 examination_id=examination_id
             )
@@ -413,7 +413,7 @@ class ToothHistoryService:
                 patient_id=patient_id,
                 tooth_number=tooth_data.get('tooth_number'),
                 record_type=tooth_data.get('record_type', 'doctor_finding'),
-                status=tooth_data.get('status', '') ,
+                statuses=tooth_data.get('statuses', []) ,
                 description=tooth_data.get('description', ''),
                 examination_id=tooth_data.get('examination_id')
             )
@@ -504,7 +504,7 @@ class ToothHistoryService:
                     timeline.append({
                         'date': date_str,
                         'type': 'patient_problem',
-                        'status': status_history[i] if i < len(status_history) else '',
+                        'status': status_history[i] if i < len(status_history) else [],
                         'description': description_history[i] if i < len(description_history) else '',
                         'record_id': problem_record['id']
                     })
@@ -519,7 +519,7 @@ class ToothHistoryService:
                     timeline.append({
                         'date': date_str,
                         'type': 'doctor_finding',
-                        'status': status_history[i] if i < len(status_history) else '',
+                        'status': status_history[i] if i < len(status_history) else [],
                         'description': description_history[i] if i < len(description_history) else '',
                         'record_id': finding_record['id']
                     })
@@ -561,7 +561,7 @@ class ToothHistoryService:
                     record.description_history = self._serialize_history_field(description_history)
                     record.date_history = self._serialize_history_field(date_history)
                     
-                    record.status = status_history[-1]
+                    record.status = ",".join(status_history[-1])
                     record.description = description_history[-1]
                     record.date_recorded = date.fromisoformat(date_history[-1])
                 else:

@@ -21,7 +21,7 @@ class DentalChartPanel(QGroupBox):
     """Individual dental chart panel (Patient/Doctor)"""
     
     tooth_selected = Signal(int, str)  # tooth_number, panel_type
-    tooth_status_changed = Signal(int, str, str)  # tooth_number, status, record_type
+    tooth_statuses_changed = Signal(int, list, str)  # tooth_number, statuses, record_type
     
     def __init__(self, panel_type: str, patient_id: Optional[int] = None, parent=None):
         super().__init__(parent)
@@ -87,6 +87,7 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
+            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             upper_layout.addWidget(tooth_widget)
         
@@ -102,6 +103,7 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
+            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             upper_layout.addWidget(tooth_widget)
         
@@ -124,6 +126,7 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
+            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             lower_layout.addWidget(tooth_widget)
         
@@ -139,6 +142,7 @@ class DentalChartPanel(QGroupBox):
             tooth_widget = EnhancedToothWidget(tooth_num)
             tooth_widget.set_mode(self.panel_type)
             tooth_widget.tooth_clicked.connect(self.on_tooth_clicked)
+            tooth_widget.statuses_selected.connect(self.on_tooth_statuses_changed)
             self.tooth_widgets[tooth_num] = tooth_widget
             lower_layout.addWidget(tooth_widget)
         
@@ -471,14 +475,14 @@ class DentalChartPanel(QGroupBox):
             
             for record in history_data:
                 tooth_number = record.get('tooth_number')
-                status = record.get('status', 'normal')
+                statuses = record.get('status', ['normal'])
                 date_recorded = record.get('date_recorded')
                 
                 if tooth_number:
                     # Keep the most recent status for each tooth
                     if tooth_number not in tooth_status_map:
                         tooth_status_map[tooth_number] = {
-                            'status': status,
+                            'status': statuses,
                             'date_recorded': date_recorded,
                             'description': record.get('description', '')
                         }
@@ -487,7 +491,7 @@ class DentalChartPanel(QGroupBox):
                         existing_date = tooth_status_map[tooth_number]['date_recorded']
                         if date_recorded and (not existing_date or date_recorded > existing_date):
                             tooth_status_map[tooth_number] = {
-                                'status': status,
+                                'status': statuses,
                                 'date_recorded': date_recorded,
                                 'description': record.get('description', '')
                             }
@@ -496,13 +500,13 @@ class DentalChartPanel(QGroupBox):
             for tooth_number, status_info in tooth_status_map.items():
                 if tooth_number in self.tooth_widgets:
                     tooth_widget = self.tooth_widgets[tooth_number]
-                    status = status_info['status']
+                    statuses = status_info['status']
                     
                     # Update the tooth widget's visual status
                     if hasattr(tooth_widget, 'update_status'):
-                        tooth_widget.update_status(status)
+                        tooth_widget.update_status(statuses)
                     elif hasattr(tooth_widget, 'set_status'):
-                        tooth_widget.set_status(status)
+                        tooth_widget.set_status(statuses)
             
             logger.info(f"Loaded tooth data for {len(tooth_status_map)} teeth in {self.panel_type} panel")
             
@@ -527,47 +531,47 @@ class DentalChartPanel(QGroupBox):
                     
                     if self.panel_type == 'patient':
                         # Show patient problems
-                        status = 'normal'
+                        statuses = ['normal']
                         if summary['latest_patient_problem']:
-                            status = summary['latest_patient_problem']['status']
+                            statuses = summary['latest_patient_problem']['status']
                         
                         # Update tooth widget appearance
                         if hasattr(tooth_widget, 'set_patient_status'):
-                            tooth_widget.set_patient_status(status)
+                            tooth_widget.set_patient_status(statuses)
                         elif hasattr(tooth_widget, 'update_status'):
-                            tooth_widget.update_status(status)
+                            tooth_widget.update_status(statuses)
                         elif hasattr(tooth_widget, 'set_status'):
-                            tooth_widget.set_status(status)
+                            tooth_widget.set_status(statuses)
                             
                     else:
                         # Show doctor findings
-                        status = 'normal'
+                        statuses = ['normal']
                         if summary['latest_doctor_finding']:
-                            status = summary['latest_doctor_finding']['status']
+                            statuses = summary['latest_doctor_finding']['status']
                         
                         # Update tooth widget appearance
                         if hasattr(tooth_widget, 'set_doctor_status'):
-                            tooth_widget.set_doctor_status(status)
+                            tooth_widget.set_doctor_status(statuses)
                         elif hasattr(tooth_widget, 'update_status'):
-                            tooth_widget.update_status(status)
+                            tooth_widget.update_status(statuses)
                         elif hasattr(tooth_widget, 'set_status'):
-                            tooth_widget.set_status(status)
+                            tooth_widget.set_status(statuses)
                 else:
                     # Reset to normal if no data
                     if self.panel_type == 'patient':
                         if hasattr(tooth_widget, 'set_patient_status'):
-                            tooth_widget.set_patient_status('normal')
+                            tooth_widget.set_patient_status(['normal'])
                         elif hasattr(tooth_widget, 'update_status'):
-                            tooth_widget.update_status('normal')
+                            tooth_widget.update_status(['normal'])
                         elif hasattr(tooth_widget, 'set_status'):
-                            tooth_widget.set_status('normal')
+                            tooth_widget.set_status(['normal'])
                     else:
                         if hasattr(tooth_widget, 'set_doctor_status'):
-                            tooth_widget.set_doctor_status('normal')
+                            tooth_widget.set_doctor_status(['normal'])
                         elif hasattr(tooth_widget, 'update_status'):
-                            tooth_widget.update_status('normal')
+                            tooth_widget.update_status(['normal'])
                         elif hasattr(tooth_widget, 'set_status'):
-                            tooth_widget.set_status('normal')
+                            tooth_widget.set_status(['normal'])
             
             logger.info(f"Loaded patient data for {len(self.tooth_widgets)} teeth in {self.panel_type} panel")
         
@@ -576,7 +580,7 @@ class DentalChartPanel(QGroupBox):
             # Reset all tooth widgets to normal on error
             for tooth_widget in self.tooth_widgets.values():
                 if hasattr(tooth_widget, 'set_status'):
-                    tooth_widget.set_status('normal')
+                    tooth_widget.set_status(['normal'])
     
     def on_tooth_clicked(self, tooth_number: int, click_type: str = 'left'):
         """Handle tooth click events."""
@@ -630,7 +634,7 @@ class DentalChartPanel(QGroupBox):
                 if current_status.get('latest_patient_problem'):
                     latest_record = current_status['latest_patient_problem']
                     count = current_status.get('patient_problems_count', 0)
-                    status_text = f"<b>Current Status:</b> {latest_record['status']}<br>"
+                    status_text = f"<b>Current Status:</b> {', '.join(latest_record['status'])}<br>"
                     if latest_record['description']:
                         status_text += f"<b>Description:</b> {latest_record['description']}<br>"
                     status_text += f"<b>Date:</b> {latest_record['date_recorded']}<br>"
@@ -638,12 +642,12 @@ class DentalChartPanel(QGroupBox):
                     self.tooth_widgets[tooth_number].set_patient_status(latest_record['status'])
                 else:
                     status_text = "<b>Current Status:</b> Normal<br>No patient problems recorded."
-                    self.tooth_widgets[tooth_number].set_patient_status('normal')
+                    self.tooth_widgets[tooth_number].set_patient_status(['normal'])
             else: # Doctor findings
                 if current_status.get('latest_doctor_finding'):
                     latest_record = current_status['latest_doctor_finding']
                     count = current_status.get('doctor_findings_count', 0)
-                    status_text = f"<b>Current Status:</b> {latest_record['status']}<br>"
+                    status_text = f"<b>Current Status:</b> {', '.join(latest_record['status'])}<br>"
                     if latest_record['description']:
                         status_text += f"<b>Description:</b> {latest_record['description']}<br>"
                     status_text += f"<b>Date:</b> {latest_record['date_recorded']}<br>"
@@ -651,7 +655,7 @@ class DentalChartPanel(QGroupBox):
                     self.tooth_widgets[tooth_number].set_doctor_status(latest_record['status'])
                 else:
                     status_text = "<b>Current Status:</b> Normal<br>No doctor findings recorded."
-                    self.tooth_widgets[tooth_number].set_doctor_status('normal')
+                    self.tooth_widgets[tooth_number].set_doctor_status(['normal'])
             
             self.current_status_label.setText(status_text)
             
@@ -672,10 +676,10 @@ class DentalChartPanel(QGroupBox):
                     # Iterate in reverse for newest first
                     for i in reversed(range(len(status_history))):
                         date = date_history[i] if i < len(date_history) else "N/A"
-                        status = status_history[i] if i < len(status_history) else "N/A"
+                        statuses = status_history[i] if i < len(status_history) else []
                         desc = desc_history[i] if i < len(desc_history) and desc_history[i] else ""
                         
-                        history_text += f"<li><b>{date}:</b> {status}"
+                        history_text += f"<li><b>{date}:</b> {', '.join(statuses)}"
                         if desc:
                             history_text += f" - <i>{desc}</i>"
                         history_text += "</li>"
@@ -690,7 +694,7 @@ class DentalChartPanel(QGroupBox):
             self.history_text.setHtml(f"<p>Error loading history for tooth {tooth_number}.</p>")
             self.current_status_label.setText("Error loading status.")
     
-    def on_tooth_status_changed(self, tooth_number: int, status: str, record_type: str):
+    def on_tooth_statuses_changed(self, tooth_number: int, statuses: list, record_type: str):
         """Handle tooth status change from tooth widget interactions."""
         if not self.patient_id:
             return
@@ -702,14 +706,14 @@ class DentalChartPanel(QGroupBox):
             # Get description from input field
             description = self.description_input.toPlainText().strip()
             if not description:
-                description = f"Status changed to {status}"
+                description = f"Status changed to {', '.join(statuses)}"
 
             # Add new history entry for the status change
             success = tooth_history_service.add_tooth_history_entry(
                 patient_id=self.patient_id,
                 tooth_number=tooth_number,
                 record_type=db_record_type,
-                status=status,
+                statuses=statuses,
                 description=description,
                 examination_id=self.examination_id
             )
@@ -723,9 +727,9 @@ class DentalChartPanel(QGroupBox):
                 self.load_patient_data()
                 
                 # Emit signal for parent components
-                self.tooth_status_changed.emit(tooth_number, status, db_record_type)
+                self.tooth_statuses_changed.emit(tooth_number, statuses, db_record_type)
                 
-                logger.info(f"Updated tooth {tooth_number} status to {status} in {self.panel_type} panel")
+                logger.info(f"Updated tooth {tooth_number} status to {', '.join(statuses)} in {self.panel_type} panel")
             else:
                 logger.error(f"Failed to update tooth {tooth_number} status")
             
@@ -767,23 +771,23 @@ class DentalChartPanel(QGroupBox):
         
         try:
             # Get current status from tooth widget (if available)
-            current_status = 'normal'
+            current_statuses = ['normal']
             if self.selected_tooth in self.tooth_widgets:
                 tooth_widget = self.tooth_widgets[self.selected_tooth]
                 if hasattr(tooth_widget, 'get_current_status'):
-                    current_status = tooth_widget.get_current_status()
+                    current_statuses = tooth_widget.get_current_status()
             
             # If no specific status is set, try to get from existing records
-            if current_status == 'normal':
+            if current_statuses == ['normal']:
                 existing_status = tooth_history_service.get_tooth_current_status(
                     self.patient_id, self.selected_tooth
                 )
                 if self.panel_type == 'patient':
                     if existing_status.get('latest_patient_problem'):
-                        current_status = existing_status['latest_patient_problem']['status']
+                        current_statuses = existing_status['latest_patient_problem']['status']
                 else:
                     if existing_status.get('latest_doctor_finding'):
-                        current_status = existing_status['latest_doctor_finding']['status']
+                        current_statuses = existing_status['latest_doctor_finding']['status']
             
             # Determine record type based on panel type
             record_type = 'patient_problem' if self.panel_type == 'patient' else 'doctor_finding'
@@ -793,7 +797,7 @@ class DentalChartPanel(QGroupBox):
                 patient_id=self.patient_id,
                 tooth_number=self.selected_tooth,
                 record_type=record_type,
-                status=current_status,
+                statuses=current_statuses,
                 description=description,
                 examination_id=self.examination_id
             )
@@ -809,14 +813,14 @@ class DentalChartPanel(QGroupBox):
                 self.load_tooth_history(self.selected_tooth)
                 
                 # Emit signal for parent components
-                self.tooth_status_changed.emit(self.selected_tooth, current_status, record_type)
+                self.tooth_statuses_changed.emit(self.selected_tooth, current_statuses, record_type)
                 
                 # Show success message
                 from PySide6.QtWidgets import QMessageBox
                 QMessageBox.information(self, "Success", 
                     f"Tooth {self.selected_tooth} record added successfully!\n"
                     f"Type: {record_type.replace('_', ' ').title()}\n"
-                    f"Status: {current_status}\n"
+                    f"Status: {', '.join(current_statuses)}\n"
                     f"Description: {description[:50]}{'...' if len(description) > 50 else ''}")
                 
                 # Disable button until new description is entered

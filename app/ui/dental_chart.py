@@ -269,13 +269,13 @@ class AdvancedDentalChart(QWidget):
             self.patient_chart_panel.tooth_selected.connect(
                 lambda tooth_num, panel_type="patient": self.on_tooth_selected(tooth_num, panel_type)
             )
-            self.patient_chart_panel.tooth_status_changed.connect(self.on_tooth_status_changed)
+            self.patient_chart_panel.tooth_statuses_changed.connect(self.on_tooth_statuses_changed)
         
         if self.doctor_chart_panel:
             self.doctor_chart_panel.tooth_selected.connect(
                 lambda tooth_num, panel_type="doctor": self.on_tooth_selected(tooth_num, panel_type)
             )
-            self.doctor_chart_panel.tooth_status_changed.connect(self.on_tooth_status_changed)
+            self.doctor_chart_panel.tooth_statuses_changed.connect(self.on_tooth_statuses_changed)
         
         # === VISIT MANAGEMENT ===
         if self.visit_entry_panel:
@@ -402,7 +402,7 @@ class AdvancedDentalChart(QWidget):
         # Emit signal
         self.tooth_selected.emit(tooth_number, chart_type)
     
-    def on_tooth_status_changed(self, tooth_number, new_status, record_type):
+    def on_tooth_statuses_changed(self, tooth_number, new_statuses, record_type):
         """Handle tooth status change."""
         if not self.current_patient_id or not self.current_examination_id:
             return
@@ -415,14 +415,14 @@ class AdvancedDentalChart(QWidget):
                 description = self.doctor_chart_panel.get_description()
 
             if not description:
-                description = f"Status changed to {new_status}"
+                description = f"Status changed to {", ".join(new_statuses)}"
 
             # Save tooth history record
             history_data = {
                 'examination_id': self.current_examination_id,
                 'tooth_number': tooth_number,
                 'record_type': record_type,
-                'status': new_status,
+                'statuses': new_statuses,
                 'description': description,
                 'date_recorded': date.today()
             }
@@ -616,7 +616,7 @@ class AdvancedDentalChart(QWidget):
                     'examination_id': self.current_examination_id,
                     'tooth_number': tooth_number,
                     'record_type': 'patient_problem',
-                    'status': 'problem',
+                    'statuses': ['problem'],
                     'description': chief_complaint,
                     'date_recorded': date.today()
                 }
@@ -629,7 +629,7 @@ class AdvancedDentalChart(QWidget):
                     'examination_id': self.current_examination_id,
                     'tooth_number': tooth_number,
                     'record_type': 'doctor_finding',
-                    'status': 'treated',
+                    'statuses': ['treated'],
                     'description': treatment,
                     'date_recorded': date.today()
                 }
