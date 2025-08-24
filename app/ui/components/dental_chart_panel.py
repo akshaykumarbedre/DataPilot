@@ -70,15 +70,17 @@ class DentalChartPanel(QGroupBox):
         """Create the 32-tooth layout area."""
         chart_widget = QWidget()
         layout = QVBoxLayout(chart_widget)
-        layout.setSpacing(6)
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
         
         # Upper teeth section
         upper_section = QGroupBox("Upper Jaw (Right 8-1 | Left 1-8)")
         upper_section.setFont(QFont("Arial", 10, QFont.Bold))
         upper_section.setObjectName("upperJaw")
+        upper_section.setMaximumHeight(80)
         upper_layout = QHBoxLayout(upper_section)
-        upper_layout.setSpacing(2)  # Minimal spacing between teeth
-        upper_layout.setContentsMargins(5, 10, 5, 5)
+        upper_layout.setSpacing(0)
+        upper_layout.setContentsMargins(0, 0, 0, 0)
         
         # Upper right: 18-11 (reversed for visual layout)
         for i, tooth_num in enumerate(range(18, 10, -1)):
@@ -106,15 +108,16 @@ class DentalChartPanel(QGroupBox):
         layout.addWidget(upper_section)
         
         # Add spacing between upper and lower
-        layout.addSpacing(5)
+        layout.addSpacing(0)
         
         # Lower teeth section
         lower_section = QGroupBox("Lower Jaw (Right 8-1 | Left 1-8)")
         lower_section.setFont(QFont("Arial", 10, QFont.Bold))
         lower_section.setObjectName("lowerJaw")
+        lower_section.setMaximumHeight(80)
         lower_layout = QHBoxLayout(lower_section)
-        lower_layout.setSpacing(2)  # Minimal spacing between teeth
-        lower_layout.setContentsMargins(5, 10, 5, 5)
+        lower_layout.setSpacing(0)
+        lower_layout.setContentsMargins(0, 0, 0, 0)
         
         # Lower right: 48-41 (reversed for visual layout)
         for i, tooth_num in enumerate(range(48, 40, -1)):
