@@ -694,15 +694,20 @@ class DentalChartPanel(QGroupBox):
         
         try:
             # Convert panel type to database record type
-            db_record_type = 'patient_problem' if self.panel_type == 'patient' else 'doctor_finding'
+            db_record_type = 'patient_problem' if record_type == 'patient' else 'doctor_finding'
             
+            # Get description from input field
+            description = self.description_input.toPlainText().strip()
+            if not description:
+                description = f"Status changed to {status}"
+
             # Add new history entry for the status change
             success = tooth_history_service.add_tooth_history_entry(
                 patient_id=self.patient_id,
                 tooth_number=tooth_number,
                 record_type=db_record_type,
                 status=status,
-                description=f"Status changed to {status} via UI interaction",
+                description=description,
                 examination_id=self.examination_id
             )
             
@@ -869,3 +874,5 @@ class DentalChartPanel(QGroupBox):
     def on_description_changed(self):
         """Handle description input change to update button state."""
         pass
+    def get_description(self) -> str:
+        return self.description_input.toPlainText().strip()

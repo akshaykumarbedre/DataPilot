@@ -402,31 +402,41 @@ class AdvancedDentalChart(QWidget):
         # Emit signal
         self.tooth_selected.emit(tooth_number, chart_type)
     
-    def on_tooth_status_changed(self, tooth_number, new_status, chart_type):
+    def on_tooth_status_changed(self, tooth_number, new_status, record_type):
         """Handle tooth status change."""
         if not self.current_patient_id or not self.current_examination_id:
             return
         
         try:
+            # Get description from the correct panel
+            if record_type == 'patient_problem':
+                description = self.patient_chart_panel.get_description()
+            else:
+                description = self.doctor_chart_panel.get_description()
+
+            if not description:
+                description = f"Status changed to {new_status}"
+
             # Save tooth history record
-            record_type = 'patient_problem' if chart_type == 'patient' else 'doctor_finding'
             history_data = {
                 'examination_id': self.current_examination_id,
                 'tooth_number': tooth_number,
                 'record_type': record_type,
                 'status': new_status,
-                'description': f"Status changed to {new_status}",
+                'description': description,
                 'date_recorded': date.today()
             }
             
             # Save using tooth history service
             tooth_history_service.add_tooth_history(self.current_patient_id, history_data)
             
-            # Update tooth history display for both panels
-            if self.patient_chart_panel:
-                self.patient_chart_panel.load_tooth_history(tooth_number)
-            if self.doctor_chart_panel:
-                self.doctor_chart_panel.load_tooth_history(tooth_number)
+            # Update tooth history display for the specific panel that triggered the change
+            if record_type == 'patient_problem':
+                if self.patient_chart_panel:
+                    self.patient_chart_panel.load_tooth_history(tooth_number)
+            else:
+                if self.doctor_chart_panel:
+                    self.doctor_chart_panel.load_tooth_history(tooth_number)
             
             # Update status
             self.exam_status_label.setText(f"Tooth #{tooth_number} status updated")

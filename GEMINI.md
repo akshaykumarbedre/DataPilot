@@ -1,4 +1,4 @@
-    # Gemini Project: Dental App
+# Gemini Project: Dental App
 
 This document provides an overview of the Dental App project structure and instructions for Gemini.
 
@@ -46,6 +46,3 @@ When starting new major content or fine changes, commit your work using dont che
 ```bash
 git add . && git commit -m "short descriptive comment"
 ```
-
-
-

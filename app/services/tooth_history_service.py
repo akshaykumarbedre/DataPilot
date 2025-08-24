@@ -413,7 +413,7 @@ class ToothHistoryService:
                 patient_id=patient_id,
                 tooth_number=tooth_data.get('tooth_number'),
                 record_type=tooth_data.get('record_type', 'doctor_finding'),
-                status=tooth_data.get('status', ''),
+                status=tooth_data.get('status', '') ,
                 description=tooth_data.get('description', ''),
                 examination_id=tooth_data.get('examination_id')
             )
